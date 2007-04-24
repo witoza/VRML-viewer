@@ -20,7 +20,7 @@ public class JavaDia implements Runnable {
 		canvas.addGLEventListener(new JavaRenderer());
 		frame.add(canvas);
 		frame.setSize(640, 480);
-		frame.setUndecorated(true);
+		frame.setUndecorated(false);
 		int size = frame.getExtendedState();
 		size |= Frame.MAXIMIZED_BOTH;
 		frame.setExtendedState(size);

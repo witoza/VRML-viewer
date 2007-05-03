@@ -1,0 +1,3 @@
+wze> probalby we will not use LasteFPSAnimator at all - we don't care about performance?
+wze> Matrix4f is handy when one want to update internal open gl matrixes - can't figure out how to do that using vecmath package
+

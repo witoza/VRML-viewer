@@ -13,11 +13,11 @@ import cindy.core.LoggerHelper;
 import cindy.core.NativesHelper;
 import cindy.core.VRMLRenderer;
 
-public class Malcoln extends JFrame{
+public class Cindy extends JFrame{
 	
-	private static final Logger _LOG = Logger.getLogger(Malcoln.class);
+	private static final Logger _LOG = Logger.getLogger(Cindy.class);
 	
-	static public String appName = "Malcoln 0.01";
+	static public String appName = "'Cindy' VRML Browser 0.01";
 	private GLDisplay renderingWindow;
 	private VRMLRenderer renderer = new VRMLRenderer();
 
@@ -47,7 +47,7 @@ public class Malcoln extends JFrame{
 		}, "closing thread").start();
 	}
 	
-	public Malcoln(){
+	public Cindy(){
 		super(appName);
 		LoggerHelper.initializeLoggingFacility();
 		Object ob[] = NativesHelper.checkNativeFiles();
@@ -71,6 +71,6 @@ public class Malcoln extends JFrame{
 	}
 	
 	static public void main(String args[]){
-		new Malcoln();
+		new Cindy();
 	}
 }

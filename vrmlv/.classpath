@@ -9,5 +9,8 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/jar/gluegen-rt.jar"/>
 	<classpathentry kind="lib" path="lib/jar/vecmath.jar"/>
+ 	<classpathentry kind="lib" path="lib/jar/log4j-1.2.14.jar"/>
+ 
+
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -1,3 +1,4 @@
+- wze> niras, NativeHelper for linux version have to be prepared(checking for libraries)
 - wze> we have to create an ant script for the project
 - wze> niras, add some .so library if you are using linux
 - wze> name 'malcoln' should be discussed :) - can't 'invent' anyting suitable at the moment

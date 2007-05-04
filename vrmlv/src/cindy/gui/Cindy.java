@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 import javax.swing.JFileChooser;
@@ -16,6 +17,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTree;
+import javax.swing.ProgressMonitorInputStream;
+import javax.swing.SwingUtilities;
 
 import org.apache.log4j.Logger;
 
@@ -60,6 +63,35 @@ public class Cindy extends JFrame{
 		}, "closing thread").start();
 	}
 	
+	private void readInFile(final String fileChosen){
+		_LOG.info("reading file: " + fileChosen);
+		final VRMLModel model = new VRMLModel();
+		try{
+			is = new ProgressMonitorInputStream(Cindy.this, "Reading data", new FileInputStream(new File(fileChosen)));
+			SwingUtilities.invokeLater(new Runnable(){
+				public void run() {
+					is.getProgressMonitor().setMillisToDecideToPopup(0);
+					is.getProgressMonitor().setMillisToPopup(0);
+					is.getProgressMonitor().setProgress(1);					
+				}				
+			});
+			
+			model.readModel(is, new VRDNodeFactory());
+			renderer.setModel(model);
+			SwingUtilities.invokeLater(new Runnable() {
+				public void run() {
+					Cindy.this.setTitle(appName + "  /" + fileChosen + "/");
+					tree.setModel(new JTreeModelFromVrmlModel(model.getMainGroup()));
+				}
+			});
+		} catch (IOException e1) {
+			_LOG.warn("error while reading data");
+			e1.printStackTrace();
+		}
+	}
+	private JTree tree = new JTree();
+	private ProgressMonitorInputStream is;	
+	
 	public Cindy(){
 		super(appName);
 		LoggerHelper.initializeLoggingFacility();
@@ -80,7 +112,7 @@ public class Cindy extends JFrame{
 		
 		JMenuBar menubar = new JMenuBar();
 		JMenu fileMenu = new JMenu("File");
-		final JTree tree = new JTree();
+		
 		tree.setModel(null);	
 		tree.setCellRenderer(new VRMLObjectsTreeCellRenderer());
 		JMenuItem openMenuItem = new JMenuItem("Open");
@@ -98,17 +130,7 @@ public class Cindy extends JFrame{
 						.getAbsolutePath()
 						+ File.separator
 						+ fileDialog.getSelectedFile().getName();
-				_LOG.info("" + fileChosen);
-				
-				VRMLModel model = new VRMLModel();
-				try {
-					model.readModel(fileChosen, new VRDNodeFactory());
-					renderer.setModel(model);
-					Cindy.this.setTitle(appName + " " + fileChosen);
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-				
+				readInFile(fileChosen);				
 			}
 		});
 		fileMenu.add(openMenuItem);
@@ -142,17 +164,10 @@ public class Cindy extends JFrame{
 		//TODO: 
 		new Thread(){
 			public void run(){
-				try {
-					String outputWRL = "c:\\__vrml\\2006_01_16\\problem1\\problem1.wrl";
-					outputWRL = "C:\\__vrml\\2006_01_16\\coil_2.wrl"; 
-					//outputWRL = "C:\\__vrml\\2006_01_16\\CT_res_2.wrl";
-					VRMLModel model = new VRMLModel();
-					model.readModel(outputWRL, new VRDNodeFactory());
-					renderer.setModel(model);					
-					tree.setModel(new JTreeModelFromVrmlModel(model.getMainGroup()));					
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}	   
+				String outputWRL = "c:\\__vrml\\2006_01_16\\problem1\\problem1.wrl";
+				outputWRL = "C:\\__vrml\\2006_01_16\\coil_2.wrl"; 
+				//outputWRL = "C:\\__vrml\\2006_01_16\\CT_res_2.wrl";
+				readInFile(outputWRL);
 			}
 		}.start();
 	}

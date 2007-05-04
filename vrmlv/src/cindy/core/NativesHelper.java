@@ -1,57 +1,46 @@
 package cindy.core;
 
 import java.io.File;
+import java.io.FilenameFilter;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public class NativesHelper {
-//	checks if proper dll files exists
+//	checks if proper library files exists
+	
+	final static String windowsLibs[] = {"jogl.dll","jogl_cg.dll","jogl_awt.dll"};
+	final static String linuxLibs[] = {"libjogl.so","libjogl_cg.so","libjogl_awt.so"};
+	final static String os = System.getProperty("os.name");
+
 	static public Object[] checkNativeFiles(){
-		//TODO: change 'joglNativeFiles' files depending on os. this could be done via checking properties
+		boolean allExist = false;
+		String result = new String();
+		final Set<String> libs;
+		if (os.equals("Linux")) libs = new HashSet<String>(Arrays.asList(linuxLibs)); 
+		else if (os.equals("Windows")) libs = new HashSet<String>(Arrays.asList(windowsLibs));
+		else libs = null;
+
+		System.out.println("Required libs: " + libs);
 		
-		final String joglNativeFiles[]={"jogl.dll","jogl_cg.dll","jogl_awt.dll"};
-		if (joglNativeFiles==null || joglNativeFiles.length==0) 
-			return new Object[]{new Boolean(true),null};
+		Set<String> found = new HashSet<String>();
+		Set<String> libPath = new HashSet<String>(Arrays.asList(System.getProperty("java.library.path").split(System.getProperty("path.separator"))));
+		for (String p : libPath) {
+			String[] files =  new File(p).list(new FilenameFilter() {
+				public boolean accept(File dir, String name) { return libs.contains(name); }
+			} );
+			if (files != null) found.addAll(Arrays.asList(files));
+			if (found.size() == libs.size()) { allExist = true; break; }
+		}
 		
-		boolean exists[]=new boolean[joglNativeFiles.length];
-		for (int i=0; i!=exists.length; i++)
-			exists[i]=false;
-		String libPath=System.getProperty("java.library.path");
-		System.out.println(libPath);
-		String paths[]=libPath.split(";");
-		if (paths!=null && paths.length>0){
-			for (int i=0; i!=paths.length-1; i++){
-				if (paths[i]==null) continue;
-				for (int j=i+1; j!=paths.length; j++){
-					if (paths[i].equals(paths[j]))
-						paths[j]=null;
-				}
-			}
-			for (int i=0; i!=paths.length; i++){
-				if (paths[i]==null) continue;				
-				if (paths[i].equals(".")) paths[i]="";
-				paths[i]=new File(paths[i]).getAbsolutePath();
-				for (int j=0; j!=joglNativeFiles.length; j++){
-					File fin=new File(paths[i]+"/"+joglNativeFiles[j]);
-					if (fin.exists())
-						exists[j]=true;
-				}
-			}
+		if (!allExist) {
+			libs.removeAll(found);
+			for (String missing : libs)
+				result += "File " + missing + " is missing\n";
+			result += "place these files in one of the following directory:\n" + libPath; 
 		}
-		StringBuffer result=new StringBuffer();
-		boolean allExists=true;
-		for (int i=0; i!=exists.length; i++){
-			if (!exists[i]){
-				result.append("File ").append(joglNativeFiles[i]).append(" is missing\n");
-				allExists=false;
-			}
-		}
-		if (!allExists && paths!=null && paths.length>0){
-			result.append("place these files in one of the following directory:\n");
-			for (int i=0; i!=paths.length; i++){
-				if (paths[i]==null) continue;
-				result.append(paths[i]).append("\n");
-			}
-		}
-		return new Object[]{new Boolean(allExists),result.toString()};
+		
+		return new Object[] {new Boolean(allExist), result};
 	}
 	
 }

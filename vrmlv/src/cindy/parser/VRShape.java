@@ -41,7 +41,7 @@ public class VRShape extends VRNode{
 				break;
 			String s = parser.st.sval;
 			parser.print(s);
-			if (s.equals("appearance"))		appearance	=( VRAppearance)parser.readNode(this);
+			if (s.equals("appearance"))		appearance	= (VRAppearance)parser.readNode(this);
 			else if (s.equals("geometry"))	geometry	= parser.readNode(this);
 		}
 		return this;

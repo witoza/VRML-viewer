@@ -140,7 +140,7 @@ public class VRMLNodeParser{
 		}else
 			print(s);
 			n++;
-			nd=nodeFactory.createNode(s);
+			nd = nodeFactory.createNode(s);
 			if (nd!=null){
 				nd.read(this);
 			}else{

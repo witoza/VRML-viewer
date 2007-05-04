@@ -76,7 +76,7 @@ public class Cindy extends JFrame{
 				try {
 					String outputWRL = "c:\\__vrml\\2006_01_16\\problem1\\problem1.wrl";
 					outputWRL = "C:\\__vrml\\2006_01_16\\coil_2.wrl"; 
-					outputWRL = "C:\\__vrml\\2006_01_16\\CT_res_2.wrl";
+					//outputWRL = "C:\\__vrml\\2006_01_16\\CT_res_2.wrl";
 					
 					VRMLModel model = new VRMLModel();
 					model.readModel(outputWRL, new VRDNodeFactory());

@@ -1,9 +1,6 @@
 package cindy.core;
 
-import java.awt.*;
-
 import javax.vecmath.Point2f;
-import javax.vecmath.Quat4f;
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 import javax.vecmath.Vector4f;

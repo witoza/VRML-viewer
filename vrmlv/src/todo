@@ -1,4 +1,5 @@
 - wze> arcball
+- wze> picking
 - wze> file loader
 - wze> niras: NativeHelper for linux version have to be prepared(checking for libraries)
 - wze> niras: add some .so library if you are using linux

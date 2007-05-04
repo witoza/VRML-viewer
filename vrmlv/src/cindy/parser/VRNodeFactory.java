@@ -1,6 +1,6 @@
 package cindy.parser;
 
-public class NodeFactory {
+public class VRNodeFactory extends VRMLNodeFactory{
 	
 	public VRNode createNode(String s){
 		 if (s.equals("Transform"))		return new VRTransform();

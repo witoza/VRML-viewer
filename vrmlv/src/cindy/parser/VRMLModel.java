@@ -13,13 +13,17 @@ public class VRMLModel{
 	
 	private static Logger logger = Logger.getLogger(VRMLModel.class);
 	
-	public VRGroup mainGroup = new VRGroup();
+	private VRGroup mainGroup;
+	
+	public VRGroup getMainGroup(){
+		return mainGroup;
+	}
 			
-	public void readModel(String file) throws IOException{
-		readModel(new FileInputStream(file));
+	public void readModel(String file, VRMLNodeFactory nf) throws IOException{
+		readModel(new FileInputStream(file), nf);
 	}
 	
-	public void readModel(InputStream inputStream) throws IOException{
+	public void readModel(InputStream inputStream, VRMLNodeFactory nf) throws IOException{
 		
 		BufferedReader fin = new BufferedReader(
 								new InputStreamReader(inputStream));
@@ -35,12 +39,13 @@ public class VRMLModel{
 		st.ordinaryChar('{');
 		st.ordinaryChar('}');
 		logger.info("model reading: starded");
-		VRMLNodeParser parser = new VRMLNodeParser(this, new NodeFactory());
+		VRMLNodeParser parser = new VRMLNodeParser(this, nf);
 		parser.setTokenizer(st);
-		mainGroup.name="VRML WORLD";
-		mainGroup.children=parser.readNodeList(mainGroup);
+		mainGroup = (VRGroup)nf.createNode("Group");
+		mainGroup.name = "VRML WORLD";
+		mainGroup.children = parser.readNodeList(mainGroup);
 		fin.close();
-		logger.info("model reading: finished ok");						
+		logger.info("model reading: finished");						
 		logger.info("---------------------------------------------------------------------");
 	}
 }

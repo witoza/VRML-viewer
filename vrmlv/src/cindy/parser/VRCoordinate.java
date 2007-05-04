@@ -19,7 +19,7 @@ public class VRCoordinate extends VRNode{
 	public VRNode read(VRMLNodeParser parser) throws IOException {
 		parser.st.nextToken();//{			
 		parser.st.nextToken();//point or color
-		coord=CVector3fArray.read(parser);
+		coord = CVector3fArray.read(parser);
 		parser.st.nextToken();//}
 		return this;
 	}

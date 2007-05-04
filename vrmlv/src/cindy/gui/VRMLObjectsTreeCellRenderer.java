@@ -9,6 +9,10 @@ import javax.swing.Icon;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
+/**
+ * Tree Cell Renderer 
+ *
+ */
 public class VRMLObjectsTreeCellRenderer extends DefaultTreeCellRenderer{
 
 	protected Font plainFont = new Font("Dialog",Font.PLAIN,12);

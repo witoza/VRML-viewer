@@ -12,6 +12,8 @@ import javax.media.opengl.glu.GLU;
 
 import org.apache.log4j.Logger;
 
+import cindy.drawable.DisplayOptions;
+import cindy.drawable.IDrawable;
 import cindy.parser.VRMLModel;
 
 /**
@@ -85,13 +87,19 @@ public class VRMLRenderer implements GLEventListener, MouseListener, MouseMotion
 		gl.glClear(GL.GL_COLOR_BUFFER_BIT);
 		gl.glClear(GL.GL_DEPTH_BUFFER_BIT);
 		gl.glLoadIdentity();
-		gl.glTranslatef(0.0f, 0.0f, -5.0f);
-
+		
+		gl.glTranslatef(0.0f, 0.0f, -1.0f);
+		
 		gl.glRotatef(rotateT, 1.0f, 0.0f, 0.0f);
 		gl.glRotatef(rotateT, 0.0f, 1.0f, 0.0f);
 		gl.glRotatef(rotateT, 0.0f, 0.0f, 1.0f);
 		gl.glRotatef(rotateT, 0.0f, 1.0f, 0.0f);
+		if (model!=null){
+			((IDrawable)model.getMainGroup()).draw(new DisplayOptions(gl,glu));
+		}
 
+		
+/*
 		gl.glBegin(GL.GL_TRIANGLES);
 
 		// Front
@@ -127,7 +135,7 @@ public class VRMLRenderer implements GLEventListener, MouseListener, MouseMotion
 		gl.glVertex3f(0.0f, -1.0f, -1.0f);
 
 		gl.glEnd();
-
+*/
 		rotateT += 0.2f;
 	}
 	

@@ -2,6 +2,7 @@ package cindy.gui;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 
 import javax.swing.JFrame;
 
@@ -12,6 +13,8 @@ import cindy.core.GLDisplay;
 import cindy.core.LoggerHelper;
 import cindy.core.NativesHelper;
 import cindy.core.VRMLRenderer;
+import cindy.drawable.VRDNodeFactory;
+import cindy.parser.VRMLModel;
 
 public class Cindy extends JFrame{
 	
@@ -68,6 +71,18 @@ public class Cindy extends JFrame{
 		
 		setSize(640,480);
 		setVisible(true);
+		
+		String outputWRL = "c:\\__vrml\\2006_01_16\\problem1\\problem1.wrl";
+		outputWRL = "C:\\__vrml\\2006_01_16\\coil_2.wrl"; 
+		outputWRL = "C:\\__vrml\\2006_01_16\\CT_res_2.wrl";
+		
+		VRMLModel model = new VRMLModel();
+	   	try {
+			model.readModel(outputWRL, new VRDNodeFactory());
+			renderer.setModel(model);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}	   	
 	}
 	
 	static public void main(String args[]){

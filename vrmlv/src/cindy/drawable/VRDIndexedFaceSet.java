@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 
 import cindy.parser.VRIndexedFaceSet;
 import cindy.parser.VRMaterial;
+import cindy.parser.VRNode;
 import cindy.parser.VRShape;
 
 public class VRDIndexedFaceSet extends VRIndexedFaceSet implements IDrawable{
@@ -172,6 +173,11 @@ public class VRDIndexedFaceSet extends VRIndexedFaceSet implements IDrawable{
 			}			
 		}	    	
 	}
+	
+	public VRNode getNthChild(int n) {
+		return null;
+	}
+
 
 	public int numOfDrawableChildren() {
 		return 0;

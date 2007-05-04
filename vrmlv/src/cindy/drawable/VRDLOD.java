@@ -5,6 +5,7 @@ import java.util.Iterator;
 import javax.media.opengl.GL;
 
 import cindy.parser.VRLOD;
+import cindy.parser.VRNode;
 
 public class VRDLOD extends VRLOD implements IDrawable{
 
@@ -22,5 +23,10 @@ public class VRDLOD extends VRLOD implements IDrawable{
 	public int numOfDrawableChildren() {
 		return level.size();
 	}
+	
+	public VRNode getNthChild(int n) {
+		return (VRNode)level.get(n);
+	}
+
 
 }

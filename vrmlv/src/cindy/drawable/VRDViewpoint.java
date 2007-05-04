@@ -1,5 +1,6 @@
 package cindy.drawable;
 
+import cindy.parser.VRNode;
 import cindy.parser.VRViewpoint;
 
 public class VRDViewpoint extends VRViewpoint implements IDrawable{
@@ -12,4 +13,8 @@ public class VRDViewpoint extends VRViewpoint implements IDrawable{
 		return 0;
 	}
 
+	public VRNode getNthChild(int n) {
+		return null;
+	}
+	
 }

@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 
 import cindy.parser.VRIndexedLineSet;
 import cindy.parser.VRMaterial;
+import cindy.parser.VRNode;
 import cindy.parser.VRShape;
 
 
@@ -87,4 +88,8 @@ public class VRDIndexedLineSet extends VRIndexedLineSet implements IDrawable{
 		return 0;
 	}
 
+	public VRNode getNthChild(int n) {
+		return null;
+	}
+	
 }

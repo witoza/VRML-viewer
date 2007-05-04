@@ -1,6 +1,7 @@
 package cindy.drawable;
 
 import cindy.parser.VRCoordinate;
+import cindy.parser.VRNode;
 
 public class VRDCoordinate extends VRCoordinate implements IDrawable{
 
@@ -10,6 +11,10 @@ public class VRDCoordinate extends VRCoordinate implements IDrawable{
 
 	public int numOfDrawableChildren() {
 		return 0;
+	}
+	
+	public VRNode getNthChild(int n) {
+		return null;
 	}
 
 }

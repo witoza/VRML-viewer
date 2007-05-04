@@ -1,11 +1,14 @@
 package cindy.gui;
 
+import java.awt.BorderLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 
 import javax.swing.JFrame;
-
+import javax.swing.JPanel;
+import javax.swing.JSplitPane;
+import javax.swing.JTree;
 
 import org.apache.log4j.Logger;
 
@@ -58,9 +61,8 @@ public class Cindy extends JFrame{
 			System.out.println(ob[1]);
 			return ;
 		}
-		renderingWindow = new GLDisplay(renderer);
-		add(renderingWindow.getDrawable());
-		renderingWindow.start();
+		renderingWindow = new GLDisplay(renderer);		
+		
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		addWindowListener(new WindowAdapter() {
@@ -68,21 +70,43 @@ public class Cindy extends JFrame{
 				shutdown();
 			}
 		});
-		
-		setSize(640,480);
-		setVisible(true);
-		
-		String outputWRL = "c:\\__vrml\\2006_01_16\\problem1\\problem1.wrl";
-		outputWRL = "C:\\__vrml\\2006_01_16\\coil_2.wrl"; 
-		outputWRL = "C:\\__vrml\\2006_01_16\\CT_res_2.wrl";
-		
-		VRMLModel model = new VRMLModel();
-	   	try {
-			model.readModel(outputWRL, new VRDNodeFactory());
-			renderer.setModel(model);
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}	   	
+
+		new Thread(){
+			public void run(){
+				try {
+					String outputWRL = "c:\\__vrml\\2006_01_16\\problem1\\problem1.wrl";
+					outputWRL = "C:\\__vrml\\2006_01_16\\coil_2.wrl"; 
+					outputWRL = "C:\\__vrml\\2006_01_16\\CT_res_2.wrl";
+					
+					VRMLModel model = new VRMLModel();
+					model.readModel(outputWRL, new VRDNodeFactory());
+					renderer.setModel(model);
+					renderingWindow.start();
+					
+					JPanel leftPanel = new JPanel(new BorderLayout());
+					JPanel centerPanel = new JPanel(new BorderLayout());
+					
+					
+					
+					JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, centerPanel);		    		   
+					splitPane.setOneTouchExpandable(true);
+					splitPane.setDividerLocation(170);
+					centerPanel.add(renderingWindow.getDrawable());
+					
+					JTree tree = new JTree(new JTreeModelFromVrmlModel(model.getMainGroup()));
+					tree.setCellRenderer(new VRMLObjectsTreeCellRenderer());
+					leftPanel.add(tree);
+					
+					add(splitPane);
+					setSize(640+170,480);
+					setVisible(true);
+					
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}	   
+			}
+		}.start();
+	   	
 	}
 	
 	static public void main(String args[]){

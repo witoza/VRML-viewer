@@ -6,6 +6,7 @@ import javax.vecmath.Vector3f;
 import org.apache.log4j.Logger;
 
 import cindy.parser.VRMaterial;
+import cindy.parser.VRNode;
 import cindy.parser.VRPointSet;
 import cindy.parser.VRShape;
 
@@ -41,4 +42,7 @@ public class VRDPointSet extends VRPointSet implements IDrawable{
 		return 0;
 	}
 
+	public VRNode getNthChild(int n) {
+		return null;
+	}
 }

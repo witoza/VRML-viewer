@@ -13,12 +13,12 @@ import org.apache.log4j.Logger;
 
 public class VRMLNodeParser{
 
-	private Logger logger=Logger.getLogger(VRMLNodeParser.class);
+	private Logger logger = Logger.getLogger(VRMLNodeParser.class);
 	
-	private final NodeFactory nodeFactory;
+	private final VRMLNodeFactory nodeFactory;
 	public final VRMLModel parent;
 	
-	public VRMLNodeParser(VRMLModel parent,NodeFactory nodeFactory){
+	public VRMLNodeParser(VRMLModel parent, VRMLNodeFactory nodeFactory){
 		this.parent = parent;
 		this.nodeFactory = nodeFactory;
 	}
@@ -48,34 +48,6 @@ public class VRMLNodeParser{
 					break;
 			}
 		}
-	}
-	
-	String getInside(char openingBrack, char closingBrack) throws IOException{
-		StringBuffer buf=new StringBuffer();
-		int hm=0;
-		while(st.nextToken()!=StreamTokenizer.TT_EOF){
-			buf.append(" ");
-			switch(st.ttype){				
-				case StreamTokenizer.TT_NUMBER:
-					buf.append(st.nval);
-					break;
-				case StreamTokenizer.TT_WORD:
-					buf.append(st.sval);
-					break;
-				default:					
-					char zn=(char)st.ttype;
-					buf.append(zn);
-					if (zn==openingBrack)
-						hm++;
-					if (zn==closingBrack)
-						hm--;
-					if (hm==0)
-						return buf.toString();
-					
-					break;
-			}
-		}
-		return buf.toString();
 	}
 	
 	public Vector3f readVector3f() throws IOException {

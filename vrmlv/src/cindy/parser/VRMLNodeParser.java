@@ -26,6 +26,23 @@ public class VRMLNodeParser{
 	public StreamTokenizer st;
 	public HashMap<String, VRNode> strToRef = new HashMap<String, VRNode>();
 	
+	private VRNode createNode(String s){
+		 if (s.equals("Transform"))		return nodeFactory.createTransform();
+		 if (s.equals("Shape"))			return nodeFactory.createShape();
+		 if (s.equals("Viewpoint"))		return nodeFactory.createViewpoint();
+		 if (s.equals("LOD"))			return nodeFactory.createLOD();
+		 if (s.equals("Group"))			return nodeFactory.createGroup();
+		 if (s.equals("Text"))			return nodeFactory.createText();
+		 if (s.equals("IndexedFaceSet"))return nodeFactory.createIndexedFaceSet();
+		 if (s.equals("IndexedLineSet"))return nodeFactory.createIndexedLineSet();
+		 if (s.equals("PointSet"))		return nodeFactory.createPointSet();
+		 if (s.equals("Coordinate"))	return nodeFactory.createCoordinate();
+		 if (s.equals("Color"))			return nodeFactory.createColor();
+		 if (s.equals("Material"))		return nodeFactory.createMaterial();
+		 if (s.equals("Appearance"))	return nodeFactory.createAppearance();
+		 return null;
+	}
+	
 	public void setTokenizer(StreamTokenizer str){
 		st = str;
 	}
@@ -140,7 +157,7 @@ public class VRMLNodeParser{
 		}else
 			print(s);
 			n++;
-			nd = nodeFactory.createNode(s);
+			nd = createNode(s);
 			if (nd!=null){
 				nd.read(this);
 			}else{

@@ -1,7 +1,6 @@
 package cindy.parser;
 
-public class VRNodeFactory extends VRMLNodeFactory{
-	
+public class VRNodeFactory implements VRMLNodeFactory{
 	
 	public VRNode createTransform(){
 		return new VRTransform();
@@ -23,21 +22,35 @@ public class VRNodeFactory extends VRMLNodeFactory{
 		return new VRGroup();
 	}
 	
+	public VRNode createText(){
+		return new VRText();
+	}
 	
-	public VRNode createNode(String s){
-		 if (s.equals("Transform"))		return createTransform();
-		 if (s.equals("Shape"))			return createShape();
-		 if (s.equals("Viewpoint"))		return createViewpoint();
-		 if (s.equals("LOD"))			return createLOD();
-		 if (s.equals("Group"))			return createGroup();
-		 if (s.equals("Text"))			return new VRText();
-		 if (s.equals("IndexedFaceSet"))return new VRIndexedFaceSet();
-		 if (s.equals("IndexedLineSet"))return new VRIndexedLineSet();
-		 if (s.equals("PointSet"))		return new VRPointSet();
-		 if (s.equals("Coordinate"))	return new VRCoordinate();
-		 if (s.equals("Color"))			return new VRCoordinate();
-		 if (s.equals("Material"))		return new VRMaterial();
-		 if (s.equals("Appearance"))	return new VRAppearance();
-		 return null;
+	public VRNode createIndexedFaceSet(){
+		return new VRIndexedFaceSet();
+	}
+	
+	public VRNode createIndexedLineSet(){
+		return new VRIndexedLineSet();
+	}
+	
+	public VRNode createPointSet(){
+		return new VRPointSet();
+	}
+	
+	public VRNode createCoordinate(){
+		return new VRCoordinate();
+	}
+	
+	public VRNode createColor(){
+		return new VRCoordinate();
+	}
+	
+	public VRNode createMaterial(){
+		return new VRMaterial();
+	}
+	
+	public VRNode createAppearance(){
+		return new VRAppearance();
 	}	
 }

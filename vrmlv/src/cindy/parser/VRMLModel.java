@@ -41,7 +41,7 @@ public class VRMLModel{
 		logger.info("model reading: starded");
 		VRMLNodeParser parser = new VRMLNodeParser(this, nf);
 		parser.setTokenizer(st);
-		mainGroup = (VRGroup)nf.createNode("Group");
+		mainGroup = (VRGroup)nf.createGroup();
 		mainGroup.name = "VRML WORLD";
 		mainGroup.children = parser.readNodeList(mainGroup);
 		fin.close();

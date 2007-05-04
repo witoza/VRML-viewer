@@ -1,5 +1,6 @@
 package cindy.drawable;
 
+import cindy.parser.VRNode;
 import cindy.parser.VRShape;
 
 public class VRDShape extends VRShape implements IDrawable{
@@ -8,6 +9,10 @@ public class VRDShape extends VRShape implements IDrawable{
 		if (geometry!=null){
 			((IDrawable)geometry).draw(dispOpt);
 		}
+	}
+	
+	public VRNode getNthChild(int n) {
+		return geometry;
 	}
 
 	public int numOfDrawableChildren() {

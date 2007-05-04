@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 import javax.media.opengl.GL;
 
+import cindy.parser.VRNode;
 import cindy.parser.VRTransform;
 
 public class VRDTransform extends VRTransform implements IDrawable{
@@ -33,6 +34,10 @@ public class VRDTransform extends VRTransform implements IDrawable{
 
 	public int numOfDrawableChildren() {
 		return children.size();
+	}
+	
+	public VRNode getNthChild(int n) {
+		return (VRNode)children.get(n);
 	}
 
 }

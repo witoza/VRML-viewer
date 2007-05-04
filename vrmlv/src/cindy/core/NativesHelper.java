@@ -18,8 +18,9 @@ public class NativesHelper {
 		String result = new String();
 		final Set<String> libs;
 		if (os.equals("Linux")) libs = new HashSet<String>(Arrays.asList(linuxLibs)); 
-		else if (os.equals("Windows")) libs = new HashSet<String>(Arrays.asList(windowsLibs));
+		else if (os.startsWith("Windows")) libs = new HashSet<String>(Arrays.asList(windowsLibs));
 		else libs = null;
+		
 
 		System.out.println("Required libs: " + libs);
 		

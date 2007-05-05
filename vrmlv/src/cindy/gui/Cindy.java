@@ -3,6 +3,8 @@ package cindy.gui;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -15,10 +17,12 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTree;
 import javax.swing.ProgressMonitorInputStream;
 import javax.swing.SwingUtilities;
+import javax.swing.tree.TreePath;
 
 import org.apache.log4j.Logger;
 
@@ -115,6 +119,20 @@ public class Cindy extends JFrame{
 		
 		tree.setModel(null);	
 		tree.setCellRenderer(new VRMLObjectsTreeCellRenderer());
+		
+		tree.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e){
+				TreePath[] paths = ((JTree)e.getSource()).getSelectionPaths();
+				if (paths!=null){
+					for (int i=0; i!=paths.length; i++){
+						Object obj = paths[i].getLastPathComponent();
+						_LOG.info(""+obj.toString());
+					}
+				}
+			}});
+		//tree.setRootVisible(false);
+	    JScrollPane objectsChangePanel = new JScrollPane(tree);
+		
 		JMenuItem openMenuItem = new JMenuItem("Open");
 		openMenuItem.addActionListener(new ActionListener(){
 
@@ -155,7 +173,7 @@ public class Cindy extends JFrame{
 		splitPane.setOneTouchExpandable(true);
 		splitPane.setDividerLocation(170);
 		centerPanel.add(renderingWindow.getDrawable());
-		leftPanel.add(tree);
+		leftPanel.add(objectsChangePanel);
 		add(splitPane);
 		setSize(640+170,480);
 		setVisible(true);

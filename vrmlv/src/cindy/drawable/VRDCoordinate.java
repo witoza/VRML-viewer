@@ -17,4 +17,8 @@ public class VRDCoordinate extends VRCoordinate implements IDrawable{
 		return null;
 	}
 
+	public NodeSettings getNodeSeetings() {
+		return null;
+	}
+
 }

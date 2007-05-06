@@ -9,4 +9,7 @@ public interface IDrawable {
 	VRNode getNthChild(int n);
 
 	int numOfDrawableChildren();
+	
+	NodeSettings getNodeSeetings();
+	
 }

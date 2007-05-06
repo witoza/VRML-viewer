@@ -14,7 +14,7 @@ import cindy.drawable.DisplayOptions;
 public class BoundingBox{
 	
 	private static final float MAX_FLOAT = Float.MAX_VALUE;	
-	private	static Color color = new Color(127,255,0);
+	private	static Color color = Color.RED;
 			
 	private boolean isValid;
 	
@@ -101,7 +101,7 @@ public class BoundingBox{
 		GL gl = dispOpt.gl;
 		gl.glGetFloatv(GL.GL_LINE_WIDTH, ls, 0);
 		gl.glLineWidth(1);
-		gl.glDisable(GL.GL_LIGHTING);
+		//gl.glDisable(GL.GL_LIGHTING);
 		gl.glColor3d(color.getRed() / 255, color.getGreen() / 255, color.getBlue() / 255);
 		gl.glBegin(GL.GL_LINES);
 		for (int i = 0; i != 7; i++){
@@ -112,6 +112,18 @@ public class BoundingBox{
 		}
 		gl.glEnd();
 		gl.glLineWidth(ls[0]);
-		gl.glEnable(GL.GL_LIGHTING);
+		//gl.glEnable(GL.GL_LIGHTING);
+	}
+
+	public boolean isValid() {
+		return isValid;
+	}
+
+	public Vector3f getMax() {
+		return max;
+	}
+
+	public Vector3f getMin() {
+		return min;
 	}
 }

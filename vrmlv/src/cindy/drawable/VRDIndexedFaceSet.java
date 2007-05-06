@@ -5,6 +5,7 @@ import javax.vecmath.Vector3f;
 
 import org.apache.log4j.Logger;
 
+import cindy.core.BoundingBox;
 import cindy.parser.VRIndexedFaceSet;
 import cindy.parser.VRMaterial;
 import cindy.parser.VRNode;
@@ -13,13 +14,21 @@ import cindy.parser.VRShape;
 public class VRDIndexedFaceSet extends VRIndexedFaceSet implements IDrawable{
 
 	private static Logger _LOG = Logger.getLogger(VRDIndexedFaceSet.class);
+
 	
 	public void draw(DisplayOptions dispOpt) {
+		if (getNodeSeetings().drawBBox){
+			getNodeSeetings().boundingBox.draw(dispOpt);
+		}
+		GL gl = dispOpt.gl;
+		gl.glLineWidth(ns.lineWidth);
+		gl.glShadeModel(ns.shadeModel);
+		gl.glPolygonMode(GL.GL_FRONT_AND_BACK, ns.rendMode);
+		
 		VRMaterial mat = null;
 		if (((VRShape)parent).appearance!=null){
 			mat = ((VRShape)parent).appearance.material;
-		}
-		GL gl = dispOpt.gl;		
+		}	
 		gl.glEnable(GL.GL_NORMALIZE);				
 		Vector3f[] ver=null;
 		if (coord!=null){
@@ -181,6 +190,25 @@ public class VRDIndexedFaceSet extends VRIndexedFaceSet implements IDrawable{
 
 	public int numOfDrawableChildren() {
 		return 0;
+	}
+
+	NodeSettings ns;
+	
+	public NodeSettings getNodeSeetings() {
+		if (ns==null){
+			ns = new NodeSettings();
+			//compute bounding box
+			ns.boundingBox = new BoundingBox();
+			if (coordIndex!=null && coord!=null){
+				for (int i=0; i!=coordIndex.length; i++){
+					int indVer = coordIndex[i];
+					if (indVer==-1)
+						continue;
+					ns.boundingBox.mix(coord.coord[indVer]);
+				}
+			}
+		}
+		return ns;
 	}
 
 }

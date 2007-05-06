@@ -4,13 +4,19 @@ import java.util.Iterator;
 
 import javax.media.opengl.GL;
 
+import cindy.core.BoundingBox;
 import cindy.parser.VRNode;
 import cindy.parser.VRTransform;
 
 public class VRDTransform extends VRTransform implements IDrawable{
 
 	public void draw(DisplayOptions dispOpt) {
+		
 		GL gl = dispOpt.gl;
+		if (getNodeSeetings().drawBBox){
+			getNodeSeetings().boundingBox.draw(dispOpt);
+		}
+		
 		gl.glPushMatrix();
 		
 			//in ogl terms:
@@ -23,8 +29,7 @@ public class VRDTransform extends VRTransform implements IDrawable{
 			//gl.glTranslatef(-center.x,-center.y,-center.z);
 								
 		
-			gl.glMultMatrixf(getTransformMatrix().getMatrix(),0);
-			
+			gl.glMultMatrixf(getTransformMatrix().getMatrix(),0);			
 			Iterator<IDrawable> iter = (Iterator<IDrawable>) children.iterator();
 			while(iter.hasNext()){
 				iter.next().draw(dispOpt);
@@ -38,6 +43,27 @@ public class VRDTransform extends VRTransform implements IDrawable{
 	
 	public VRNode getNthChild(int n) {
 		return (VRNode)children.get(n);
+	}
+	
+	NodeSettings ns;
+	public NodeSettings getNodeSeetings() {
+		if (ns == null){
+			ns = new NodeSettings();
+			ns.boundingBox = new BoundingBox();
+			//compute bounding box
+			
+			Iterator<IDrawable> iter = (Iterator<IDrawable>) children.iterator();
+			while(iter.hasNext()){
+				NodeSettings chilNodeSeetings = iter.next().getNodeSeetings();
+				if (chilNodeSeetings!=null){
+					if (chilNodeSeetings.boundingBox.isValid()){
+						ns.boundingBox.mix(getTransformMatrix().VMultiply(chilNodeSeetings.boundingBox.getMin()));
+						ns.boundingBox.mix(getTransformMatrix().VMultiply(chilNodeSeetings.boundingBox.getMax()));
+					}
+				}
+			}
+		}
+		return ns;
 	}
 
 }

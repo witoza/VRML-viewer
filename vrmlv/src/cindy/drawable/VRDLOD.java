@@ -4,14 +4,22 @@ import java.util.Iterator;
 
 import javax.media.opengl.GL;
 
+import cindy.core.BoundingBox;
 import cindy.parser.VRLOD;
 import cindy.parser.VRNode;
 
 public class VRDLOD extends VRLOD implements IDrawable{
 
-	public void draw(DisplayOptions dispOpt) {
-		GL gl = dispOpt.gl;
+	public void draw(DisplayOptions dispOpt) {		
+		GL gl = dispOpt.gl;		
 		gl.glPushMatrix();
+		
+			if (getNodeSeetings().drawBBox){
+				getNodeSeetings().boundingBox.draw(dispOpt);
+			}		
+			gl.glLineWidth(ns.lineWidth);
+			gl.glShadeModel(ns.shadeModel);
+			gl.glPolygonMode(GL.GL_FRONT_AND_BACK, ns.rendMode);
 		//TODO: check if this should be transformed ex: gl.glTranslatef(center.x,center.y,center.z);			
 			Iterator<IDrawable> iter = (Iterator<IDrawable>) level.iterator();
 			while(iter.hasNext()){
@@ -28,5 +36,20 @@ public class VRDLOD extends VRLOD implements IDrawable{
 		return (VRNode)level.get(n);
 	}
 
-
+	NodeSettings ns;
+	public NodeSettings getNodeSeetings() {
+		if (ns == null){
+			ns = new NodeSettings();
+			ns.boundingBox = new BoundingBox();
+			//compute bounding box
+			Iterator<IDrawable> iter = (Iterator<IDrawable>) level.iterator();
+			while(iter.hasNext()){
+				NodeSettings chilNodeSeetings = iter.next().getNodeSeetings();
+				if (chilNodeSeetings!=null && chilNodeSeetings.boundingBox.isValid()){
+					ns.boundingBox.mix(chilNodeSeetings.boundingBox);
+				}
+			}
+		}
+		return ns;
+	}
 }

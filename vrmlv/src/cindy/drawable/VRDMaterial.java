@@ -17,5 +17,8 @@ public class VRDMaterial extends VRMaterial implements IDrawable{
 		return null;
 	}
 	
+	public NodeSettings getNodeSeetings() {
+		return null;
+	}
 
 }

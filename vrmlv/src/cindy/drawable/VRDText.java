@@ -16,4 +16,8 @@ public class VRDText extends VRText implements IDrawable{
 	public VRNode getNthChild(int n) {
 		return null;
 	}
+
+	public NodeSettings getNodeSeetings() {
+		return null;
+	}
 }

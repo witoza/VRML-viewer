@@ -1,9 +1,5 @@
 package cindy.core;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
-
 import javax.media.opengl.GLCanvas;
 import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLEventListener;
@@ -42,7 +38,7 @@ public class GLDisplay{
         //renderingPanel = new GLJPanel(capabilities);
         renderingPanel.setIgnoreRepaint(true);        
         renderingPanel.addGLEventListener(listener);
-        renderingPanel.addMouseMotionListener(new MouseMotionListener(){
+        /*renderingPanel.addMouseMotionListener(new MouseMotionListener(){
 			public void mouseDragged(MouseEvent e) {
 				forceToDraw();				
 			}
@@ -60,7 +56,7 @@ public class GLDisplay{
         	public synchronized void mousePressed(MouseEvent e){
         		forceToDraw();
         	}
-        });
+        });*/
         //animator = new LateFPSAnimator(renderingPanel, 25);
         animator = new FPSAnimator(renderingPanel, 60);
     }

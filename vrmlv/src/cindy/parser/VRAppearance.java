@@ -26,4 +26,5 @@ public class VRAppearance extends VRNode{
 		}
 		return this;
 	}
+
 }

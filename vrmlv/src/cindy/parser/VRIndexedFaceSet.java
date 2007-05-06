@@ -5,8 +5,6 @@ import java.io.StreamTokenizer;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import cindy.parser.IntArray;
-
 
 public class VRIndexedFaceSet extends VRNode{
 	

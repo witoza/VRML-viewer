@@ -7,8 +7,6 @@ import java.util.LinkedList;
 
 import javax.vecmath.Vector3f;
 
-import cindy.parser.FloatArray;
-
 public class VRLOD extends VRNode{
 	
 	public Vector3f		center=new Vector3f(0,0,0);

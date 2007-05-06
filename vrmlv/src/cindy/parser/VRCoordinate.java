@@ -5,8 +5,6 @@ import java.util.Iterator;
 
 import javax.vecmath.Vector3f;
 
-import cindy.parser.CVector3fArray;
-
 
 public class VRCoordinate extends VRNode{
 	

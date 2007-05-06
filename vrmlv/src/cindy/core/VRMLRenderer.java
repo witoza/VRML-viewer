@@ -154,7 +154,7 @@ public class VRMLRenderer implements GLEventListener, MouseListener, MouseMotion
 		
 		gl.glMatrixMode(GL.GL_MODELVIEW);
 		gl.glLoadIdentity();
-		glu.gluLookAt(0, 0, 1, 0, 0, 0, 0, 1, 0);		
+		glu.gluLookAt(0, 0, 0.5, 0, 0, 0, 0, 1, 0);		
 		if (model!=null){
 			updateArcBallPos(gl);
 			((IDrawable)model.getMainGroup()).draw(new DisplayOptions(gl,glu));

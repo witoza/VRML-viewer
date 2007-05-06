@@ -10,6 +10,8 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -30,6 +32,8 @@ import cindy.core.GLDisplay;
 import cindy.core.LoggerHelper;
 import cindy.core.NativesHelper;
 import cindy.core.VRMLRenderer;
+import cindy.drawable.IDrawable;
+import cindy.drawable.NodeSettings;
 import cindy.drawable.VRDNodeFactory;
 import cindy.parser.VRMLModel;
 
@@ -120,6 +124,8 @@ public class Cindy extends JFrame{
 		tree.setModel(null);	
 		tree.setCellRenderer(new VRMLObjectsTreeCellRenderer());
 		
+		final LinkedList<IDrawable> selected = new LinkedList<IDrawable>();
+		
 		tree.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e){
 				TreePath[] paths = ((JTree)e.getSource()).getSelectionPaths();
@@ -127,6 +133,15 @@ public class Cindy extends JFrame{
 					for (int i=0; i!=paths.length; i++){
 						Object obj = paths[i].getLastPathComponent();
 						_LOG.info(""+obj.toString());
+						for (Iterator<IDrawable> iter = selected.iterator(); iter.hasNext(); ){
+							iter.next().getNodeSeetings().drawBBox = false;
+						}
+						selected.clear();
+						NodeSettings ns = ((IDrawable)obj).getNodeSeetings();
+						if (ns!=null){
+							ns.drawBBox = true;
+							selected.add((IDrawable)obj);
+						}
 					}
 				}
 			}});

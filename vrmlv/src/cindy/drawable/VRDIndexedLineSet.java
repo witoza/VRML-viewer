@@ -5,6 +5,7 @@ import javax.vecmath.Vector3f;
 
 import org.apache.log4j.Logger;
 
+import cindy.core.BoundingBox;
 import cindy.parser.VRIndexedLineSet;
 import cindy.parser.VRMaterial;
 import cindy.parser.VRNode;
@@ -16,7 +17,15 @@ public class VRDIndexedLineSet extends VRIndexedLineSet implements IDrawable{
 	private static Logger _LOG = Logger.getLogger(VRDIndexedLineSet.class);
 	
 	public void draw(DisplayOptions dispOpt) {	
-		GL gl = dispOpt.gl;		
+		if (getNodeSeetings().drawBBox){
+			getNodeSeetings().boundingBox.draw(dispOpt);
+		}
+		GL gl = dispOpt.gl;
+		gl.glLineWidth(ns.lineWidth);
+		gl.glShadeModel(ns.shadeModel);
+		gl.glPolygonMode(GL.GL_FRONT_AND_BACK, ns.rendMode);
+		
+			
 		VRMaterial mat = null;
 		if (((VRShape)parent).appearance!=null){
 			mat = ((VRShape)parent).appearance.material;
@@ -92,4 +101,21 @@ public class VRDIndexedLineSet extends VRIndexedLineSet implements IDrawable{
 		return null;
 	}
 	
+	NodeSettings ns;
+	public NodeSettings getNodeSeetings() {
+		if (ns == null){
+			ns = new NodeSettings();
+			ns.boundingBox = new BoundingBox();
+			//compute bounding box
+			if (coordIndex!=null && coord!=null){
+				for (int i=0; i!=coordIndex.length; i++){
+					int indVer=coordIndex[i];
+					if (indVer==-1)
+						continue;
+					ns.boundingBox.mix(coord.coord[indVer]);
+				}
+			}
+		}
+		return ns;
+	}
 }

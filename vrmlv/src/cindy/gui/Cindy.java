@@ -13,6 +13,10 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import javax.media.opengl.GL;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -100,6 +104,10 @@ public class Cindy extends JFrame{
 	private JTree tree = new JTree();
 	private ProgressMonitorInputStream is;	
 	
+	private JComboBox renderingModeChanger;
+	
+	private boolean guiBeingUpdate = false;
+	
 	public Cindy(){
 		super(appName);
 		LoggerHelper.initializeLoggingFacility();
@@ -128,6 +136,7 @@ public class Cindy extends JFrame{
 		
 		tree.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e){
+				guiBeingUpdate = true;
 				TreePath[] paths = ((JTree)e.getSource()).getSelectionPaths();
 				if (paths!=null){
 					for (int i=0; i!=paths.length; i++){
@@ -140,10 +149,29 @@ public class Cindy extends JFrame{
 						NodeSettings ns = ((IDrawable)obj).getNodeSeetings();
 						if (ns!=null){
 							ns.drawBBox = true;
+							switch(ns.rendMode){
+								case -1:
+									renderingModeChanger.setSelectedItem("NONE");
+									break;
+								case GL.GL_FILL:
+									renderingModeChanger.setSelectedItem("GL_FILL");
+									break;
+								case GL.GL_LINE:
+									renderingModeChanger.setSelectedItem("GL_LINE");
+									break;
+								case GL.GL_POINT:
+									renderingModeChanger.setSelectedItem("GL_POINT");
+									break;
+								default:
+									_LOG.warn("wrong rendering type");									
+							}
 							selected.add((IDrawable)obj);
+						}else{
+							renderingModeChanger.setSelectedIndex(-1);
 						}
 					}
 				}
+				guiBeingUpdate = false;
 			}});
 		//tree.setRootVisible(false);
 	    JScrollPane objectsChangePanel = new JScrollPane(tree);
@@ -188,8 +216,57 @@ public class Cindy extends JFrame{
 		splitPane.setOneTouchExpandable(true);
 		splitPane.setDividerLocation(170);
 		centerPanel.add(renderingWindow.getDrawable());
-		leftPanel.add(objectsChangePanel);
+		
+		
+		JPanel nodeSettingsPanel = new JPanel();
+		nodeSettingsPanel.setLayout(new BoxLayout(nodeSettingsPanel,BoxLayout.Y_AXIS));
+		nodeSettingsPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Node settings"));
+		
+		
+		renderingModeChanger = new JComboBox(new String[]{"NONE", "GL_FILL","GL_LINE","GL_POINT"});
+		renderingModeChanger.setSelectedIndex(-1);
+		renderingModeChanger.addActionListener(new ActionListener(){
+
+			public void actionPerformed(ActionEvent e) {
+				if (guiBeingUpdate){
+					return ;
+				}
+				JComboBox src = (JComboBox)e.getSource();
+				if (src.getSelectedIndex()<0){
+		    		return;
+		    	}
+		    	_LOG.info("updating renderig mode");		    	
+		    	String str = (String)src.getSelectedItem();
+		    	int flag = 0;
+		    	if (str.equals("NONE")) flag = -1;
+		    	if (str.equals("GL_FILL")) flag = GL.GL_FILL;
+		    	if (str.equals("GL_LINE")) flag = GL.GL_LINE;
+		    	if (str.equals("GL_POINT")) flag = GL.GL_POINT;
+		    	
+		    	if (!selected.isEmpty()){
+			    	IDrawable first = selected.getFirst(); 
+			    	if (first!=null){
+			    		first.getNodeSeetings().rendMode = flag;		    	
+			    	}
+		    	}
+			}
+			
+		});
+		JPanel renderingMode = new JPanel(new BorderLayout());
+		renderingMode.setBorder(BorderFactory.createTitledBorder("rendering mode"));		
+		renderingMode.add(renderingModeChanger);	
+		
+		
+		//JCheckBox showBoundingBoxes = new JCheckBox("Show bounding box", true);
+		
+		nodeSettingsPanel.add(renderingMode);
+		JPanel tmp1 = new JPanel(new BorderLayout());
+		//tmp1.add(showBoundingBoxes);
+		nodeSettingsPanel.add(tmp1);
+		leftPanel.add(nodeSettingsPanel, BorderLayout.NORTH);
+		leftPanel.add(objectsChangePanel, BorderLayout.CENTER);
 		add(splitPane);
+		
 		setSize(640+170,480);
 		setVisible(true);
 		renderingWindow.start();

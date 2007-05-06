@@ -19,6 +19,7 @@ public class VRDPointSet extends VRPointSet implements IDrawable{
 		if (getNodeSeetings().drawBBox){
 			getNodeSeetings().boundingBox.draw(dispOpt);
 		}
+		if (ns.rendMode == -1) return;
 		VRMaterial mat=((VRShape)parent).appearance.material;
 		GL gl=dispOpt.gl;
 		gl.glLineWidth(ns.lineWidth);

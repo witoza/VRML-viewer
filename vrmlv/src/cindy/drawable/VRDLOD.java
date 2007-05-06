@@ -11,15 +11,13 @@ import cindy.parser.VRNode;
 public class VRDLOD extends VRLOD implements IDrawable{
 
 	public void draw(DisplayOptions dispOpt) {		
-		GL gl = dispOpt.gl;		
+		GL gl = dispOpt.gl;
+		if (getNodeSeetings().drawBBox){
+			getNodeSeetings().boundingBox.draw(dispOpt);
+		}
+
 		gl.glPushMatrix();
-		
-			if (getNodeSeetings().drawBBox){
-				getNodeSeetings().boundingBox.draw(dispOpt);
-			}		
-			gl.glLineWidth(ns.lineWidth);
-			gl.glShadeModel(ns.shadeModel);
-			gl.glPolygonMode(GL.GL_FRONT_AND_BACK, ns.rendMode);
+	
 		//TODO: check if this should be transformed ex: gl.glTranslatef(center.x,center.y,center.z);			
 			Iterator<IDrawable> iter = (Iterator<IDrawable>) level.iterator();
 			while(iter.hasNext()){

@@ -2,8 +2,6 @@ package cindy.drawable;
 
 import java.util.Iterator;
 
-import javax.media.opengl.GL;
-
 import cindy.core.BoundingBox;
 import cindy.parser.VRGroup;
 import cindy.parser.VRNode;
@@ -16,11 +14,6 @@ public class VRDGroup extends VRGroup implements IDrawable{
 		if (getNodeSeetings().drawBBox){
 			getNodeSeetings().boundingBox.draw(dispOpt);
 		}
-		
-		GL gl = dispOpt.gl;
-		gl.glLineWidth(ns.lineWidth);
-		gl.glShadeModel(ns.shadeModel);
-		gl.glPolygonMode(GL.GL_FRONT_AND_BACK, ns.rendMode);
 		
 		Iterator<IDrawable> iter = (Iterator<IDrawable>) children.iterator();
 		while(iter.hasNext()){

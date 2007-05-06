@@ -20,6 +20,7 @@ public class VRDIndexedFaceSet extends VRIndexedFaceSet implements IDrawable{
 		if (getNodeSeetings().drawBBox){
 			getNodeSeetings().boundingBox.draw(dispOpt);
 		}
+		if (ns.rendMode == -1) return;
 		GL gl = dispOpt.gl;
 		gl.glLineWidth(ns.lineWidth);
 		gl.glShadeModel(ns.shadeModel);

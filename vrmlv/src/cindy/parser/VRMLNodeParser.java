@@ -37,7 +37,7 @@ public class VRMLNodeParser{
 		 if (s.equals(VRIndexedLineSet.VRNODENAME)) return nodeFactory.createIndexedLineSet();
 		 if (s.equals(VRPointSet.VRNODENAME))		return nodeFactory.createPointSet();
 		 if (s.equals(VRCoordinate.VRNODENAME))		return nodeFactory.createCoordinate();
-		 if (s.equals("Color"))			return nodeFactory.createColor();
+		 if (s.equals(VRColor.VRNODENAME))			return nodeFactory.createColor();
 		 if (s.equals(VRMaterial.VRNODENAME))		return nodeFactory.createMaterial();
 		 if (s.equals(VRAppearance.VRNODENAME))		return nodeFactory.createAppearance();
 		 return null;
@@ -190,8 +190,8 @@ public class VRMLNodeParser{
 		return nd;
 	}
 	
-	public LinkedList readNodeList(VRNode parent) throws IOException{
-		LinkedList ll = new LinkedList();
+	public LinkedList<VRNode> readNodeList(VRNode parent) throws IOException{
+		LinkedList<VRNode> ll = new LinkedList<VRNode>();
 		while(st.nextToken()!=StreamTokenizer.TT_EOF){
 			switch(st.ttype){
 				case StreamTokenizer.TT_WORD:
@@ -212,14 +212,14 @@ public class VRMLNodeParser{
 		}
 		return ll;
 	}
-	public LinkedList readNodes(VRNode parent) throws IOException{
-		LinkedList linkedList=null;
+	public LinkedList<VRNode> readNodes(VRNode parent) throws IOException{
+		LinkedList<VRNode> linkedList=null;
 		if (isNextBracket('['))
-			linkedList=readNodeList(parent);
+			linkedList = readNodeList(parent);
 		else{
-			VRNode node=readNode(parent);
+			VRNode node = readNode(parent);
 			if (node!=null){
-				linkedList=new LinkedList();
+				linkedList = new LinkedList<VRNode>();
 				linkedList.add(node);
 			}
 		}

@@ -3,23 +3,20 @@ package cindy.parser;
 import java.io.IOException;
 import java.io.StreamTokenizer;
 import java.util.Iterator;
-import java.util.LinkedList;
 
-import javax.vecmath.Vector3f;
+public class VRWorldInfo extends VRNode{
 
-public class VRLOD extends VRNode{
+	static public final String VRNODENAME = "WorldInfo";
 	
-	static public final String VRNODENAME = "LOD";
 	public String getNodeInternalName(){
 		return VRNODENAME;
 	}
 	
-	public Vector3f		center=new Vector3f(0,0,0);
-	public float[]		range;
-	public LinkedList	level;
+	public String []info ;
+	public String title = ""; 
 	
-	public Iterator iterator(){		
-		return new VRMLDefaultTreeDFSIterator(level,this);
+	public Iterator iterator() {
+		return new VRMLDefaultTreeDFSIterator(null,this);
 	}
 
 	public VRNode read(VRMLNodeParser parser) throws IOException {
@@ -29,10 +26,11 @@ public class VRLOD extends VRNode{
 				break;
 			String s=parser.st.sval;
 			parser.print(s);
-			if (s.equals("center"))			center=parser.readVector3f();
+			/*if (s.equals("center"))			center=parser.readVector3f();
 			else if (s.equals("range"))		range=FloatArray.read(parser);
-			else if (s.equals("level"))		level=parser.readNodes(this);
+			else if (s.equals("level"))		level=parser.readNodes(this);*/
 		}
-		return this;
+		return this;	
 	}
+	
 }

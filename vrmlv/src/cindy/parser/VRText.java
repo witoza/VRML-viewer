@@ -6,6 +6,11 @@ import java.util.Iterator;
 
 public class VRText extends VRNode{
 	
+	static public final String VRNODENAME = "Text";
+	public String getNodeInternalName(){
+		return VRNODENAME;
+	}
+	
 	public String text;
 	
 	public Iterator iterator(){
@@ -29,7 +34,7 @@ public class VRText extends VRNode{
 				parser.skip('{','}');
 			}				
 		}
-		if (text=="" || text==null)
+		if (text==null || text=="")
 			return null;
 		return this;
 	}

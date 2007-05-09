@@ -27,19 +27,19 @@ public class VRMLNodeParser{
 	public HashMap<String, VRNode> strToRef = new HashMap<String, VRNode>();
 	
 	private VRNode createNode(String s){
-		 if (s.equals("Transform"))		return nodeFactory.createTransform();
-		 if (s.equals("Shape"))			return nodeFactory.createShape();
-		 if (s.equals("Viewpoint"))		return nodeFactory.createViewpoint();
-		 if (s.equals("LOD"))			return nodeFactory.createLOD();
-		 if (s.equals("Group"))			return nodeFactory.createGroup();
-		 if (s.equals("Text"))			return nodeFactory.createText();
-		 if (s.equals("IndexedFaceSet"))return nodeFactory.createIndexedFaceSet();
-		 if (s.equals("IndexedLineSet"))return nodeFactory.createIndexedLineSet();
-		 if (s.equals("PointSet"))		return nodeFactory.createPointSet();
-		 if (s.equals("Coordinate"))	return nodeFactory.createCoordinate();
+		 if (s.equals(VRTransform.VRNODENAME))		return nodeFactory.createTransform();
+		 if (s.equals(VRShape.VRNODENAME))			return nodeFactory.createShape();
+		 if (s.equals(VRViewpoint.VRNODENAME))		return nodeFactory.createViewpoint();
+		 if (s.equals(VRLOD.VRNODENAME))			return nodeFactory.createLOD();
+		 if (s.equals(VRGroup.VRNODENAME))			return nodeFactory.createGroup();
+		 if (s.equals(VRText.VRNODENAME))			return nodeFactory.createText();
+		 if (s.equals(VRIndexedFaceSet.VRNODENAME)) return nodeFactory.createIndexedFaceSet();
+		 if (s.equals(VRIndexedLineSet.VRNODENAME)) return nodeFactory.createIndexedLineSet();
+		 if (s.equals(VRPointSet.VRNODENAME))		return nodeFactory.createPointSet();
+		 if (s.equals(VRCoordinate.VRNODENAME))		return nodeFactory.createCoordinate();
 		 if (s.equals("Color"))			return nodeFactory.createColor();
-		 if (s.equals("Material"))		return nodeFactory.createMaterial();
-		 if (s.equals("Appearance"))	return nodeFactory.createAppearance();
+		 if (s.equals(VRMaterial.VRNODENAME))		return nodeFactory.createMaterial();
+		 if (s.equals(VRAppearance.VRNODENAME))		return nodeFactory.createAppearance();
 		 return null;
 	}
 	

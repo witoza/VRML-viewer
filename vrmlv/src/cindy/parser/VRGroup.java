@@ -7,16 +7,15 @@ import java.util.LinkedList;
 
 public class VRGroup extends VRNode{
 	
+	static public final String VRNODENAME = "Group";
+	public String getNodeInternalName(){
+		return VRNODENAME;
+	}
+	
 	public LinkedList children=new LinkedList();
 	
 	public Iterator iterator(){
 		return new VRMLDefaultTreeDFSIterator(children,this);
-	}
-
-	public String toString(){
-		if (name!=null)
-			return name;
-		return "Group";		
 	}
 
 	public VRNode read(VRMLNodeParser parser) throws IOException {
@@ -30,6 +29,5 @@ public class VRGroup extends VRNode{
 		}
 		return this;
 	}
-
 
 }

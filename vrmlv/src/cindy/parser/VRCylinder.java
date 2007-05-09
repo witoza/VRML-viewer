@@ -6,6 +6,11 @@ import java.util.Iterator;
 
 public class VRCylinder extends VRNode{
 	
+	static public final String VRNODENAME = "Cylinder";
+	public String getNodeInternalName(){
+		return VRNODENAME;
+	}
+	
 	public boolean bottom	= true;
 	public float height		= 2.0f;
 	public float radius		= 1.0f;
@@ -14,12 +19,6 @@ public class VRCylinder extends VRNode{
 	
 	public Iterator iterator() {
 		return new VRMLDefaultTreeDFSIterator(null,this);
-	}
-	
-	public String toString(){
-		if (name!=null)
-			return name;
-		return "Cylinder";
 	}
 	
 	public VRNode read(VRMLNodeParser parser) throws IOException {

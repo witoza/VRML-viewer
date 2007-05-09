@@ -8,6 +8,11 @@ import java.util.LinkedList;
 
 public class VRIndexedFaceSet extends VRNode{
 	
+	static public final String VRNODENAME = "IndexedFaceSet";
+	public String getNodeInternalName(){
+		return VRNODENAME;
+	}
+	
 	public boolean 			ccw				= true;
 	public VRCoordinate		color;
 	public int[]			colorIndex;
@@ -27,12 +32,6 @@ public class VRIndexedFaceSet extends VRNode{
 		return new VRMLDefaultTreeDFSIterator(args,this);
 	}	
 	
-	public String toString(){
-		if (name!=null)
-			return name;
-		return "IndexedFaceSet";		
-	}
-
 	public VRNode read(VRMLNodeParser parser) throws IOException {
 		parser.st.nextToken(); //{
 		boolean isCordIndex=false;

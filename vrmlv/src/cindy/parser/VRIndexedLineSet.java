@@ -8,6 +8,11 @@ import java.util.LinkedList;
 
 public class VRIndexedLineSet extends VRNode{
 	
+	static public final String VRNODENAME = "IndexedLineSet";
+	public String getNodeInternalName(){
+		return VRNODENAME;
+	}
+	
 	public VRCoordinate	coord;
 	public VRCoordinate	color;
 	public int []		colorIndex;
@@ -22,12 +27,7 @@ public class VRIndexedLineSet extends VRNode{
 			args=null;
 		return new VRMLDefaultTreeDFSIterator(args,this);
 	}
-	
-	public String toString(){
-		if (name!=null)
-			return name;
-		return "IndexedLineSet";		
-	}	
+
 	public VRNode read(VRMLNodeParser parser) throws IOException {
 		parser.st.nextToken(); //{
 		while (parser.st.nextToken()!=StreamTokenizer.TT_EOF){

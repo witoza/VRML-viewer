@@ -7,6 +7,11 @@ import java.util.LinkedList;
 
 public class VRShape extends VRNode{
 	
+	static public final String VRNODENAME = "Shape";
+	public String getNodeInternalName(){
+		return VRNODENAME;
+	}
+	
 	public VRAppearance		appearance;
 	public VRNode			geometry;
 	
@@ -17,14 +22,6 @@ public class VRShape extends VRNode{
 		if (args.size()==0)
 			args=null;
 		return new VRMLDefaultTreeDFSIterator(args,this);
-	}
-	
-	public String toString(){
-		if (name!=null)
-			return name;
-		if (geometry!=null && geometry.name!=null)
-			return geometry.name;
-		return "Shape";
 	}
 	
 	public VRNode getNthDrawableNode(int index){

@@ -11,6 +11,10 @@ import javax.vecmath.Vector4f;
 public class VRTransform extends VRNode{
 	
 
+	static public final String VRNODENAME = "Transform";
+	public String getNodeInternalName(){
+		return VRNODENAME;
+	}
 	/**
 	 * Returns Transformation Matrix that is to be applied to all children of Transform node
 	 * @return Transformation Matrix 
@@ -40,12 +44,6 @@ public class VRTransform extends VRNode{
 		return new VRMLDefaultTreeDFSIterator(children, this);
 	}
 	
-	public String toString(){
-		if (name!=null)
-			return name;
-		return "Transform";		
-	}	
-
 	public VRNode read(VRMLNodeParser parser) throws IOException {
 		parser.st.nextToken(); //{
 		boolean anyTrans = false;

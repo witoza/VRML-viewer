@@ -7,6 +7,11 @@ import java.util.LinkedList;
 
 public class VRPointSet extends VRNode{
 
+	static public final String VRNODENAME = "PointSet";
+	public String getNodeInternalName(){
+		return VRNODENAME;
+	}
+	
 	public VRCoordinate coord;
 	public VRCoordinate color;
 	
@@ -20,12 +25,6 @@ public class VRPointSet extends VRNode{
 		return new VRMLDefaultTreeDFSIterator(args,this);
 	}
 	
-	public String toString(){
-		if (name!=null)
-			return name;
-		return "PointSet";		
-	}
-
 	public VRNode read(VRMLNodeParser parser) throws IOException {
 		parser.st.nextToken(); //{
 		while (parser.st.nextToken()!=StreamTokenizer.TT_EOF){

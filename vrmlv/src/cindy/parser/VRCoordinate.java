@@ -8,6 +8,11 @@ import javax.vecmath.Vector3f;
 
 public class VRCoordinate extends VRNode{
 	
+	static public final String VRNODENAME = "Coordinate";
+	public String getNodeInternalName(){
+		return VRNODENAME;
+	}
+	
 	public Vector3f[]	coord;
 	
 	public Iterator iterator(){

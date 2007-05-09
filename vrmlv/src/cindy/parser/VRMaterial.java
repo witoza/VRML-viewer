@@ -7,6 +7,11 @@ import java.util.Iterator;
 import javax.vecmath.Vector3f;
 
 public class VRMaterial extends VRNode{
+		
+	static public final String VRNODENAME = "Material";
+	public String getNodeInternalName(){
+		return VRNODENAME;
+	}
 	
 	public float		ambientIntensity	= 0.2f;
 	public Vector3f		diffuseColor		= new Vector3f(0.8f,0.8f,0.8f);

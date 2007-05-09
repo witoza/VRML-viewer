@@ -2,6 +2,13 @@ package cindy.parser;
 
 public interface VRMLNodeFactory {
 
+	public VRNode createCone();
+	
+	public VRNode createShpere();
+	
+	public VRNode createBox();
+	
+	public VRNode createCylinder();
 	
 	public VRNode createTransform();
 	

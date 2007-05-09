@@ -52,5 +52,21 @@ public class VRNodeFactory implements VRMLNodeFactory{
 	
 	public VRNode createAppearance(){
 		return new VRAppearance();
+	}
+
+	public VRNode createBox() {
+		return new VRBox();
+	}
+
+	public VRNode createCone() {
+		return new VRCone();
+	}
+
+	public VRNode createCylinder() {
+		return new VRCylinder();
+	}
+
+	public VRNode createShpere() {
+		return new VRSphere();
 	}	
 }

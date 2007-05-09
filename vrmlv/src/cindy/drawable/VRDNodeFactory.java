@@ -56,5 +56,21 @@ public class VRDNodeFactory implements VRMLNodeFactory{
 	
 	public VRNode createAppearance(){
 		return new VRDAppearance();
+	}
+
+	public VRNode createBox() {
+		throw new RuntimeException("not implemented");
+	}
+
+	public VRNode createCone() {
+		throw new RuntimeException("not implemented");
+	}
+
+	public VRNode createCylinder() {
+		throw new RuntimeException("not implemented");
+	}
+
+	public VRNode createShpere() {
+		throw new RuntimeException("not implemented");
 	}	
 }

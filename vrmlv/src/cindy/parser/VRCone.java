@@ -6,6 +6,11 @@ import java.util.Iterator;
 
 public class VRCone extends VRNode{
 
+	static public final String VRNODENAME = "Cone";
+	public String getNodeInternalName(){
+		return VRNODENAME;
+	}
+	
 	public float bottomRadius	 	= 1;
 	public float height				= 2;
 	public boolean side				= true;
@@ -13,12 +18,6 @@ public class VRCone extends VRNode{
 	
 	public Iterator iterator() {
 		return new VRMLDefaultTreeDFSIterator(null,this);
-	}
-	
-	public String toString(){
-		if (name!=null)
-			return name;
-		return "Cone";
 	}
 	
 	public VRNode read(VRMLNodeParser parser) throws IOException {

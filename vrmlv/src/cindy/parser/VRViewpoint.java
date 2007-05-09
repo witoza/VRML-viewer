@@ -9,6 +9,11 @@ import javax.vecmath.Vector4f;
 
 public class VRViewpoint extends VRNode{
 	
+	static public final String VRNODENAME = "Viewpoint";
+	public String getNodeInternalName(){
+		return VRNODENAME;
+	}
+	
 	public float		fieldOfView		= 0.785398f;
 	public String		description		= "";
 	public Vector3f		position		= new Vector3f(0,0,10);
@@ -16,9 +21,6 @@ public class VRViewpoint extends VRNode{
 	
 	public Iterator iterator(){
 		return new VRMLDefaultTreeDFSIterator(null,this);
-	}
-	public String toString(){
-		return "Viewpoint";
 	}
 
 	public VRNode read(VRMLNodeParser parser) throws IOException {

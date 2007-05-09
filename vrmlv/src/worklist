@@ -1,12 +1,11 @@
 niras:
-	box
-	cylinder
-	sphere
-	cone
 	testy! perspektywa, gdzie sie zanjdujemy - ¿eby by³o widaæ jak w przegl¹darce
 
 wito:
-	+ factory abstract
+	box
+	cylinder
+	sphere
+	cone	
 	idexed face set
 	testy! perspektywa, gdzie sie zanjdujemy - ¿eby by³o widaæ jak w przegl¹darce	
 	

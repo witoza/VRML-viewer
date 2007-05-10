@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.StreamTokenizer;
 import java.util.Iterator;
 
+//TODO: implement
 public class VRWorldInfo extends VRNode{
 
 	static public final String VRNODENAME = "WorldInfo";

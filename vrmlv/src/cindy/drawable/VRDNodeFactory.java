@@ -59,18 +59,18 @@ public class VRDNodeFactory implements VRMLNodeFactory{
 	}
 
 	public VRNode createBox() {
-		throw new RuntimeException("not implemented");
+		return new VRDBox();
 	}
 
 	public VRNode createCone() {
-		throw new RuntimeException("not implemented");
+		return new VRDCone();
 	}
 
 	public VRNode createCylinder() {
-		throw new RuntimeException("not implemented");
+		return new VRDCylinder();
 	}
 
 	public VRNode createShpere() {
-		throw new RuntimeException("not implemented");
+		return new VRDSphere();
 	}	
 }

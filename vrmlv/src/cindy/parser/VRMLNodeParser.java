@@ -40,6 +40,10 @@ public class VRMLNodeParser{
 		 if (s.equals(VRColor.VRNODENAME))			return nodeFactory.createColor();
 		 if (s.equals(VRMaterial.VRNODENAME))		return nodeFactory.createMaterial();
 		 if (s.equals(VRAppearance.VRNODENAME))		return nodeFactory.createAppearance();
+		 if (s.equals(VRCone.VRNODENAME))			return nodeFactory.createCone();
+		 if (s.equals(VRSphere.VRNODENAME))			return nodeFactory.createShpere();
+		 if (s.equals(VRBox.VRNODENAME))			return nodeFactory.createBox();
+		 if (s.equals(VRCylinder.VRNODENAME))		return nodeFactory.createCylinder();
 		 return null;
 	}
 	

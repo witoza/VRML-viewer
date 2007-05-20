@@ -16,7 +16,7 @@ public class LoggerHelper {
 		log4jProp.put("log4j.logger.cindy", "DEBUG, stdout1");		
 		
 		log4jProp.put("log4j.appender.stdout1.layout","org.apache.log4j.PatternLayout"); 
-		log4jProp.put("log4j.appender.stdout1.layout.ConversionPattern","[%t] %p %m (%F:%L)%n");
+		log4jProp.put("log4j.appender.stdout1.layout.ConversionPattern","[%t] %p: %m (%F:%L)%n");
 		log4jProp.put("log4j.appender.stdout1","org.apache.log4j.ConsoleAppender"); 
 
 		PropertyConfigurator.configure(log4jProp);

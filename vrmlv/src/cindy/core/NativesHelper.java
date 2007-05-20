@@ -17,11 +17,11 @@ public class NativesHelper {
 		boolean allExist = false;
 		String result = new String();
 		final Set<String> libs;
-		if (os.equals("Linux")) libs = new HashSet<String>(Arrays.asList(linuxLibs)); 
+		if (os.startsWith("Linux")) libs = new HashSet<String>(Arrays.asList(linuxLibs)); 
 		else if (os.startsWith("Windows")) libs = new HashSet<String>(Arrays.asList(windowsLibs));
 		else throw new RuntimeException("OS not supported"); 
 
-		System.out.println("Required libs: " + libs);
+//		System.out.println("Required libs: " + libs);
 		
 		Set<String> found = new HashSet<String>();
 		Set<String> libPath = new HashSet<String>(Arrays.asList(System.getProperty("java.library.path").split(System.getProperty("path.separator"))));
@@ -38,7 +38,7 @@ public class NativesHelper {
 			for (String missing : libs)
 				result += "File " + missing + " is missing\n";
 			result += "place these files in one of the following directory:\n" + libPath; 
-		}
+		} 
 		
 		return new Object[] {new Boolean(allExist), result};
 	}

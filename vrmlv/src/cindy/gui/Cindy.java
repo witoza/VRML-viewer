@@ -28,6 +28,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTree;
 import javax.swing.ProgressMonitorInputStream;
 import javax.swing.SwingUtilities;
+import javax.swing.filechooser.FileFilter;
 import javax.swing.tree.TreePath;
 
 import org.apache.log4j.Logger;
@@ -79,20 +80,20 @@ public class Cindy extends JFrame{
 		_LOG.info("reading file: " + fileChosen);
 		final VRMLModel model = new VRMLModel();
 		try{
-			is = new ProgressMonitorInputStream(Cindy.this, "Reading data", new FileInputStream(new File(fileChosen)));
-			SwingUtilities.invokeLater(new Runnable(){
+			is = new ProgressMonitorInputStream(Cindy.this, "Reading file " + fileChosen, new FileInputStream(new File(fileChosen)));
+/*			SwingUtilities.invokeLater(new Runnable(){
 				public void run() {
 					is.getProgressMonitor().setMillisToDecideToPopup(0);
 					is.getProgressMonitor().setMillisToPopup(0);
 					is.getProgressMonitor().setProgress(1);					
 				}				
 			});
-			
+*/			
 			model.readModel(is, new VRDNodeFactory());
 			renderer.setModel(model);
 			SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
-					Cindy.this.setTitle(appName + "  /" + fileChosen + "/");
+					Cindy.this.setTitle(appName + "  /" + fileChosen);
 					tree.setModel(new JTreeModelFromVrmlModel(model.getMainGroup()));
 				}
 			});
@@ -108,7 +109,7 @@ public class Cindy extends JFrame{
 	
 	private boolean guiBeingUpdate = false;
 	
-	public Cindy(){
+	public Cindy(final String inputWRL){
 		super(appName);
 		LoggerHelper.initializeLoggingFacility();
 		Object ob[] = NativesHelper.checkNativeFiles();
@@ -181,6 +182,7 @@ public class Cindy extends JFrame{
 
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fileDialog = new JFileChooser();
+				fileDialog.setFileFilter(new WRLFileFilter());
 				fileDialog.setDialogType(JFileChooser.OPEN_DIALOG);
 				fileDialog.setDialogTitle("Select .wrl file to open");
 				int fd = fileDialog.showOpenDialog(Cindy.this);
@@ -274,15 +276,37 @@ public class Cindy extends JFrame{
 		//TODO: 
 		new Thread(){
 			public void run(){
-				String outputWRL = "c:\\__vrml\\2006_01_16\\problem1\\problem1.wrl";
-				outputWRL = "C:\\__vrml\\2006_01_16\\coil_2.wrl"; 
+				//String inputWRL = "c:\\__vrml\\2006_01_16\\problem1\\problem1.wrl";
+				//inputWRL = "C:\\__vrml\\2006_01_16\\coil_2.wrl"; 
 				//outputWRL = "C:\\__vrml\\2006_01_16\\CT_res_2.wrl";
-				readInFile(outputWRL);
+				if (inputWRL != null) {
+					_LOG.info("input file: " + inputWRL);
+					readInFile(inputWRL);
+				} else {
+					_LOG.info("no input file specified");
+				}
 			}
 		}.start();
 	}
 	
 	static public void main(String args[]){
-		new Cindy();
+		String inputFile = null;
+		if (args.length > 0) inputFile = args[0];
+		new Cindy(inputFile);
 	}
+}
+
+class WRLFileFilter extends FileFilter {
+
+	@Override
+	public boolean accept(File arg0) {
+		String name = arg0.getName().toLowerCase();
+		return (arg0.isDirectory() || name.endsWith(".wrl"));
+	}
+
+	@Override
+	public String getDescription() {
+		return "WRL files";
+	}
+	
 }

@@ -38,10 +38,8 @@ public class VRShape extends VRNode{
 	public VRNode read(VRMLNodeParser parser) throws IOException {
 		parser.st.nextToken(); //{
 		while (parser.st.nextToken()!=StreamTokenizer.TT_EOF){
-			System.out.println("a");
 			if (parser.st.ttype!=StreamTokenizer.TT_WORD)
 				break;
-			System.out.println("a");
 			String s = parser.st.sval;
 			parser.print(s);
 			if (s.equals("appearance"))		appearance	= (VRAppearance)parser.readNode(this);

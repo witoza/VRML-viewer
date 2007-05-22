@@ -22,10 +22,10 @@ public class VRDShape extends VRShape implements IDrawable{
 		return (geometry==null ? 0 : 1);
 	}
 
-	public NodeSettings getNodeSeetings() {
+	public NodeSettings getNodeSettings() {
 		if (geometry==null){
 			return null;
 		}
-		return ((IDrawable)geometry).getNodeSeetings();
+		return ((IDrawable)geometry).getNodeSettings();
 	}
 }

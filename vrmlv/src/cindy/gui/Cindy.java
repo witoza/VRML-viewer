@@ -144,10 +144,10 @@ public class Cindy extends JFrame{
 						Object obj = paths[i].getLastPathComponent();
 						_LOG.info(""+obj.toString());
 						for (Iterator<IDrawable> iter = selected.iterator(); iter.hasNext(); ){
-							iter.next().getNodeSeetings().drawBBox = false;
+							iter.next().getNodeSettings().drawBBox = false;
 						}
 						selected.clear();
-						NodeSettings ns = ((IDrawable)obj).getNodeSeetings();
+						NodeSettings ns = ((IDrawable)obj).getNodeSettings();
 						if (ns!=null){
 							ns.drawBBox = true;
 							switch(ns.rendMode){
@@ -248,7 +248,7 @@ public class Cindy extends JFrame{
 		    	if (!selected.isEmpty()){
 			    	IDrawable first = selected.getFirst(); 
 			    	if (first!=null){
-			    		first.getNodeSeetings().rendMode = flag;		    	
+			    		first.getNodeSettings().rendMode = flag;		    	
 			    	}
 		    	}
 			}

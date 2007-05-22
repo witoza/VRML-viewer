@@ -1,5 +1,11 @@
 package cindy.drawable.nodes;
 
+import javax.media.opengl.GL;
+import javax.media.opengl.glu.GLUquadric;
+
+import org.apache.log4j.Logger;
+
+import cindy.core.BoundingBox;
 import cindy.drawable.DisplayOptions;
 import cindy.drawable.IDrawable;
 import cindy.drawable.NodeSettings;
@@ -9,7 +15,24 @@ import cindy.parser.nodes.VRSphere;
 //TODO: implement
 
 public class VRDSphere extends VRSphere implements IDrawable{
+
+	private static Logger _LOG = Logger.getLogger(VRDSphere.class);
+
+	private NodeSettings ns;
+	
 	public void draw(DisplayOptions dispOpt) {
+		if (getNodeSettings().drawBBox) {
+			getNodeSettings().boundingBox.draw(dispOpt);
+		}
+		if (ns.rendMode == -1)
+			return;
+		GL gl = dispOpt.gl;
+		gl.glLineWidth(ns.lineWidth);
+		gl.glShadeModel(ns.shadeModel);
+		gl.glPolygonMode(GL.GL_FRONT_AND_BACK, ns.rendMode);
+		
+		GLUquadric quadric = dispOpt.glu.gluNewQuadric();
+		dispOpt.glu.gluSphere(quadric, radius, 64, 64);
 		
 	}
 
@@ -21,7 +44,16 @@ public class VRDSphere extends VRSphere implements IDrawable{
 		return null;
 	}
 
-	public NodeSettings getNodeSeetings() {
-		return null;
+	public NodeSettings getNodeSettings() {
+		if (ns == null){
+			ns = new NodeSettings();
+			ns.boundingBox = new BoundingBox();
+			//compute bounding box
+/*			if (coord!=null){
+				for (int i=0; i!=coord.coord.length; i++){
+					ns.boundingBox.mix(coord.coord[i]);
+			} */
+		}
+		return ns;
 	}
 }

@@ -21,7 +21,7 @@ public class VRDAppearance extends VRAppearance implements IDrawable{
 		return null;
 	}
 
-	public NodeSettings getNodeSeetings() {
+	public NodeSettings getNodeSettings() {
 		return null;
 	}
 

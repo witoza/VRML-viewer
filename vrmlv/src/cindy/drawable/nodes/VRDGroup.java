@@ -14,8 +14,8 @@ public class VRDGroup extends VRGroup implements IDrawable{
 	NodeSettings ns;
 	
 	public void draw(DisplayOptions dispOpt) {
-		if (getNodeSeetings().drawBBox){
-			getNodeSeetings().boundingBox.draw(dispOpt);
+		if (getNodeSettings().drawBBox){
+			getNodeSettings().boundingBox.draw(dispOpt);
 		}
 		
 		Iterator<IDrawable> iter = (Iterator<IDrawable>) children.iterator();
@@ -32,14 +32,14 @@ public class VRDGroup extends VRGroup implements IDrawable{
 		return (VRNode)children.get(n);
 	}
 
-	public NodeSettings getNodeSeetings() {
+	public NodeSettings getNodeSettings() {
 		if (ns == null){
 			ns = new NodeSettings();
 			//create proper bounding box
 			ns.boundingBox = new BoundingBox();
 			Iterator<IDrawable> iter = (Iterator<IDrawable>) children.iterator();
 			while(iter.hasNext()){
-				NodeSettings chilNodeSeetings = iter.next().getNodeSeetings();
+				NodeSettings chilNodeSeetings = iter.next().getNodeSettings();
 				if (chilNodeSeetings!=null){
 					ns.boundingBox.mix(chilNodeSeetings.boundingBox);
 				}

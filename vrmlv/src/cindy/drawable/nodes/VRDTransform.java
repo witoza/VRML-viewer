@@ -16,8 +16,8 @@ public class VRDTransform extends VRTransform implements IDrawable{
 	public void draw(DisplayOptions dispOpt) {
 		
 		GL gl = dispOpt.gl;
-		if (getNodeSeetings().drawBBox){
-			getNodeSeetings().boundingBox.draw(dispOpt);
+		if (getNodeSettings().drawBBox){
+			getNodeSettings().boundingBox.draw(dispOpt);
 		}
 		
 		gl.glPushMatrix();
@@ -49,7 +49,7 @@ public class VRDTransform extends VRTransform implements IDrawable{
 	}
 	
 	NodeSettings ns;
-	public NodeSettings getNodeSeetings() {
+	public NodeSettings getNodeSettings() {
 		if (ns == null){
 			ns = new NodeSettings();
 			ns.boundingBox = new BoundingBox();
@@ -57,7 +57,7 @@ public class VRDTransform extends VRTransform implements IDrawable{
 			
 			Iterator<IDrawable> iter = (Iterator<IDrawable>) children.iterator();
 			while(iter.hasNext()){
-				NodeSettings chilNodeSeetings = iter.next().getNodeSeetings();
+				NodeSettings chilNodeSeetings = iter.next().getNodeSettings();
 				if (chilNodeSeetings!=null){
 					if (chilNodeSeetings.boundingBox.isValid()){
 						ns.boundingBox.mix(getTransformMatrix().VMultiply(chilNodeSeetings.boundingBox.getMin()));

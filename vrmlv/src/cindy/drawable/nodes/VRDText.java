@@ -20,7 +20,7 @@ public class VRDText extends VRText implements IDrawable{
 		return null;
 	}
 
-	public NodeSettings getNodeSeetings() {
+	public NodeSettings getNodeSettings() {
 		return null;
 	}
 }

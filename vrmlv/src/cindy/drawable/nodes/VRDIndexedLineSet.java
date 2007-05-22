@@ -20,8 +20,8 @@ public class VRDIndexedLineSet extends VRIndexedLineSet implements IDrawable{
 	private static Logger _LOG = Logger.getLogger(VRDIndexedLineSet.class);
 	
 	public void draw(DisplayOptions dispOpt) {	
-		if (getNodeSeetings().drawBBox){
-			getNodeSeetings().boundingBox.draw(dispOpt);
+		if (getNodeSettings().drawBBox){
+			getNodeSettings().boundingBox.draw(dispOpt);
 		}
 		if (ns.rendMode == -1) return;
 		GL gl = dispOpt.gl;
@@ -106,7 +106,7 @@ public class VRDIndexedLineSet extends VRIndexedLineSet implements IDrawable{
 	}
 	
 	NodeSettings ns;
-	public NodeSettings getNodeSeetings() {
+	public NodeSettings getNodeSettings() {
 		if (ns == null){
 			ns = new NodeSettings();
 			ns.boundingBox = new BoundingBox();

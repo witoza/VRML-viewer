@@ -20,8 +20,8 @@ public class VRDIndexedFaceSet extends VRIndexedFaceSet implements IDrawable{
 
 	
 	public void draw(DisplayOptions dispOpt) {
-		if (getNodeSeetings().drawBBox){
-			getNodeSeetings().boundingBox.draw(dispOpt);
+		if (getNodeSettings().drawBBox){
+			getNodeSettings().boundingBox.draw(dispOpt);
 		}
 		if (ns.rendMode == -1) return;
 		GL gl = dispOpt.gl;
@@ -198,7 +198,7 @@ public class VRDIndexedFaceSet extends VRIndexedFaceSet implements IDrawable{
 
 	NodeSettings ns;
 	
-	public NodeSettings getNodeSeetings() {
+	public NodeSettings getNodeSettings() {
 		if (ns==null){
 			ns = new NodeSettings();
 			//compute bounding box

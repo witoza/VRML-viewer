@@ -10,6 +10,6 @@ public interface IDrawable {
 
 	int numOfDrawableChildren();
 	
-	NodeSettings getNodeSeetings();
+	NodeSettings getNodeSettings();
 	
 }

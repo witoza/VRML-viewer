@@ -190,6 +190,12 @@ public class VRMLNodeParser{
 					n--;
 					print("... skipping");
 					n++;
+				}else if (s.equals("NULL")) {
+					//st.nextToken();	//name
+					n--;
+					nd = null;
+					//print("... NULL");
+					n++;
 				}else{
 					skip('{','}');
 					n--;

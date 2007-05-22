@@ -54,19 +54,21 @@ public class BoundingBox{
      * 
      */
     public void mix(final BoundingBox bb){
-    	if (!bb.isValid){
-    		return;
-    	}
-    	isValid = true;
-    	Vector3f v = bb.min;
-        if (v.x < min.x) min.x = v.x;
-        if (v.y < min.y) min.y = v.y;
-        if (v.z < min.z) min.z = v.z;
+    	if (bb != null) {
+    		if (!bb.isValid){
+    			return;
+    		}
+    		isValid = true;
+    		Vector3f v = bb.min;
+    		if (v.x < min.x) min.x = v.x;
+    		if (v.y < min.y) min.y = v.y;
+    		if (v.z < min.z) min.z = v.z;
 
-        v = bb.max;
-        if (v.x > max.x) max.x = v.x;
-        if (v.y > max.y) max.y = v.y;
-        if (v.z > max.z) max.z = v.z;
+    		v = bb.max;
+    		if (v.x > max.x) max.x = v.x;
+    		if (v.y > max.y) max.y = v.y;
+    		if (v.z > max.z) max.z = v.z;
+    	}
     }
         
     /*

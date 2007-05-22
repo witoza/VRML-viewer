@@ -11,6 +11,24 @@ import javax.vecmath.Vector4f;
 
 import org.apache.log4j.Logger;
 
+import cindy.parser.nodes.VRAppearance;
+import cindy.parser.nodes.VRBox;
+import cindy.parser.nodes.VRColor;
+import cindy.parser.nodes.VRCone;
+import cindy.parser.nodes.VRCoordinate;
+import cindy.parser.nodes.VRCylinder;
+import cindy.parser.nodes.VRGroup;
+import cindy.parser.nodes.VRIndexedFaceSet;
+import cindy.parser.nodes.VRIndexedLineSet;
+import cindy.parser.nodes.VRLOD;
+import cindy.parser.nodes.VRMaterial;
+import cindy.parser.nodes.VRPointSet;
+import cindy.parser.nodes.VRShape;
+import cindy.parser.nodes.VRSphere;
+import cindy.parser.nodes.VRText;
+import cindy.parser.nodes.VRTransform;
+import cindy.parser.nodes.VRViewpoint;
+
 public class VRMLNodeParser{
 
 	private Logger logger = Logger.getLogger(VRMLNodeParser.class);
@@ -51,7 +69,7 @@ public class VRMLNodeParser{
 		st = str;
 	}
 	
-	void skip(char openingBrack, char closingBrack) throws IOException{
+	public void skip(char openingBrack, char closingBrack) throws IOException{
 		int hm=0;
 		while(st.nextToken()!=StreamTokenizer.TT_EOF){
 			switch(st.ttype){

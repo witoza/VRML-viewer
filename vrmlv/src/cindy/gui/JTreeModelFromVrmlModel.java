@@ -8,8 +8,8 @@ import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 
 import cindy.drawable.IDrawable;
-import cindy.parser.VRGroup;
 import cindy.parser.VRNode;
+import cindy.parser.nodes.VRGroup;
 
 /**
  * Tree model for VRML based tree

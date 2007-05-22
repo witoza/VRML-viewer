@@ -9,6 +9,8 @@ import java.io.StreamTokenizer;
 
 import org.apache.log4j.Logger;
 
+import cindy.parser.nodes.VRGroup;
+
 public class VRMLModel{
 	
 	private static Logger logger = Logger.getLogger(VRMLModel.class);

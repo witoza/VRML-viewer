@@ -1,5 +1,22 @@
 package cindy.parser;
 
+import cindy.parser.nodes.VRAppearance;
+import cindy.parser.nodes.VRBox;
+import cindy.parser.nodes.VRCone;
+import cindy.parser.nodes.VRCoordinate;
+import cindy.parser.nodes.VRCylinder;
+import cindy.parser.nodes.VRGroup;
+import cindy.parser.nodes.VRIndexedFaceSet;
+import cindy.parser.nodes.VRIndexedLineSet;
+import cindy.parser.nodes.VRLOD;
+import cindy.parser.nodes.VRMaterial;
+import cindy.parser.nodes.VRPointSet;
+import cindy.parser.nodes.VRShape;
+import cindy.parser.nodes.VRSphere;
+import cindy.parser.nodes.VRText;
+import cindy.parser.nodes.VRTransform;
+import cindy.parser.nodes.VRViewpoint;
+
 public class VRNodeFactory implements VRMLNodeFactory{
 	
 	public VRNode createTransform(){

@@ -39,7 +39,7 @@ import cindy.core.NativesHelper;
 import cindy.core.VRMLRenderer;
 import cindy.drawable.IDrawable;
 import cindy.drawable.NodeSettings;
-import cindy.drawable.VRDNodeFactory;
+import cindy.drawable.nodes.VRDNodeFactory;
 import cindy.parser.VRMLModel;
 
 public class Cindy extends JFrame{
@@ -280,7 +280,7 @@ public class Cindy extends JFrame{
 				//inputWRL = "C:\\__vrml\\2006_01_16\\coil_2.wrl"; 
 				//outputWRL = "C:\\__vrml\\2006_01_16\\CT_res_2.wrl";
 				if (inputWRL != null) {
-					_LOG.info("input file: " + inputWRL);
+					//_LOG.info("input file: " + inputWRL);
 					readInFile(inputWRL);
 				} else {
 					_LOG.info("no input file specified");

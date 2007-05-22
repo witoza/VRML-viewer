@@ -15,8 +15,8 @@ public class VRDLOD extends VRLOD implements IDrawable{
 
 	public void draw(DisplayOptions dispOpt) {		
 		GL gl = dispOpt.gl;
-		if (getNodeSeetings().drawBBox){
-			getNodeSeetings().boundingBox.draw(dispOpt);
+		if (getNodeSettings().drawBBox){
+			getNodeSettings().boundingBox.draw(dispOpt);
 		}
 
 		gl.glPushMatrix();
@@ -38,14 +38,14 @@ public class VRDLOD extends VRLOD implements IDrawable{
 	}
 
 	NodeSettings ns;
-	public NodeSettings getNodeSeetings() {
+	public NodeSettings getNodeSettings() {
 		if (ns == null){
 			ns = new NodeSettings();
 			ns.boundingBox = new BoundingBox();
 			//compute bounding box
 			Iterator<IDrawable> iter = (Iterator<IDrawable>) level.iterator();
 			while(iter.hasNext()){
-				NodeSettings chilNodeSeetings = iter.next().getNodeSeetings();
+				NodeSettings chilNodeSeetings = iter.next().getNodeSettings();
 				if (chilNodeSeetings!=null && chilNodeSeetings.boundingBox.isValid()){
 					ns.boundingBox.mix(chilNodeSeetings.boundingBox);
 				}

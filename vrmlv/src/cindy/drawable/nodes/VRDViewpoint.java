@@ -20,7 +20,7 @@ public class VRDViewpoint extends VRViewpoint implements IDrawable{
 		return null;
 	}
 	
-	public NodeSettings getNodeSeetings() {
+	public NodeSettings getNodeSettings() {
 		return null;
 	}
 }

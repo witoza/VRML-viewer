@@ -21,7 +21,7 @@ public class VRDCone extends VRCone implements IDrawable{
 		return null;
 	}
 
-	public NodeSettings getNodeSeetings() {
+	public NodeSettings getNodeSettings() {
 		return null;
 	}
 }

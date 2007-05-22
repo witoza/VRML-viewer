@@ -23,8 +23,8 @@ public class VRBox extends VRNode{
 	}
 	
 	public Vector3f		size = new Vector3f(2,2,2);
-	public VRCoordinate coord;
-	public VRCoordinate color;
+//	public VRCoordinate coord;
+//	public VRCoordinate color;
 	
 	public Iterator iterator() {
 		return new VRMLDefaultTreeDFSIterator(null,this);

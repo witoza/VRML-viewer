@@ -1,9 +1,11 @@
 package cindy.drawable.nodes;
 
 import javax.media.opengl.GL;
+import javax.media.opengl.glu.GLUquadric;
 
 import org.apache.log4j.Logger;
 
+import cindy.core.BoundingBox;
 import cindy.drawable.DisplayOptions;
 import cindy.drawable.IDrawable;
 import cindy.drawable.NodeSettings;
@@ -19,8 +21,8 @@ public class VRDBox extends VRBox implements IDrawable {
 	private NodeSettings ns;
 
 	public void draw(DisplayOptions dispOpt) {
-		if (getNodeSeetings().drawBBox) {
-			getNodeSeetings().boundingBox.draw(dispOpt);
+		if (getNodeSettings().drawBBox) {
+			getNodeSettings().boundingBox.draw(dispOpt);
 		}
 		if (ns.rendMode == -1)
 			return;
@@ -29,46 +31,49 @@ public class VRDBox extends VRBox implements IDrawable {
 		gl.glShadeModel(ns.shadeModel);
 		gl.glPolygonMode(GL.GL_FRONT_AND_BACK, ns.rendMode);
 
-		_LOG.info("Box");
-		
+		float halfx = size.x / 2; 
+		float halfy = size.y / 2;
+		float halfz = size.z / 2;
+
 		gl.glBegin(GL.GL_QUADS);
-		gl.glColor3f(0.0f, 1.0f, 0.0f);
-		gl.glVertex3f(1.0f, 1.0f, -1.0f);
-		gl.glVertex3f(-1.0f, 1.0f, -1.0f);
-		gl.glVertex3f(-1.0f, 1.0f, 1.0f);
-		gl.glVertex3f(1.0f, 1.0f, 1.0f);
+		gl.glColor3f(1.0f, 1.0f, 1.0f);
+		gl.glVertex3f(halfx, halfy, -halfz);
+		gl.glVertex3f(-halfx, halfy, -halfz);
+		gl.glVertex3f(-halfx, halfy, halfz);
+		gl.glVertex3f(halfx, halfy, halfz);
 
-		gl.glColor3f(1.0f, 0.5f, 0.0f);
-		gl.glVertex3f(1.0f, -1.0f, 1.0f);
-		gl.glVertex3f(-1.0f, -1.0f, 1.0f);
-		gl.glVertex3f(-1.0f, -1.0f, -1.0f);
-		gl.glVertex3f(1.0f, -1.0f, -1.0f);
+		gl.glColor3f(1.0f, 1.0f, 1.0f);
+		gl.glVertex3f(halfx, -halfy, halfz);
+		gl.glVertex3f(-halfx, -halfy, halfz);
+		gl.glVertex3f(-halfx, -halfy, -halfz);
+		gl.glVertex3f(halfx, -halfy, -halfz);
 
-		gl.glColor3f(1.0f, 0.0f, 0.0f);
-		gl.glVertex3f(1.0f, 1.0f, 1.0f);
-		gl.glVertex3f(-1.0f, 1.0f, 1.0f);
-		gl.glVertex3f(-1.0f, -1.0f, 1.0f);
-		gl.glVertex3f(1.0f, -1.0f, 1.0f);
+		gl.glColor3f(1.0f, 1.0f, 1.0f);
+		gl.glVertex3f(halfx, halfy, halfz);
+		gl.glVertex3f(-halfx, halfy, halfz);
+		gl.glVertex3f(-halfx, -halfy, halfz);
+		gl.glVertex3f(halfx, -halfy, halfz);
 
-		gl.glColor3f(1.0f, 1.0f, 0.0f);
-		gl.glVertex3f(1.0f, -1.0f, -1.0f);
-		gl.glVertex3f(-1.0f, -1.0f, -1.0f);
-		gl.glVertex3f(-1.0f, 1.0f, -1.0f);
-		gl.glVertex3f(1.0f, 1.0f, -1.0f);
+		gl.glColor3f(1.0f, 1.0f, 1.0f);
+		gl.glVertex3f(halfx, -halfy, -halfz);
+		gl.glVertex3f(-halfx, -halfy, -halfz);
+		gl.glVertex3f(-halfx, halfy, -halfz);
+		gl.glVertex3f(halfx, halfy, -halfz);
 
-		gl.glColor3f(0.0f, 0.0f, 1.0f);
-		gl.glVertex3f(-1.0f, 1.0f, 1.0f);
-		gl.glVertex3f(-1.0f, 1.0f, -1.0f);
-		gl.glVertex3f(-1.0f, -1.0f, -1.0f);
-		gl.glVertex3f(-1.0f, -1.0f, 1.0f);
+		gl.glColor3f(1.0f, 1.0f, 1.0f);
+		gl.glVertex3f(-halfx, halfy, halfz);
+		gl.glVertex3f(-halfx, halfy, -halfz);
+		gl.glVertex3f(-halfx, -halfy, -halfz);
+		gl.glVertex3f(-halfx, -halfy, halfz);
 
-		gl.glColor3f(1.0f, 0.0f, 1.0f);
-		gl.glVertex3f(1.0f, 1.0f, -1.0f);
-		gl.glVertex3f(1.0f, 1.0f, 1.0f);
-		gl.glVertex3f(1.0f, -1.0f, 1.0f);
-		gl.glVertex3f(1.0f, -1.0f, -1.0f);
+		gl.glColor3f(1.0f, 1.0f, 1.0f);
+		gl.glVertex3f(halfx, halfy, -halfz);
+		gl.glVertex3f(halfx, halfy, halfz);
+		gl.glVertex3f(halfx, -halfy, halfz);
+		gl.glVertex3f(halfx, -halfy, -halfz);
 		gl.glEnd();
 		gl.glFlush();
+		
 	}
 
 	public int numOfDrawableChildren() {
@@ -79,7 +84,17 @@ public class VRDBox extends VRBox implements IDrawable {
 		return null;
 	}
 
-	public NodeSettings getNodeSeetings() {
-		return new NodeSettings();
+	public NodeSettings getNodeSettings() {
+		if (ns == null){
+			ns = new NodeSettings();
+			ns.boundingBox = new BoundingBox();
+			//compute bounding box
+/*			if (coord!=null){
+				for (int i=0; i!=coord.coord.length; i++){
+					ns.boundingBox.mix(coord.coord[i]);
+				}
+			} */
+		}
+		return ns;
 	}
 }

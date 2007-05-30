@@ -30,6 +30,8 @@ public class VRDBox extends VRBox implements IDrawable {
 		gl.glLineWidth(ns.lineWidth);
 		gl.glShadeModel(ns.shadeModel);
 		gl.glPolygonMode(GL.GL_FRONT_AND_BACK, ns.rendMode);
+		
+		gl.glPushName(dispOpt.pickingOptions.add(this));	
 
 		float halfx = size.x / 2; 
 		float halfy = size.y / 2;
@@ -73,6 +75,8 @@ public class VRDBox extends VRBox implements IDrawable {
 		gl.glVertex3f(halfx, -halfy, -halfz);
 		gl.glEnd();
 		gl.glFlush();
+		
+		gl.glPopName();
 		
 	}
 

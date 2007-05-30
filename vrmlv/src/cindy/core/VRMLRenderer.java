@@ -3,6 +3,7 @@ package cindy.core;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.nio.IntBuffer;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
@@ -19,6 +20,8 @@ import cindy.drawable.DisplayOptions;
 import cindy.drawable.IDrawable;
 import cindy.parser.VRMLModel;
 
+import com.sun.opengl.util.BufferUtil;
+
 /**
  * Main class for Renderer Window, perform all graphic issues
  * 
@@ -27,6 +30,9 @@ import cindy.parser.VRMLModel;
 public class VRMLRenderer implements GLEventListener, MouseListener, MouseMotionListener {
 	
 	private static Logger _LOG = Logger.getLogger(VRMLRenderer.class);
+	
+	private boolean addSelecting = false;
+	private DisplayOptions displayOptions = new DisplayOptions(null, null);
 	
 	private GL gl;
 	private GLU glu;
@@ -43,6 +49,8 @@ public class VRMLRenderer implements GLEventListener, MouseListener, MouseMotion
 	private javax.vecmath.Matrix3f lastRot = new javax.vecmath.Matrix3f();
 	private javax.vecmath.Matrix3f thisRot = new javax.vecmath.Matrix3f();
 	private Vector2f mousePt=new Vector2f();
+	
+	private boolean isMouseClicked=false; //for picking object
 	private boolean isClicked  = false;
 	private boolean isDragging = false;	
 	
@@ -96,11 +104,59 @@ public class VRMLRenderer implements GLEventListener, MouseListener, MouseMotion
 	    gl.glMultMatrixf(M,0);
     }
 	//////////////////////////////////////////////////////////////////////////////////////
+    
+    //  handle picking options
+    //see http://www.lighthouse3d.com/opengl/picking/index.php?openglway3
+    private int processHits(int hits, IntBuffer buffer) {
+        //System.out.println("---------------------------------");
+        //System.out.println(" HITS: " + hits);
+        int offset = 0;
+        int names;
+        int z1, z2;
+        
+        int minz=0;
+        int minNumber=-1;
+        
+        for (int i = 0; i < hits; i++) {
+            //System.out.println("- - - - - - - - - - - -");
+            //System.out.println(" hit: " + (i + 1));
+            names = buffer.get(offset);
+            offset++;
+            z1 = buffer.get(offset);
+            offset++;
+            z2 = buffer.get(offset) ;
+            offset++;
+            //System.out.println(" number of names: " + names);
+            //System.out.println(" z1: " + z1);
+            //System.out.println(" z2: " + z2);
+            //System.out.println(" names: ");
+
+            for (int j = 0; j < names; j++) {
+                //System.out.print("  " + buffer.get(offset));
+                if (j == (names - 1)) {
+                	int res=buffer.get(offset);
+                	if (minNumber==-1 || z1<minz){
+                    	minNumber=res;
+                    	minz=z2;
+                    }
+                    //System.out.println("<-");
+                } else {
+                    //System.out.println();
+                }
+                offset++;
+            }
+            //System.out.println("- - - - - - - - - - - -");
+            
+            
+        }
+        //System.out.println("--------------------------------- ");
+        return minNumber;
+    }
 	
     public synchronized void setModel(VRMLModel m) {
     	clearArcBall();
 		model = m;
-	}
+	}    
         
     //is called when opengl context changes
 	public void init(GLAutoDrawable drawable) {
@@ -146,18 +202,86 @@ public class VRMLRenderer implements GLEventListener, MouseListener, MouseMotion
     	shutdowned = true;
     	_LOG.info("renderer ask to stop thread");
     }
+    
+    void drawModel(){
+    	gl.glMatrixMode(GL.GL_MODELVIEW);
+		gl.glLoadIdentity();
+		glu.gluLookAt(0, 0, 10, 0, 0, 0, 0, 1, 0);
+		updateArcBallPos(gl);
+		gl.glInitNames();
+    	if (model!=null){			
+			((IDrawable)model.getMainGroup()).draw(displayOptions);
+		}
+    }
                      
 	public void display(GLAutoDrawable drawable) {
+		displayOptions.gl = gl;
+		displayOptions.glu = glu;
+		displayOptions.pickingOptions.clear();
 		if (shutdowned) return;
 		
+		if (isMouseClicked){
+			System.out.println("picking");
+			//picking objects
+			int x=(int)actualMousePos.x;
+			int y=(int)actualMousePos.y;
+			int nbRecords = 0;
+			IntBuffer selectBuffer=BufferUtil.newIntBuffer(32);
+
+			gl.glSelectBuffer(selectBuffer.capacity(), selectBuffer);
+			gl.glRenderMode(GL.GL_SELECT);
+			int[] viewport = new int[4];
+			gl.glGetIntegerv(GL.GL_VIEWPORT, viewport,0);
+			
+			gl.glMatrixMode(GL.GL_PROJECTION);
+			gl.glPushMatrix();
+				gl.glLoadIdentity();
+				glu.gluPickMatrix(x, viewport[3]-y, 2, 2, viewport,0);
+				glu.gluPerspective(45.0f, (float)viewport[2]/(float)viewport[3], 0.1f, 100.0f);
+				gl.glMatrixMode(GL.GL_MODELVIEW);
+				gl.glClear(GL.GL_DEPTH_BUFFER_BIT);
+				
+				drawModel();
+				
+				gl.glFlush();
+				nbRecords = gl.glRenderMode(GL.GL_RENDER);
+				gl.glMatrixMode(GL.GL_PROJECTION);
+			gl.glPopMatrix();
+			gl.glMatrixMode(GL.GL_MODELVIEW);
+			if(nbRecords > 0){				
+				int objectNumber=processHits(nbRecords,selectBuffer);
+				if (objectNumber>=0){
+					IDrawable node = (IDrawable)displayOptions.pickingOptions.get(objectNumber);
+					_LOG.debug("picking: " + node);
+					if (addSelecting){
+						displayOptions.selectedNodes.selectAnotherNode(node);
+					}else{
+						displayOptions.selectedNodes.selectSingleNode(node);
+					}
+				}
+			}else{
+				if (!addSelecting){
+					displayOptions.selectedNodes.clearSelectedNodes();
+				}
+				_LOG.debug("picking: none");
+			}
+			
+		}
+		isMouseClicked = false;
+				
 		gl.glClear(GL.GL_DEPTH_BUFFER_BIT | GL.GL_COLOR_BUFFER_BIT);
-		
-		gl.glMatrixMode(GL.GL_MODELVIEW);
-		gl.glLoadIdentity();
-		glu.gluLookAt(0, 0, 0.5, 0, 0, 0, 0, 1, 0);		
-		if (model!=null){
-			updateArcBallPos(gl);
-			((IDrawable)model.getMainGroup()).draw(new DisplayOptions(gl,glu));
+				
+		drawModel();
+		if (isCenterClicked){
+			float dy=(lastMouseY-actualMousePos.y)/50.0f;
+//			System.out.println(dy);
+			if (Math.abs(lastMouseY-actualMousePos.y)>1){
+				lastDelta=dy;
+			}else{
+				dy=lastDelta;
+			}
+			arcBallPos.z-=dy;
+			lastMouseY = (int) actualMousePos.y;
 		}
 	}
 	
@@ -165,17 +289,29 @@ public class VRMLRenderer implements GLEventListener, MouseListener, MouseMotion
 		_LOG.info("displayChanged");
 	}
 
-	public void mouseEntered(MouseEvent e) {
-		
-	}
-
-	public void mouseExited(MouseEvent e) {
-		
-	}
+	private boolean isRightClicked=false;
+	private boolean isCenterClicked=false;
+	private int lastMouseX=-1;
+	private int lastMouseY=-1;
+	private float lastDelta;
+	private Vector2f actualMousePos=new Vector2f();
+	    
+	public void mouseEntered(MouseEvent e) {}
+	public void mouseExited(MouseEvent e) {}
 
 	public synchronized void mousePressed(MouseEvent e){
+		lastMouseX=-1;
+		lastMouseY=-1;
 		if (SwingUtilities.isLeftMouseButton(e)) {
 			isClicked = true;
+		}
+		else if (SwingUtilities.isMiddleMouseButton(e)){
+			isCenterClicked = true; 
+			lastMouseY=(int)actualMousePos.y; 
+			lastDelta=0.0f;
+		}
+		else if (SwingUtilities.isRightMouseButton(e)){
+			isRightClicked = true;
 		}
 	}
 	
@@ -184,8 +320,16 @@ public class VRMLRenderer implements GLEventListener, MouseListener, MouseMotion
 			isDragging	= false;
 			isClicked	= false;
 		}
+		else if (SwingUtilities.isRightMouseButton(e)) isRightClicked = false;
+		else if (SwingUtilities.isMiddleMouseButton(e)) isCenterClicked = false;
 	} 
 	public synchronized void mouseClicked(MouseEvent e){
+		isMouseClicked=true;
+		if (e.isControlDown()){
+			addSelecting=true;
+		}else{
+			addSelecting=false;			
+		}
     }
 	
 	public synchronized void mouseDragged(MouseEvent e){
@@ -193,9 +337,27 @@ public class VRMLRenderer implements GLEventListener, MouseListener, MouseMotion
 			mousePt.x = e.getX();
 	        mousePt.y = e.getY();
 			updatePosition();
+		}
+		if (isRightClicked){
+			if (lastMouseX==-1){
+				lastMouseX=e.getX();
+				lastMouseY=e.getY();
+			}
+			
+			float dx=-(lastMouseX-e.getX())/200.0f;
+			float dy=(lastMouseY-e.getY())/200.0f;
+			arcBallPos.x+=dx;
+			arcBallPos.y+=dy;
+			
+			lastMouseX=e.getX();
+			lastMouseY=e.getY();
 		}		
+		actualMousePos.x=e.getX();
+		actualMousePos.y=e.getY();	
 	}
 	
 	public synchronized void mouseMoved(MouseEvent e) {
+		actualMousePos.x=e.getX();
+		actualMousePos.y=e.getY();
 	}
 }

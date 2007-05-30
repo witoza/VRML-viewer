@@ -277,11 +277,12 @@ public class Cindy extends JFrame{
 		new Thread(){
 			public void run(){
 				//String inputWRL = "c:\\__vrml\\2006_01_16\\problem1\\problem1.wrl";
-				//inputWRL = "C:\\__vrml\\2006_01_16\\coil_2.wrl"; 
+				String s = inputWRL;
+				 s = "C:\\__vrml\\2006_01_16\\coil_2.wrl"; 
 				//outputWRL = "C:\\__vrml\\2006_01_16\\CT_res_2.wrl";
-				if (inputWRL != null) {
+				if (s != null) {
 					//_LOG.info("input file: " + inputWRL);
-					readInFile(inputWRL);
+					readInFile(s);
 				} else {
 					_LOG.info("no input file specified");
 				}

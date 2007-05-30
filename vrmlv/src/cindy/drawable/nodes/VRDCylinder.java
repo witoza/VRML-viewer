@@ -31,8 +31,12 @@ public class VRDCylinder extends VRCylinder implements IDrawable{
 		gl.glShadeModel(ns.shadeModel);
 		gl.glPolygonMode(GL.GL_FRONT_AND_BACK, ns.rendMode);
 		
+		gl.glPushName(dispOpt.pickingOptions.add(this));	
+		
 		GLUquadric quadric = dispOpt.glu.gluNewQuadric();
 		dispOpt.glu.gluCylinder(quadric, radius, radius, height, 64, 64);
+		
+		gl.glPopName();	
 		
 	}
 

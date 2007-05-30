@@ -28,6 +28,7 @@ public class VRDPointSet extends VRPointSet implements IDrawable{
 		gl.glLineWidth(ns.lineWidth);
 		gl.glShadeModel(ns.shadeModel);
 		gl.glPolygonMode(GL.GL_FRONT_AND_BACK, ns.rendMode);
+		gl.glPushName(dispOpt.pickingOptions.add(this));	
 		
 	    Vector3f[]	ver=coord.coord;
 		if (color!=null){
@@ -48,6 +49,7 @@ public class VRDPointSet extends VRPointSet implements IDrawable{
 			}
 			gl.glEnd();
 		}	
+		gl.glPopName();
 	}
 
 	public int numOfDrawableChildren() {

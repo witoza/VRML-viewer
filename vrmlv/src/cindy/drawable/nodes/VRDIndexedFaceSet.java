@@ -28,7 +28,7 @@ public class VRDIndexedFaceSet extends VRIndexedFaceSet implements IDrawable{
 		gl.glLineWidth(ns.lineWidth);
 		gl.glShadeModel(ns.shadeModel);
 		gl.glPolygonMode(GL.GL_FRONT_AND_BACK, ns.rendMode);
-		
+		gl.glPushName(dispOpt.pickingOptions.add(this));
 		VRMaterial mat = null;
 		if (((VRShape)parent).appearance!=null){
 			mat = ((VRShape)parent).appearance.material;
@@ -184,7 +184,8 @@ public class VRDIndexedFaceSet extends VRIndexedFaceSet implements IDrawable{
 				}
 				gl.glEnd();
 			}			
-		}	    	
+		}
+		gl.glPopName();
 	}
 	
 	public VRNode getNthChild(int n) {

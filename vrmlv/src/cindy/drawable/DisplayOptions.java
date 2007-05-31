@@ -12,7 +12,10 @@ public class DisplayOptions {
 		
 		public void clearSelectedNodes(){
 			for (IDrawable node : selectedNodes){
-				node.getNodeSettings().drawBBox=false;
+				NodeSettings ns = node.getNodeSettings();
+				if (ns!=null){
+					ns.drawBBox = false;
+				}
 			}
 			selectedNodes.clear();
 		}
@@ -20,10 +23,26 @@ public class DisplayOptions {
 			clearSelectedNodes();
 			selectAnotherNode(node);				
 		}
+		
+		public void addAnotherNode(IDrawable node){
+			NodeSettings ns = node.getNodeSettings();
+			if (ns!=null){
+				ns.drawBBox = true;
+			}
+			if (!selectedNodes.contains(node)){
+				selectedNodes.add(node);
+			}
+		}	
+		
 		public void selectAnotherNode(IDrawable node){
-			node.getNodeSettings().drawBBox=true;
+			NodeSettings ns = node.getNodeSettings();
+			if (ns!=null){
+				ns.drawBBox = true;
+			}
 			if (selectedNodes.contains(node)){
-				node.getNodeSettings().drawBBox=false;
+				if (ns!=null){
+					ns.drawBBox = false;
+				}
 				selectedNodes.remove(node);
 			}else{
 				selectedNodes.add(node);

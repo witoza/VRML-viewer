@@ -34,12 +34,20 @@ public class VRMLRenderer implements GLEventListener, MouseListener, MouseMotion
 	private boolean addSelecting = false;
 	private DisplayOptions displayOptions = new DisplayOptions(null, null);
 	
+	public DisplayOptions.SelectingOptions getSelectedNodes(){
+		return displayOptions.selectedNodes;
+	}
+	
 	private GL gl;
 	private GLU glu;
 	private VRMLModel model;
 
 	private boolean inited = false;
 	private boolean shutdowned = false;
+	
+	public VRMLRenderer(IParentListener par){
+		parent = par;
+	}
 	
 	//arcball
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -49,6 +57,8 @@ public class VRMLRenderer implements GLEventListener, MouseListener, MouseMotion
 	private javax.vecmath.Matrix3f lastRot = new javax.vecmath.Matrix3f();
 	private javax.vecmath.Matrix3f thisRot = new javax.vecmath.Matrix3f();
 	private Vector2f mousePt=new Vector2f();
+	
+	IParentListener parent;
 	
 	private boolean isMouseClicked=false; //for picking object
 	private boolean isClicked  = false;
@@ -203,6 +213,10 @@ public class VRMLRenderer implements GLEventListener, MouseListener, MouseMotion
     	_LOG.info("renderer ask to stop thread");
     }
     
+    public void resetPos(){
+    	clearArcBall();
+    }
+    
     void drawModel(){
     	gl.glMatrixMode(GL.GL_MODELVIEW);
 		gl.glLoadIdentity();
@@ -220,8 +234,7 @@ public class VRMLRenderer implements GLEventListener, MouseListener, MouseMotion
 		displayOptions.pickingOptions.clear();
 		if (shutdowned) return;
 		
-		if (isMouseClicked){
-			System.out.println("picking");
+		if (isMouseClicked){			
 			//picking objects
 			int x=(int)actualMousePos.x;
 			int y=(int)actualMousePos.y;
@@ -265,6 +278,7 @@ public class VRMLRenderer implements GLEventListener, MouseListener, MouseMotion
 				}
 				_LOG.debug("picking: none");
 			}
+			parent.objectClicked(displayOptions.selectedNodes);			
 			
 		}
 		isMouseClicked = false;

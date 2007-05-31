@@ -32,15 +32,12 @@ public class VRMLObjectsTreeCellRenderer extends DefaultTreeCellRenderer{
 		setFont(plainFont);
 		setForeground(Color.BLACK);
 		
-		int rows[]=tree.getSelectionRows();
-		if (rows!=null){
-			if (row==rows[0]){ 
-				this.selected = true;
-				setForeground(textSelectionColor);
-			}				
-			else{
-				this.selected = false;
-			}
+		if (tree.isRowSelected(row)){
+			this.selected = true;
+			setForeground(textSelectionColor);
+		}				
+		else{
+			this.selected = false;
 		}
 
 		return this;

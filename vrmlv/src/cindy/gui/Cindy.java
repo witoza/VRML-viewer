@@ -11,11 +11,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.LinkedList;
 
 import javax.media.opengl.GL;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -29,28 +30,36 @@ import javax.swing.JTree;
 import javax.swing.ProgressMonitorInputStream;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileFilter;
+import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
+import javax.swing.tree.TreeSelectionModel;
 
 import org.apache.log4j.Logger;
 
 import cindy.core.GLDisplay;
+import cindy.core.IParentListener;
 import cindy.core.LoggerHelper;
 import cindy.core.NativesHelper;
 import cindy.core.VRMLRenderer;
+import cindy.drawable.DisplayOptions;
 import cindy.drawable.IDrawable;
 import cindy.drawable.NodeSettings;
 import cindy.drawable.nodes.VRDNodeFactory;
 import cindy.parser.VRMLModel;
+import cindy.parser.VRNode;
 
-public class Cindy extends JFrame{
+public class Cindy extends JFrame implements IParentListener{
 	
 	private static final Logger _LOG = Logger.getLogger(Cindy.class);
 	
-	static public String appName = "'Cindy' VRML Browser 0.01";
+	static public String appName = "'Cindy' VRML Browser 0.02";
 	private GLDisplay renderingWindow;
-	private VRMLRenderer renderer = new VRMLRenderer();
-
+	private VRMLRenderer renderer;
+	
 	private boolean exited = false;
+	
+	private boolean showBoundingBox = true;
+	private JCheckBox showBBox = new JCheckBox("Show bounding box", showBoundingBox);
 
 	// need to be called when app exits
 	public synchronized void shutdown() {
@@ -102,21 +111,129 @@ public class Cindy extends JFrame{
 			e1.printStackTrace();
 		}
 	}
-	private JTree tree = new JTree();
+	private JTree tree = new JTree(new DefaultTreeModel(null));
 	private ProgressMonitorInputStream is;	
 	
 	private JComboBox renderingModeChanger;
 	
 	private boolean guiBeingUpdate = false;
 	
+	public void collapse() {		
+		int i=1;
+		while( i < tree.getRowCount() ) {
+		      tree.collapseRow( i );
+		      i++;
+		 }
+	}
+	
+	void setBBoxVisibilityInNodes(){
+		for (IDrawable drawable : renderer.getSelectedNodes().selectedNodes){
+			NodeSettings ns=drawable.getNodeSettings();
+			if (ns!=null){
+				ns.drawBBox = showBoundingBox;
+			}
+		}
+	}
+	
+	void setAppName(){
+		StringBuffer sb=new StringBuffer();
+		Iterator iter=renderer.getSelectedNodes().selectedNodes.iterator();
+		while(iter.hasNext()){	
+			VRNode obj=(VRNode)iter.next();		
+			if (obj.name==null)
+				sb.append("<nonamed>; ");
+			else
+				sb.append("" + obj.name+"; ");
+		}
+		setTitle(appName + " / "+sb.toString());
+		_LOG.info(sb.toString());
+	}
+	
+	public void objectClicked(DisplayOptions.SelectingOptions selected) {
+		_LOG.debug("[clicked]");
+		guiBeingUpdate = true;
+		tree.clearSelection();
+		collapse();		
+				
+		setAppName();
+		Iterator iter=renderer.getSelectedNodes().selectedNodes.iterator();
+		while(iter.hasNext()){	
+			VRNode obj=(VRNode)iter.next();
+			TreePath tp=new TreePath(((JTreeModelFromVrmlModel)tree.getModel()).getPathToRoot(obj));
+			
+			tree.addSelectionPath(tp);
+			tree.makeVisible(tp);
+		}
+		
+
+		
+		switch(getSelectedRenderingMode()){
+			case -1:
+				renderingModeChanger.setSelectedItem("NONE");
+				break;
+			case GL.GL_FILL:
+				renderingModeChanger.setSelectedItem("GL_FILL");
+				break;
+			case GL.GL_LINE:
+				renderingModeChanger.setSelectedItem("GL_LINE");
+				break;
+			case GL.GL_POINT:
+				renderingModeChanger.setSelectedItem("GL_POINT");
+				break;
+			default:
+				_LOG.warn("wrong rendering type");									
+		}							
+		setBBoxVisibilityInNodes();
+		guiBeingUpdate = false;
+	}
+	
+	private JButton resetPos = new JButton("Reset position");
+	
+	int getSelectedRenderingMode(){
+		if (renderer.getSelectedNodes().selectedNodes.isEmpty()){
+			return -1;
+		}
+		int flag = 0;	    	
+    	for (IDrawable node : renderer.getSelectedNodes().selectedNodes){
+    		Iterator iter = ((VRNode)node).iterator();
+    		while(iter.hasNext()){
+    			VRNode nd = (VRNode)iter.next();
+    			if (nd instanceof IDrawable) {
+    				//_LOG.debug("changind node settings for: " + nd);
+    				NodeSettings ds = ((IDrawable)nd).getNodeSettings();		    				
+    				if (ds!=null){
+    					if (flag==0){
+    						flag = ds.rendMode; 
+    					}else{
+    						if (flag!=ds.rendMode){
+    							return -1;
+    						}
+    					}
+    				}		    				
+				}
+    		}
+    	}
+    	return flag;
+	}
+	
 	public Cindy(final String inputWRL){
 		super(appName);
+		
+		showBBox.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {				
+				showBoundingBox = ((JCheckBox)e.getSource()).isSelected();
+				_LOG.info("showBoundingBox = "+showBoundingBox);
+				setBBoxVisibilityInNodes();
+			}			
+		});
+		
 		LoggerHelper.initializeLoggingFacility();
 		Object ob[] = NativesHelper.checkNativeFiles();
 		if (((Boolean)ob[0]== false)){
 			System.out.println(ob[1]);
 			return ;
 		}
+		renderer = new VRMLRenderer(this);
 		renderingWindow = new GLDisplay(renderer);		
 		
 		
@@ -130,48 +247,57 @@ public class Cindy extends JFrame{
 		JMenuBar menubar = new JMenuBar();
 		JMenu fileMenu = new JMenu("File");
 		
-		tree.setModel(null);	
-		tree.setCellRenderer(new VRMLObjectsTreeCellRenderer());
+		resetPos.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				_LOG.debug("[reseting position]");
+				renderer.resetPos();
+			}
+		});
 		
-		final LinkedList<IDrawable> selected = new LinkedList<IDrawable>();
+		
+		tree.setCellRenderer(new VRMLObjectsTreeCellRenderer());		 
+		
+		tree.getSelectionModel().setSelectionMode(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
 		
 		tree.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e){
+				
 				guiBeingUpdate = true;
 				TreePath[] paths = ((JTree)e.getSource()).getSelectionPaths();
 				if (paths!=null){
 					for (int i=0; i!=paths.length; i++){
 						Object obj = paths[i].getLastPathComponent();
 						_LOG.info(""+obj.toString());
-						for (Iterator<IDrawable> iter = selected.iterator(); iter.hasNext(); ){
-							iter.next().getNodeSettings().drawBBox = false;
-						}
-						selected.clear();
-						NodeSettings ns = ((IDrawable)obj).getNodeSettings();
-						if (ns!=null){
-							ns.drawBBox = true;
-							switch(ns.rendMode){
-								case -1:
-									renderingModeChanger.setSelectedItem("NONE");
-									break;
-								case GL.GL_FILL:
-									renderingModeChanger.setSelectedItem("GL_FILL");
-									break;
-								case GL.GL_LINE:
-									renderingModeChanger.setSelectedItem("GL_LINE");
-									break;
-								case GL.GL_POINT:
-									renderingModeChanger.setSelectedItem("GL_POINT");
-									break;
-								default:
-									_LOG.warn("wrong rendering type");									
-							}
-							selected.add((IDrawable)obj);
-						}else{
-							renderingModeChanger.setSelectedIndex(-1);
+						IDrawable node = (IDrawable)obj;
+						
+						if (e.isControlDown()){
+							renderer.getSelectedNodes().addAnotherNode(node);							
+						}else{							
+							renderer.getSelectedNodes().selectSingleNode(node);
 						}
 					}
 				}
+				
+				switch(getSelectedRenderingMode()){
+					case -1:
+						renderingModeChanger.setSelectedItem("NONE");
+						break;
+					case GL.GL_FILL:
+						renderingModeChanger.setSelectedItem("GL_FILL");
+						break;
+					case GL.GL_LINE:
+						renderingModeChanger.setSelectedItem("GL_LINE");
+						break;
+					case GL.GL_POINT:
+						renderingModeChanger.setSelectedItem("GL_POINT");
+						break;
+					default:
+						_LOG.warn("wrong rendering type");									
+				}
+				
+				setAppName();
+				setBBoxVisibilityInNodes();
+				
 				guiBeingUpdate = false;
 			}});
 		//tree.setRootVisible(false);
@@ -245,11 +371,18 @@ public class Cindy extends JFrame{
 		    	if (str.equals("GL_LINE")) flag = GL.GL_LINE;
 		    	if (str.equals("GL_POINT")) flag = GL.GL_POINT;
 		    	
-		    	if (!selected.isEmpty()){
-			    	IDrawable first = selected.getFirst(); 
-			    	if (first!=null){
-			    		first.getNodeSettings().rendMode = flag;		    	
-			    	}
+		    	for (IDrawable node : renderer.getSelectedNodes().selectedNodes){
+		    		Iterator iter = ((VRNode)node).iterator();
+		    		while(iter.hasNext()){
+		    			VRNode nd = (VRNode)iter.next();
+		    			if (nd instanceof IDrawable) {
+		    				//_LOG.debug("changind node settings for: " + nd);
+		    				NodeSettings ds = ((IDrawable)nd).getNodeSettings();		    				
+		    				if (ds!=null){
+		    					ds.rendMode = flag;
+		    				}		    				
+						}
+		    		}
 		    	}
 			}
 			
@@ -265,7 +398,12 @@ public class Cindy extends JFrame{
 		JPanel tmp1 = new JPanel(new BorderLayout());
 		//tmp1.add(showBoundingBoxes);
 		nodeSettingsPanel.add(tmp1);
-		leftPanel.add(nodeSettingsPanel, BorderLayout.NORTH);
+		JPanel tmpP = new JPanel(new BorderLayout());
+		tmpP.add(nodeSettingsPanel, BorderLayout.CENTER);
+		tmpP.add(resetPos, BorderLayout.NORTH);		
+		tmpP.add(showBBox, BorderLayout.SOUTH);
+		leftPanel.add(tmpP, BorderLayout.NORTH);
+		
 		leftPanel.add(objectsChangePanel, BorderLayout.CENTER);
 		add(splitPane);
 		
@@ -295,6 +433,7 @@ public class Cindy extends JFrame{
 		if (args.length > 0) inputFile = args[0];
 		new Cindy(inputFile);
 	}
+
 }
 
 class WRLFileFilter extends FileFilter {

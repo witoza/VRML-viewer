@@ -17,6 +17,7 @@ import cindy.parser.nodes.VRColor;
 import cindy.parser.nodes.VRCone;
 import cindy.parser.nodes.VRCoordinate;
 import cindy.parser.nodes.VRCylinder;
+import cindy.parser.nodes.VRDirectionalLight;
 import cindy.parser.nodes.VRGroup;
 import cindy.parser.nodes.VRIndexedFaceSet;
 import cindy.parser.nodes.VRIndexedLineSet;
@@ -28,6 +29,7 @@ import cindy.parser.nodes.VRSphere;
 import cindy.parser.nodes.VRText;
 import cindy.parser.nodes.VRTransform;
 import cindy.parser.nodes.VRViewpoint;
+import cindy.parser.nodes.VRWorldInfo;
 
 public class VRMLNodeParser{
 
@@ -62,6 +64,8 @@ public class VRMLNodeParser{
 		 if (s.equals(VRSphere.VRNODENAME))			return nodeFactory.createShpere();
 		 if (s.equals(VRBox.VRNODENAME))			return nodeFactory.createBox();
 		 if (s.equals(VRCylinder.VRNODENAME))		return nodeFactory.createCylinder();
+		 if (s.equals(VRWorldInfo.VRNODENAME))		return nodeFactory.createWorldInfo();
+		 if (s.equals(VRDirectionalLight.VRNODENAME))	return nodeFactory.createDirectionalLight();
 		 return null;
 	}
 	
@@ -88,6 +92,44 @@ public class VRMLNodeParser{
 			}
 		}
 	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////
+	
+	private LinkedList<String> readStringList(char quoteChar) throws IOException{
+		LinkedList<String> ll = new LinkedList<String>();
+		
+		while(st.nextToken()!=StreamTokenizer.TT_EOF){
+			char zn=(char)st.ttype;
+			
+			if (zn==']'){			
+				return ll;
+			}
+			ll.add(st.sval);
+			print(quoteChar+st.sval+quoteChar);
+		}
+		return ll;
+	}	
+	
+	public LinkedList<String> readStrings(char quoteChar) throws IOException{
+		if (isNextBracket('[')){			
+			return readStringList(quoteChar);
+		}
+		else{
+			LinkedList<String> ll = new LinkedList<String>();
+			ll.add(readString(quoteChar));
+			return ll;
+		}
+	}
+	
+	public String readString(char quoteChar) throws IOException{
+		st.quoteChar(quoteChar);
+		String text=readString();
+		print(quoteChar+text+quoteChar);
+		st.quoteChar((char)0);
+		return text;		
+	}
+	
+////////////////////////////////////////////////////////////////////////////////////////
 	
 	public Vector3f readVector3f() throws IOException {
 		Vector3f v = new Vector3f();

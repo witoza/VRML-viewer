@@ -35,4 +35,8 @@ public interface VRMLNodeFactory {
 	public VRNode createMaterial();
 	
 	public VRNode createAppearance();
+	
+	public VRNode createWorldInfo();
+	
+	public VRNode createDirectionalLight(); 
 }

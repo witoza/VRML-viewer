@@ -5,6 +5,7 @@ import cindy.parser.nodes.VRBox;
 import cindy.parser.nodes.VRCone;
 import cindy.parser.nodes.VRCoordinate;
 import cindy.parser.nodes.VRCylinder;
+import cindy.parser.nodes.VRDirectionalLight;
 import cindy.parser.nodes.VRGroup;
 import cindy.parser.nodes.VRIndexedFaceSet;
 import cindy.parser.nodes.VRIndexedLineSet;
@@ -16,6 +17,7 @@ import cindy.parser.nodes.VRSphere;
 import cindy.parser.nodes.VRText;
 import cindy.parser.nodes.VRTransform;
 import cindy.parser.nodes.VRViewpoint;
+import cindy.parser.nodes.VRWorldInfo;
 
 public class VRNodeFactory implements VRMLNodeFactory{
 	
@@ -85,5 +87,13 @@ public class VRNodeFactory implements VRMLNodeFactory{
 
 	public VRNode createShpere() {
 		return new VRSphere();
+	}
+
+	public VRNode createWorldInfo() {
+		return new VRWorldInfo();
+	}
+
+	public VRNode createDirectionalLight() {
+		return new VRDirectionalLight();
 	}	
 }

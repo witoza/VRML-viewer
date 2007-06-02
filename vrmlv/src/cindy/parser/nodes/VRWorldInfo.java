@@ -1,10 +1,14 @@
-package cindy.parser;
+package cindy.parser.nodes;
 
 import java.io.IOException;
 import java.io.StreamTokenizer;
 import java.util.Iterator;
+import java.util.LinkedList;
 
-//TODO: implement
+import cindy.parser.VRMLDefaultTreeDFSIterator;
+import cindy.parser.VRMLNodeParser;
+import cindy.parser.VRNode;
+
 public class VRWorldInfo extends VRNode{
 
 	static public final String VRNODENAME = "WorldInfo";
@@ -13,7 +17,7 @@ public class VRWorldInfo extends VRNode{
 		return VRNODENAME;
 	}
 	
-	public String []info ;
+	public LinkedList<String> info;
 	public String title = ""; 
 	
 	public Iterator iterator() {
@@ -27,11 +31,9 @@ public class VRWorldInfo extends VRNode{
 				break;
 			String s=parser.st.sval;
 			parser.print(s);
-			/*if (s.equals("center"))			center=parser.readVector3f();
-			else if (s.equals("range"))		range=FloatArray.read(parser);
-			else if (s.equals("level"))		level=parser.readNodes(this);*/
+			if (s.equals("title"))			title=parser.readString('"');
+			else if (s.equals("info"))		info=parser.readStrings('"');
 		}
 		return this;	
-	}
-	
+	}	
 }

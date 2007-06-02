@@ -12,7 +12,7 @@ public class VRDShape extends VRShape implements IDrawable{
 	public void draw(DisplayOptions dispOpt) {		
 		if (geometry!=null){
 			if (appearance!=null){
-				//DrawableHelper.setObjectPropertiesFromMaterial(dispOpt.gl, appearance.material);
+				DrawableHelper.setObjectPropertiesFromMaterial(dispOpt.gl, appearance.material);
 			}
 			dispOpt.gl.glPushMatrix();
 			((IDrawable)geometry).draw(dispOpt);

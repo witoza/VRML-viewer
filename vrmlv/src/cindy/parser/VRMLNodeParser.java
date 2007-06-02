@@ -19,6 +19,7 @@ import cindy.parser.nodes.VRCoordinate;
 import cindy.parser.nodes.VRCylinder;
 import cindy.parser.nodes.VRDirectionalLight;
 import cindy.parser.nodes.VRGroup;
+import cindy.parser.nodes.VRImageTexture;
 import cindy.parser.nodes.VRIndexedFaceSet;
 import cindy.parser.nodes.VRIndexedLineSet;
 import cindy.parser.nodes.VRLOD;
@@ -71,8 +72,9 @@ public class VRMLNodeParser{
 		 if (s.equals(VRWorldInfo.VRNODENAME))		return nodeFactory.createWorldInfo();
 		 if (s.equals(VRDirectionalLight.VRNODENAME))	return nodeFactory.createDirectionalLight();		 
 		 if (s.equals(VRTextureCoordinate.VRNODENAME))	return nodeFactory.createTextureCoordinate();
-		 if (s.equals(VRPointLight.VRNODENAME))		return nodeFactory.createPointLight();
-		 if (s.equals(VRSpotLight.VRNODENAME))		return nodeFactory.createSpotLight();
+		 if (s.equals(VRPointLight.VRNODENAME))			return nodeFactory.createPointLight();
+		 if (s.equals(VRSpotLight.VRNODENAME))			return nodeFactory.createSpotLight();
+		 if (s.equals(VRImageTexture.VRNODENAME))		return nodeFactory.createImageTexture();
 		 
 		 return null;
 	}
@@ -132,7 +134,7 @@ public class VRMLNodeParser{
 	public String readString(char quoteChar) throws IOException{
 		st.quoteChar(quoteChar);
 		String text=readString();
-		print(quoteChar+text+quoteChar);
+		print(text);
 		st.quoteChar((char)0);
 		return text;		
 	}

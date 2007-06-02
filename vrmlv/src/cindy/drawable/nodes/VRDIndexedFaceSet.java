@@ -17,7 +17,6 @@ import cindy.parser.nodes.VRShape;
 public class VRDIndexedFaceSet extends VRIndexedFaceSet implements IDrawable{
 
 	private static Logger _LOG = Logger.getLogger(VRDIndexedFaceSet.class);
-
 	
 	public void draw(DisplayOptions dispOpt) {
 		if (getNodeSettings().drawBBox){
@@ -25,6 +24,7 @@ public class VRDIndexedFaceSet extends VRIndexedFaceSet implements IDrawable{
 		}
 		if (ns.rendMode == -1) return;
 		GL gl = dispOpt.gl;
+		
 		gl.glLineWidth(ns.lineWidth);
 		gl.glShadeModel(ns.shadeModel);
 		gl.glPolygonMode(GL.GL_FRONT_AND_BACK, ns.rendMode);
@@ -32,7 +32,9 @@ public class VRDIndexedFaceSet extends VRIndexedFaceSet implements IDrawable{
 		VRMaterial mat = null;
 		if (((VRShape)parent).appearance!=null){
 			mat = ((VRShape)parent).appearance.material;
-		}	
+		}
+		
+		
 		gl.glEnable(GL.GL_NORMALIZE);				
 		Vector3f[] ver=null;
 		if (coord!=null){

@@ -94,7 +94,7 @@ public class Matrix4f{
 		B[3]=0;		B[7]=0;		B[11]=0;	B[15]=1;
 	}
 	
-	void RotateX(float a){
+	public void RotateX(float a){
 		T[0]=1;			T[4]=0;			T[8]=0;		 	T[12]=0;
 		T[1]=0;			T[5]=cosf(a);	T[9]=-sinf(a);	T[13]=0;
 		T[2]=0;			T[6]=sinf(a);	T[10]=cosf(a);	T[14]=0;
@@ -102,7 +102,7 @@ public class Matrix4f{
 		multiply();
 	}
 	
-	void RotateY(float a){
+	public void RotateY(float a){
 		T[0]=cosf(a);	T[4]=0;			T[8]=sinf(a);	T[12]=0;
 		T[1]=0;			T[5]=1;			T[9]=0;			T[13]=0;
 		T[2]=-sinf(a);	T[6]=0;			T[10]=cosf(a);	T[14]=0;
@@ -110,7 +110,7 @@ public class Matrix4f{
 		multiply();
 	}
 	
-	void RotateZ(float a){
+	public void RotateZ(float a){
 		T[0]=cosf(a);	T[4]=-sinf(a);	T[8]=0;		T[12]=0;
 		T[1]=sinf(a);	T[5]=cosf(a);	T[9]=0;		T[13]=0;
 		T[2]=0;			T[6]=0;			T[10]=1;	T[14]=0;

@@ -192,7 +192,13 @@ public class VRMLRenderer implements GLEventListener, MouseListener, MouseMotion
     	gl.glClearDepth(1.0f);
     	gl.glDepthFunc(GL.GL_LEQUAL);
     	gl.glEnable(GL.GL_DEPTH_TEST);
-    	gl.glHint(GL.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST);    	    	
+    	gl.glHint(GL.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST);
+    	
+    	//gl.glEnable(GL.GL_LIGHTING);
+    	gl.glEnable(GL.GL_LIGHT0);
+    	gl.glEnable(GL.GL_COLOR_MATERIAL);
+		gl.glDisable(GL.GL_CULL_FACE);
+    	
     	_LOG.info("-------------------------------------------------------\n");
     	inited = true;
     }
@@ -239,7 +245,7 @@ public class VRMLRenderer implements GLEventListener, MouseListener, MouseMotion
 		glu.gluLookAt(0, 0, 10, 0, 0, 0, 0, 1, 0);
 		
 		
-	
+	gl.glPushMatrix();
 			gl.glTranslatef(arcBallPos.x,arcBallPos.y,arcBallPos.z);	
 			
 			float[] M={
@@ -251,16 +257,19 @@ public class VRMLRenderer implements GLEventListener, MouseListener, MouseMotion
 		    gl.glMultMatrixf(M,0);
 		    
 		    
-			
+	/*		
 			gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL.GL_LINE);
 			GLUquadric quadric = glu.gluNewQuadric();
 			glu.gluSphere(quadric, 0.2, 6, 6);
-	
+	*/
 	    	if (model!=null){
 				gl.glInitNames();
 				((IDrawable)model.getMainGroup()).draw(displayOptions);
 				
 			}
+	    	
+	    	gl.glPopMatrix();
+	    	
 
     }
                      

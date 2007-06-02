@@ -1,6 +1,7 @@
 package cindy.drawable.nodes;
 
 import cindy.drawable.DisplayOptions;
+import cindy.drawable.DrawableHelper;
 import cindy.drawable.IDrawable;
 import cindy.drawable.NodeSettings;
 import cindy.parser.VRNode;
@@ -10,7 +11,12 @@ public class VRDShape extends VRShape implements IDrawable{
 
 	public void draw(DisplayOptions dispOpt) {		
 		if (geometry!=null){
+			if (appearance!=null){
+				//DrawableHelper.setObjectPropertiesFromMaterial(dispOpt.gl, appearance.material);
+			}
+			dispOpt.gl.glPushMatrix();
 			((IDrawable)geometry).draw(dispOpt);
+			dispOpt.gl.glPopMatrix();
 		}
 	}
 	

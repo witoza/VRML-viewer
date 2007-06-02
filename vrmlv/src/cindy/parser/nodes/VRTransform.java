@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import javax.vecmath.Vector3f;
 import javax.vecmath.Vector4f;
 
+import cindy.core.Matrix4f;
 import cindy.parser.VRMLDefaultTreeDFSIterator;
 import cindy.parser.VRMLNodeParser;
 import cindy.parser.VRNode;
@@ -24,13 +25,17 @@ public class VRTransform extends VRNode{
 	 * @return Transformation Matrix 
 	 */
 	public cindy.core.Matrix4f getTransformMatrix(){
+		
+		
+		
+		
 		cindy.core.Matrix4f m = new cindy.core.Matrix4f();	
 		m.LoadIdent();
 		m.Translate(-center.x,-center.y,-center.z);
 		m.Rotate(-scaleOrientation.w*180/(float)Math.PI,scaleOrientation.x,scaleOrientation.y,scaleOrientation.z);
 		m.Scale(scale.x,scale.y,scale.z);
 		m.Rotate(scaleOrientation.w*180/(float)Math.PI,scaleOrientation.x,scaleOrientation.y,scaleOrientation.z);
-		m.Rotate(rotation.w*180/(float)Math.PI,rotation.x,rotation.y,rotation.z);
+		m.Rotate(rotation.w*180.0f/(float)Math.PI,rotation.x,rotation.y,rotation.z);
 		m.Translate(center.x,center.y,center.z);
 		m.Translate(translation.x,translation.y,translation.z);
 		return m;

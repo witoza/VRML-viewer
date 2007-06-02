@@ -37,7 +37,10 @@ public class VRImageTexture extends VRNode{
 				break;
 			String s=parser.st.sval;
 			parser.print(s);
-			if (s.equals("url"))			url=parser.readStrings('"');
+			if (s.equals("url")){
+				url = parser.readStrings('"');
+				parser.parent.addPixmap(url.element());				
+			}
 			else if (s.equals("repeatS"))	repeatS=parser.readBoolean();
 			else if (s.equals("repeatT"))	repeatS=parser.readBoolean();
 		}

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StreamTokenizer;
+import java.util.LinkedList;
 
 import org.apache.log4j.Logger;
 
@@ -13,9 +14,16 @@ import cindy.parser.nodes.VRGroup;
 
 public class VRMLModel{
 	
-	private static Logger logger = Logger.getLogger(VRMLModel.class);
+	private static Logger _LOG = Logger.getLogger(VRMLModel.class);
 	
-	private VRGroup mainGroup;
+	protected VRGroup mainGroup;	
+	
+	protected LinkedList<String> fileNameToRead = new LinkedList<String>();
+	
+	public void addPixmap(String fileName){
+		_LOG.info("pixmap: " + fileName);
+		fileNameToRead.add(fileName);
+	}
 	
 	public VRGroup getMainGroup(){
 		return mainGroup;
@@ -40,14 +48,14 @@ public class VRMLModel{
 		st.ordinaryChar(']');
 		st.ordinaryChar('{');
 		st.ordinaryChar('}');
-		logger.info("model reading: starded");
+		_LOG.info("model reading: starded");
 		VRMLNodeParser parser = new VRMLNodeParser(this, nf);
 		parser.setTokenizer(st);
 		mainGroup = (VRGroup)nf.createGroup();
 		mainGroup.name = "VRML WORLD";
 		mainGroup.children = parser.readNodeList(mainGroup);
 		fin.close();
-		logger.info("model reading: finished");						
-		logger.info("---------------------------------------------------------------------");
+		_LOG.info("model reading: finished");						
+		_LOG.info("---------------------------------------------------------------------");
 	}
 }

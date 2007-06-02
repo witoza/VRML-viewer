@@ -11,6 +11,7 @@ import cindy.parser.nodes.VRIndexedFaceSet;
 import cindy.parser.nodes.VRIndexedLineSet;
 import cindy.parser.nodes.VRLOD;
 import cindy.parser.nodes.VRMaterial;
+import cindy.parser.nodes.VRNormal;
 import cindy.parser.nodes.VRPointSet;
 import cindy.parser.nodes.VRShape;
 import cindy.parser.nodes.VRSphere;
@@ -100,5 +101,9 @@ public class VRNodeFactory implements VRMLNodeFactory{
 
 	public VRNode createTextureCoordinate() {
 		return new VRTextureCoordinate();
+	}
+
+	public VRNode createNormal() {
+		return new VRNormal();
 	}	
 }

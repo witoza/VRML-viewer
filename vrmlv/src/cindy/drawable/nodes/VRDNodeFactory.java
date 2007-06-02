@@ -85,5 +85,9 @@ public class VRDNodeFactory implements VRMLNodeFactory{
 
 	public VRNode createTextureCoordinate() {
 		return new VRDTextureCoordinate();
+	}
+
+	public VRNode createNormal() {
+		return new VRDNormal();
 	}	
 }

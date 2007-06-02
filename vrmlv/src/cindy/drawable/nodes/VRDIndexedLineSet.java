@@ -29,7 +29,7 @@ public class VRDIndexedLineSet extends VRIndexedLineSet implements IDrawable{
 		gl.glShadeModel(ns.shadeModel);
 		gl.glPolygonMode(GL.GL_FRONT_AND_BACK, ns.rendMode);
 		gl.glPushName(dispOpt.pickingOptions.add(this));	
-			
+		gl.glDisable(GL.GL_LIGHTING);
 		VRMaterial mat = null;
 		if (((VRShape)parent).appearance!=null){
 			mat = ((VRShape)parent).appearance.material;
@@ -96,6 +96,7 @@ public class VRDIndexedLineSet extends VRIndexedLineSet implements IDrawable{
 			}
 		}
 		gl.glPopName();
+		gl.glEnable(GL.GL_LIGHTING);
 	}
 
 	public int numOfDrawableChildren() {

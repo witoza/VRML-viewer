@@ -17,9 +17,9 @@ public class DrawableHelper {
 	
 	public static void putNormal(GL gl, Vector3f poly[]){
 		Vector3f vVector1=new Vector3f();
-		vVector1.x=poly[0].x-poly[2].x;
-		vVector1.y=poly[0].y-poly[2].y;
-		vVector1.z=poly[0].z-poly[2].z;
+		vVector1.x=poly[2].x-poly[0].x;
+		vVector1.y=poly[2].y-poly[0].y;
+		vVector1.z=poly[2].z-poly[0].z;
 		
 		Vector3f vVector2=new Vector3f();
 		vVector2.x=poly[1].x-poly[0].x;
@@ -29,8 +29,7 @@ public class DrawableHelper {
 		Vector3f vNormal=new Vector3f();
 		vNormal.cross(vVector1,vVector2);
 		vNormal.normalize();
-		gl.glNormal3f(vNormal.x,vNormal.y,vNormal.z);
-		
+		gl.glNormal3f(vNormal.x,vNormal.y,vNormal.z);		
 	}
 		
 	

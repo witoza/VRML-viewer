@@ -1,0 +1,33 @@
+#VRML V2.0 utf8
+Transform { children [
+  Transform {
+    translation 0 2.0 0      # sit on top of other Cone
+    children Transform {
+      translation 0 -1 0
+      children Shape {
+        geometry Cone { bottomRadius 2 height 1 }
+        appearance Appearance {
+          material Material { diffuseColor 1 1 1 }
+        }
+      }
+    }
+  }
+  Transform {
+    translation 0 1 0         # sit on y=0
+    children Transform {
+      translation 0 -1 0
+      children Shape {
+        geometry Cone {
+          bottomRadius 2 height 4 bottom FALSE
+        }
+        appearance Appearance {
+          material Material { diffuseColor 1.0 1.0 1.0 }
+          texture ImageTexture { url "c:\marble2.bmp" }
+        }
+      }
+    }
+  }
+  DirectionalLight { direction -.5 -0.5 .6 }
+  Background { skyColor 1 1 1 }
+  NavigationInfo { type "EXAMINE" }
+]}

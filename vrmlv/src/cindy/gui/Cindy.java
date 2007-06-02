@@ -47,6 +47,7 @@ import cindy.drawable.NodeSettings;
 import cindy.drawable.nodes.VRDNodeFactory;
 import cindy.parser.VRMLModel;
 import cindy.parser.VRNode;
+import cindy.parser.nodes.VRWorldInfo;
 
 public class Cindy extends JFrame implements IParentListener{
 	
@@ -59,7 +60,9 @@ public class Cindy extends JFrame implements IParentListener{
 	private boolean exited = false;
 	
 	private boolean showBoundingBox = true;
-	private JCheckBox showBBox = new JCheckBox("Show bounding box", showBoundingBox);
+	private boolean secondArcballMode = false;
+	private JCheckBox showBBoxcb = new JCheckBox("Show bounding box", showBoundingBox);
+	
 
 	// need to be called when app exits
 	public synchronized void shutdown() {
@@ -141,7 +144,7 @@ public class Cindy extends JFrame implements IParentListener{
 		while(iter.hasNext()){	
 			VRNode obj=(VRNode)iter.next();		
 			if (obj.name==null)
-				sb.append("<nonamed>; ");
+				sb.append(obj.getNodeInternalName()+"; ");
 			else
 				sb.append("" + obj.name+"; ");
 		}
@@ -193,7 +196,7 @@ public class Cindy extends JFrame implements IParentListener{
 		if (renderer.getSelectedNodes().selectedNodes.isEmpty()){
 			return -1;
 		}
-		int flag = 0;	    	
+		int flag = -1;	    	
     	for (IDrawable node : renderer.getSelectedNodes().selectedNodes){
     		Iterator iter = ((VRNode)node).iterator();
     		while(iter.hasNext()){
@@ -219,13 +222,15 @@ public class Cindy extends JFrame implements IParentListener{
 	public Cindy(final String inputWRL){
 		super(appName);
 		
-		showBBox.addActionListener(new ActionListener(){
+		showBBoxcb.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {				
 				showBoundingBox = ((JCheckBox)e.getSource()).isSelected();
 				_LOG.info("showBoundingBox = "+showBoundingBox);
 				setBBoxVisibilityInNodes();
 			}			
 		});
+		
+		
 		
 		LoggerHelper.initializeLoggingFacility();
 		Object ob[] = NativesHelper.checkNativeFiles();
@@ -266,9 +271,17 @@ public class Cindy extends JFrame implements IParentListener{
 				TreePath[] paths = ((JTree)e.getSource()).getSelectionPaths();
 				if (paths!=null){
 					for (int i=0; i!=paths.length; i++){
-						Object obj = paths[i].getLastPathComponent();
-						_LOG.info(""+obj.toString());
+						Object obj = paths[i].getLastPathComponent();						
 						IDrawable node = (IDrawable)obj;
+						if (node instanceof VRWorldInfo){
+							_LOG.info("[World info:");
+							
+							_LOG.info("title: " +  ((VRWorldInfo)node).title);
+							for (String s: ((VRWorldInfo)node).info){
+								_LOG.info("info: " + s);
+							}
+							_LOG.info("]");
+						}
 						
 						if (e.isControlDown()){
 							renderer.getSelectedNodes().addAnotherNode(node);							
@@ -396,12 +409,11 @@ public class Cindy extends JFrame implements IParentListener{
 		
 		nodeSettingsPanel.add(renderingMode);
 		JPanel tmp1 = new JPanel(new BorderLayout());
-		//tmp1.add(showBoundingBoxes);
+		tmp1.add(showBBoxcb);
 		nodeSettingsPanel.add(tmp1);
 		JPanel tmpP = new JPanel(new BorderLayout());
 		tmpP.add(nodeSettingsPanel, BorderLayout.CENTER);
 		tmpP.add(resetPos, BorderLayout.NORTH);		
-		tmpP.add(showBBox, BorderLayout.SOUTH);
 		leftPanel.add(tmpP, BorderLayout.NORTH);
 		
 		leftPanel.add(objectsChangePanel, BorderLayout.CENTER);
@@ -416,7 +428,8 @@ public class Cindy extends JFrame implements IParentListener{
 			public void run(){
 				//String inputWRL = "c:\\__vrml\\2006_01_16\\problem1\\problem1.wrl";
 				String s = inputWRL;
-				 s = "C:\\__vrml\\2006_01_16\\coil_2.wrl"; 
+				 //s = "C:\\__vrml\\2006_01_16\\coil_2.wrl";
+				s = "C:\\__vrml\\dummy.wrl";
 				//outputWRL = "C:\\__vrml\\2006_01_16\\CT_res_2.wrl";
 				if (s != null) {
 					//_LOG.info("input file: " + inputWRL);

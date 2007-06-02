@@ -9,7 +9,10 @@ import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
+import javax.media.opengl.glu.GLUquadric;
 import javax.swing.SwingUtilities;
+import javax.vecmath.Matrix4d;
+import javax.vecmath.Matrix4f;
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 import javax.vecmath.Vector4f;
@@ -208,6 +211,8 @@ public class VRMLRenderer implements GLEventListener, MouseListener, MouseMotion
     	arcBall.setBounds((float) width, (float) height);
     }   
     
+    public boolean secondArcballMode=false;
+    
     public synchronized void shutdown(){
     	shutdowned = true;
     	_LOG.info("renderer ask to stop thread");
@@ -215,17 +220,48 @@ public class VRMLRenderer implements GLEventListener, MouseListener, MouseMotion
     
     public void resetPos(){
     	clearArcBall();
+    }   
+    
+    float[] getFormMatrix(javax.vecmath.Matrix4f transform){
+    	float[] M={
+				transform.m00,transform.m10,transform.m20,transform.m30,
+				transform.m01,transform.m11,transform.m21,transform.m31,
+				transform.m02,transform.m12,transform.m22,transform.m32,
+				transform.m03,transform.m13,transform.m23,transform.m33
+		};
+    	return M;
     }
+ 
     
     void drawModel(){
     	gl.glMatrixMode(GL.GL_MODELVIEW);
 		gl.glLoadIdentity();
 		glu.gluLookAt(0, 0, 10, 0, 0, 0, 0, 1, 0);
-		updateArcBallPos(gl);
-		gl.glInitNames();
-    	if (model!=null){			
-			((IDrawable)model.getMainGroup()).draw(displayOptions);
-		}
+		
+		
+	
+			gl.glTranslatef(arcBallPos.x,arcBallPos.y,arcBallPos.z);	
+			
+			float[] M={
+					transform.m00,transform.m10,transform.m20,transform.m30,
+					transform.m01,transform.m11,transform.m21,transform.m31,
+					transform.m02,transform.m12,transform.m22,transform.m32,
+					transform.m03,transform.m13,transform.m23,transform.m33
+			};
+		    gl.glMultMatrixf(M,0);
+		    
+		    
+			
+			gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL.GL_LINE);
+			GLUquadric quadric = glu.gluNewQuadric();
+			glu.gluSphere(quadric, 0.2, 6, 6);
+	
+	    	if (model!=null){
+				gl.glInitNames();
+				((IDrawable)model.getMainGroup()).draw(displayOptions);
+				
+			}
+
     }
                      
 	public void display(GLAutoDrawable drawable) {
@@ -360,8 +396,10 @@ public class VRMLRenderer implements GLEventListener, MouseListener, MouseMotion
 			
 			float dx=-(lastMouseX-e.getX())/200.0f;
 			float dy=(lastMouseY-e.getY())/200.0f;
+			
 			arcBallPos.x+=dx;
 			arcBallPos.y+=dy;
+			
 			
 			lastMouseX=e.getX();
 			lastMouseY=e.getY();

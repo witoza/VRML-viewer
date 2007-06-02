@@ -107,7 +107,7 @@ public class VRMLNodeParser{
 	
 	private LinkedList<String> readStringList(char quoteChar) throws IOException{
 		LinkedList<String> ll = new LinkedList<String>();
-		
+		st.quoteChar(quoteChar);
 		while(st.nextToken()!=StreamTokenizer.TT_EOF){
 			char zn=(char)st.ttype;
 			
@@ -117,6 +117,7 @@ public class VRMLNodeParser{
 			ll.add(st.sval);
 			print(quoteChar+st.sval+quoteChar);
 		}
+		st.quoteChar((char)0);
 		return ll;
 	}	
 	
@@ -246,9 +247,16 @@ public class VRMLNodeParser{
 					//st.nextToken();	//name
 					n--;
 					nd = null;
-					//print("... NULL");
-					n++;
-				}else{
+					print("... NULL");
+					n++;					
+				}
+				else if (s.equals("ROUTE")) {
+					st.nextToken();	//name
+					st.nextToken();	//from
+					st.nextToken();	//to	
+					print("... skipping route");
+				}
+				else{
 					skip('{','}');
 					n--;
 					print("... skipping");

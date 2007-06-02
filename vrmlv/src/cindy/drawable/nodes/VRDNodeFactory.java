@@ -89,5 +89,13 @@ public class VRDNodeFactory implements VRMLNodeFactory{
 
 	public VRNode createNormal() {
 		return new VRDNormal();
+	}
+
+	public VRNode createPointLight() {
+		return new VRDPointLight();
+	}
+
+	public VRNode createSpotLight() {
+		return new VRDSpotLight();
 	}	
 }

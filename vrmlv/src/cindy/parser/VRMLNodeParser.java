@@ -23,9 +23,11 @@ import cindy.parser.nodes.VRIndexedFaceSet;
 import cindy.parser.nodes.VRIndexedLineSet;
 import cindy.parser.nodes.VRLOD;
 import cindy.parser.nodes.VRMaterial;
+import cindy.parser.nodes.VRPointLight;
 import cindy.parser.nodes.VRPointSet;
 import cindy.parser.nodes.VRShape;
 import cindy.parser.nodes.VRSphere;
+import cindy.parser.nodes.VRSpotLight;
 import cindy.parser.nodes.VRText;
 import cindy.parser.nodes.VRTextureCoordinate;
 import cindy.parser.nodes.VRTransform;
@@ -48,6 +50,7 @@ public class VRMLNodeParser{
 	public HashMap<String, VRNode> strToRef = new HashMap<String, VRNode>();
 	
 	private VRNode createNode(String s){
+		
 		 if (s.equals(VRTransform.VRNODENAME))		return nodeFactory.createTransform();
 		 if (s.equals(VRShape.VRNODENAME))			return nodeFactory.createShape();
 		 if (s.equals(VRViewpoint.VRNODENAME))		return nodeFactory.createViewpoint();
@@ -68,6 +71,9 @@ public class VRMLNodeParser{
 		 if (s.equals(VRWorldInfo.VRNODENAME))		return nodeFactory.createWorldInfo();
 		 if (s.equals(VRDirectionalLight.VRNODENAME))	return nodeFactory.createDirectionalLight();		 
 		 if (s.equals(VRTextureCoordinate.VRNODENAME))	return nodeFactory.createTextureCoordinate();
+		 if (s.equals(VRPointLight.VRNODENAME))		return nodeFactory.createPointLight();
+		 if (s.equals(VRSpotLight.VRNODENAME))		return nodeFactory.createSpotLight();
+		 
 		 return null;
 	}
 	

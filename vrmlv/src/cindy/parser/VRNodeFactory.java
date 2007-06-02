@@ -12,9 +12,11 @@ import cindy.parser.nodes.VRIndexedLineSet;
 import cindy.parser.nodes.VRLOD;
 import cindy.parser.nodes.VRMaterial;
 import cindy.parser.nodes.VRNormal;
+import cindy.parser.nodes.VRPointLight;
 import cindy.parser.nodes.VRPointSet;
 import cindy.parser.nodes.VRShape;
 import cindy.parser.nodes.VRSphere;
+import cindy.parser.nodes.VRSpotLight;
 import cindy.parser.nodes.VRText;
 import cindy.parser.nodes.VRTextureCoordinate;
 import cindy.parser.nodes.VRTransform;
@@ -105,5 +107,13 @@ public class VRNodeFactory implements VRMLNodeFactory{
 
 	public VRNode createNormal() {
 		return new VRNormal();
+	}
+
+	public VRNode createPointLight() {
+		return new VRPointLight();
+	}
+
+	public VRNode createSpotLight() {
+		return new VRSpotLight();
 	}	
 }

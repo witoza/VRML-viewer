@@ -8,7 +8,6 @@ import javax.vecmath.Vector3f;
 
 import org.apache.log4j.Logger;
 
-import cindy.drawable.nodes.VRDBox;
 import cindy.parser.VRMLDefaultTreeDFSIterator;
 import cindy.parser.VRMLNodeParser;
 import cindy.parser.VRNode;

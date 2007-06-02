@@ -429,8 +429,8 @@ public class Cindy extends JFrame implements IParentListener{
 			public void run(){
 				//String inputWRL = "c:\\__vrml\\2006_01_16\\problem1\\problem1.wrl";
 				String s = inputWRL;
-				 //s = "C:\\__vrml\\2006_01_16\\coil_2.wrl";
-				s = "C:\\__vrml\\4.wrl";
+				 s = "C:\\__vrml\\2006_01_16\\coil_2.wrl";
+				//s = "C:\\__vrml\\4.wrl";
 				//outputWRL = "C:\\__vrml\\2006_01_16\\CT_res_2.wrl";
 				if (s != null) {
 					//_LOG.info("input file: " + inputWRL);

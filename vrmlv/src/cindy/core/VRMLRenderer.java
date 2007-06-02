@@ -9,10 +9,7 @@ import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
-import javax.media.opengl.glu.GLUquadric;
 import javax.swing.SwingUtilities;
-import javax.vecmath.Matrix4d;
-import javax.vecmath.Matrix4f;
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 import javax.vecmath.Vector4f;
@@ -194,10 +191,15 @@ public class VRMLRenderer implements GLEventListener, MouseListener, MouseMotion
     	gl.glEnable(GL.GL_DEPTH_TEST);
     	gl.glHint(GL.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST);
     	
-    	//gl.glEnable(GL.GL_LIGHTING);
     	gl.glEnable(GL.GL_LIGHT0);
+    	gl.glEnable(GL.GL_LIGHTING);    	
     	gl.glEnable(GL.GL_COLOR_MATERIAL);
+    	
+    	gl.glFrontFace(GL.GL_CCW);
 		gl.glDisable(GL.GL_CULL_FACE);
+		
+				
+		//gl.glLightModeli(GL.GL_LIGHT_MODEL_TWO_SIDE,1);
     	
     	_LOG.info("-------------------------------------------------------\n");
     	inited = true;
@@ -269,8 +271,6 @@ public class VRMLRenderer implements GLEventListener, MouseListener, MouseMotion
 			}
 	    	
 	    	gl.glPopMatrix();
-	    	
-
     }
                      
 	public void display(GLAutoDrawable drawable) {

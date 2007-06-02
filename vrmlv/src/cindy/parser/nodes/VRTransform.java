@@ -8,7 +8,6 @@ import java.util.LinkedList;
 import javax.vecmath.Vector3f;
 import javax.vecmath.Vector4f;
 
-import cindy.core.Matrix4f;
 import cindy.parser.VRMLDefaultTreeDFSIterator;
 import cindy.parser.VRMLNodeParser;
 import cindy.parser.VRNode;

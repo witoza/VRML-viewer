@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 
 import cindy.core.BoundingBox;
 import cindy.drawable.DisplayOptions;
+import cindy.drawable.DrawableHelper;
 import cindy.drawable.IDrawable;
 import cindy.drawable.NodeSettings;
 import cindy.parser.VRNode;
@@ -33,8 +34,7 @@ public class VRDIndexedFaceSet extends VRIndexedFaceSet implements IDrawable{
 		if (((VRShape)parent).appearance!=null){
 			mat = ((VRShape)parent).appearance.material;
 		}
-		
-		
+				
 		gl.glEnable(GL.GL_NORMALIZE);				
 		Vector3f[] ver=null;
 		if (coord!=null){
@@ -58,7 +58,7 @@ public class VRDIndexedFaceSet extends VRIndexedFaceSet implements IDrawable{
 						poly[1]=ver[coordIndex[i+1]];
 						poly[2]=ver[coordIndex[i+0]];
 						
-						Vector3f vVector1=new Vector3f();
+						/*Vector3f vVector1=new Vector3f();
 						vVector1.x=poly[2].x-poly[0].x;
 						vVector1.y=poly[2].y-poly[0].y;
 						vVector1.z=poly[2].z-poly[0].z;
@@ -71,12 +71,14 @@ public class VRDIndexedFaceSet extends VRIndexedFaceSet implements IDrawable{
 						Vector3f vNormal=new Vector3f();
 						vNormal.cross(vVector1,vVector2);
 						vNormal.normalize();
+						*/
+						DrawableHelper.putNormal(gl, poly);
 									    	
 						
 						//TODO: check normals
 						indCol=colorIndex[i];
 						indVer=coordIndex[i];
-						gl.glNormal3f(vNormal.x,vNormal.y,vNormal.z);
+						//gl.glNormal3f(vNormal.x,vNormal.y,vNormal.z);
 						gl.glColor3f(col[indCol].x,col[indCol].y,col[indCol].z);
 						gl.glVertex3f(ver[indVer].x,ver[indVer].y,ver[indVer].z);
 						i++;

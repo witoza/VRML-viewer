@@ -35,8 +35,10 @@ public class DrawableHelper {
 	
 	//see: http://devernay.free.fr/cours/opengl/materials.html
 	static public void setObjectPropertiesFromMaterial(GL gl, VRMaterial mat){
+		
 		if (mat==null) return ;
 		gl.glEnable(GL.GL_COLOR_MATERIAL);
+		
 		gl.glColorMaterial(GL.GL_FRONT_AND_BACK, GL.GL_AMBIENT);
 		gl.glColorMaterial(GL.GL_FRONT_AND_BACK, GL.GL_EMISSION);
 		gl.glColorMaterial(GL.GL_FRONT_AND_BACK, GL.GL_DIFFUSE);

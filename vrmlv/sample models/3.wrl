@@ -1,0 +1,48 @@
+#VRML V2.0 utf8
+Group { children [
+  DEF C1 Shape {
+    appearance Appearance {
+      material DEF M1 Material {
+        diffuseColor 1 1 1
+        specularColor 1 1 1
+        shininess .9
+	}
+    
+    }
+    geometry Cylinder { radius 1  height 5.0 }
+  }
+
+  Transform {
+    translation 0 -2.5 0
+    children [ DEF C2 Shape {
+      appearance DEF A1 Appearance { material USE M1 }
+      geometry Cylinder { radius 1.5 height 0.5 } 
+    }]
+  }
+  Transform {
+    translation 0 1 0
+    rotation 0 0 1 1.571
+    scale 0.25 1.5 1
+    children [Shape {
+    appearance Appearance {
+      material DEF M1 Material {
+        diffuseColor 1 1 1
+        specularColor 1 1 1
+        shininess .9
+	}
+    
+    }
+    geometry Cylinder { radius 1  height 5.0 }
+  } ]
+  }
+  Transform {
+    translation 0 2.5 0
+    scale 0.75 0.5 0.75
+    children [ Shape {
+      appearance DEF A1 Appearance { material USE M1 }
+      geometry Cylinder { radius 1.5 height 0.5 } 
+    } ]
+  }
+  Background { skyColor 1 1 1 }
+  NavigationInfo { type "EXAMINE" }
+]}

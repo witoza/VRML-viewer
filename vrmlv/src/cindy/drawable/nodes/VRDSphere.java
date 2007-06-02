@@ -32,7 +32,8 @@ public class VRDSphere extends VRSphere implements IDrawable{
 		gl.glShadeModel(ns.shadeModel);
 		gl.glPolygonMode(GL.GL_FRONT_AND_BACK, ns.rendMode);
 		gl.glEnable(GL.GL_NORMALIZE);
-				
+		
+		gl.glDisable(GL.GL_COLOR_MATERIAL);
 		
 		gl.glPushName(dispOpt.pickingOptions.add(this));
 		

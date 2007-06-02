@@ -17,9 +17,9 @@ public class DrawableHelper {
 	
 	public static void putNormal(GL gl, Vector3f poly[]){
 		Vector3f vVector1=new Vector3f();
-		vVector1.x=poly[2].x-poly[0].x;
-		vVector1.y=poly[2].y-poly[0].y;
-		vVector1.z=poly[2].z-poly[0].z;
+		vVector1.x=poly[0].x-poly[2].x;
+		vVector1.y=poly[0].y-poly[2].y;
+		vVector1.z=poly[0].z-poly[2].z;
 		
 		Vector3f vVector2=new Vector3f();
 		vVector2.x=poly[1].x-poly[0].x;
@@ -30,6 +30,7 @@ public class DrawableHelper {
 		vNormal.cross(vVector1,vVector2);
 		vNormal.normalize();
 		gl.glNormal3f(vNormal.x,vNormal.y,vNormal.z);
+		
 	}
 		
 	
@@ -37,19 +38,11 @@ public class DrawableHelper {
 	static public void setObjectPropertiesFromMaterial(GL gl, VRMaterial mat){
 		
 		if (mat==null) return ;
-		gl.glEnable(GL.GL_COLOR_MATERIAL);
-		
-		gl.glColorMaterial(GL.GL_FRONT_AND_BACK, GL.GL_AMBIENT);
-		gl.glColorMaterial(GL.GL_FRONT_AND_BACK, GL.GL_EMISSION);
-		gl.glColorMaterial(GL.GL_FRONT_AND_BACK, GL.GL_DIFFUSE);
-		gl.glColorMaterial(GL.GL_FRONT_AND_BACK, GL.GL_EMISSION);
-		gl.glColorMaterial(GL.GL_FRONT_AND_BACK, GL.GL_SPECULAR);
-					
-		
 		
 		gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_DIFFUSE, toFloat4(mat.diffuseColor), 0);
-		gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_EMISSION, toFloat(mat.emissiveColor), 0);
-		gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_SPECULAR, toFloat(mat.specularColor), 0);
+		gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_EMISSION, toFloat4(mat.emissiveColor), 0);
+		gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_SPECULAR, toFloat4(mat.specularColor), 0);
 		gl.glMaterialf(GL.GL_FRONT_AND_BACK, GL.GL_SHININESS, mat.shininess * 128.0f);
+
 	}
 }

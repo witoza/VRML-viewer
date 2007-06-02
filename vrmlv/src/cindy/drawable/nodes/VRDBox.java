@@ -20,6 +20,7 @@ public class VRDBox extends VRBox implements IDrawable {
 	private NodeSettings ns;
 		
 	void putQuad(GL gl, Vector3f poly[]){		
+		
 		DrawableHelper.putNormal(gl,poly);
 		gl.glVertex3f(poly[0].x,poly[0].y,poly[0].z);
 		gl.glVertex3f(poly[1].x,poly[1].y,poly[1].z);
@@ -43,6 +44,8 @@ public class VRDBox extends VRBox implements IDrawable {
 		float halfy = size.y / 2;
 		float halfz = size.z / 2;
 
+		gl.glDisable(GL.GL_COLOR_MATERIAL);
+		
 		gl.glEnable(GL.GL_NORMALIZE);
 			gl.glBegin(GL.GL_QUADS);
 				gl.glColor3f(1.0f, 1.0f, 1.0f);
@@ -51,43 +54,37 @@ public class VRDBox extends VRBox implements IDrawable {
 				poly[0]=new Vector3f(halfx, halfy, -halfz);
 				poly[1]=new Vector3f(-halfx, halfy, -halfz);
 				poly[2]=new Vector3f(-halfx, halfy, halfz);
-				poly[3]=new Vector3f(halfx, halfy, halfz);
-							
+				poly[3]=new Vector3f(halfx, halfy, halfz);							
 				putQuad(gl,poly);
 							
 				poly[0]=new Vector3f(halfx, -halfy, halfz);
 				poly[1]=new Vector3f(-halfx, -halfy, halfz);
 				poly[2]=new Vector3f(-halfx, -halfy, -halfz);
-				poly[3]=new Vector3f(halfx, -halfy, -halfz);
-				
+				poly[3]=new Vector3f(halfx, -halfy, -halfz);				
 				putQuad(gl,poly);
 		
 				poly[0]=new Vector3f(halfx, halfy, halfz);
 				poly[1]=new Vector3f(-halfx, halfy, halfz);
 				poly[2]=new Vector3f(-halfx, -halfy, halfz);
-				poly[3]=new Vector3f(halfx, -halfy, halfz);
-				
+				poly[3]=new Vector3f(halfx, -halfy, halfz);				
 				putQuad(gl,poly);
 				
 				poly[0]=new Vector3f(halfx, -halfy, -halfz);
 				poly[1]=new Vector3f(-halfx, -halfy, -halfz);
 				poly[2]=new Vector3f(-halfx, halfy, -halfz);
-				poly[3]=new Vector3f(halfx, halfy, -halfz);
-				
+				poly[3]=new Vector3f(halfx, halfy, -halfz);				
 				putQuad(gl,poly);
 				
 				poly[0]=new Vector3f(-halfx, halfy, halfz);
 				poly[1]=new Vector3f(-halfx, halfy, -halfz);
 				poly[2]=new Vector3f(-halfx, -halfy, -halfz);
-				poly[3]=new Vector3f(-halfx, -halfy, halfz);
-				
+				poly[3]=new Vector3f(-halfx, -halfy, halfz);				
 				putQuad(gl,poly);
 	
 				poly[0]=new Vector3f(halfx, halfy, -halfz);
 				poly[1]=new Vector3f(halfx, halfy, halfz);
 				poly[2]=new Vector3f(halfx, -halfy, halfz);
-				poly[3]=new Vector3f(halfx, -halfy, -halfz);
-				
+				poly[3]=new Vector3f(halfx, -halfy, -halfz);				
 				putQuad(gl,poly);
 				
 			gl.glEnd();

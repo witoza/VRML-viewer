@@ -35,6 +35,9 @@ public class VRDIndexedFaceSet extends VRIndexedFaceSet implements IDrawable{
 			mat = ((VRShape)parent).appearance.material;
 		}
 				
+
+		gl.glEnable(GL.GL_COLOR_MATERIAL);
+
 		gl.glEnable(GL.GL_NORMALIZE);				
 		Vector3f[] ver=null;
 		if (coord!=null){
@@ -101,15 +104,15 @@ public class VRDIndexedFaceSet extends VRIndexedFaceSet implements IDrawable{
 					Vector3f[] poly=new Vector3f[3];
 					gl.glBegin(GL.GL_TRIANGLES);
 					int i=0;
-					Vector3f vVector1=new Vector3f();
+					/*Vector3f vVector1=new Vector3f();
 					Vector3f vVector2=new Vector3f();
-					Vector3f vNormal=new Vector3f();
+					Vector3f vNormal=new Vector3f();*/
 					while (i<coordIndex.length){
 						triangles++;
 						poly[0]=ver[coordIndex[i+2]];
 						poly[1]=ver[coordIndex[i+1]];
 						poly[2]=ver[coordIndex[i+0]];
-						
+						/*
 						vVector1.x=poly[2].x-poly[0].x;
 						vVector1.y=poly[2].y-poly[0].y;
 						vVector1.z=poly[2].z-poly[0].z;						
@@ -120,10 +123,11 @@ public class VRDIndexedFaceSet extends VRIndexedFaceSet implements IDrawable{
 												
 						vNormal.cross(vVector1,vVector2);
 						vNormal.normalize();
-						
+						*/
+						DrawableHelper.putNormal(gl, poly);
 						//TODO: check normals
 						indVer=coordIndex[i];
-						gl.glNormal3f(vNormal.x,vNormal.y,vNormal.z);
+						//gl.glNormal3f(vNormal.x,vNormal.y,vNormal.z);
 						gl.glColor3f(col[indVer].x,col[indVer].y,col[indVer].z);
 						gl.glVertex3f(ver[indVer].x,ver[indVer].y,ver[indVer].z);
 						i++;
@@ -158,7 +162,7 @@ public class VRDIndexedFaceSet extends VRIndexedFaceSet implements IDrawable{
 					poly[1]=ver[coordIndex[i+1]];
 					poly[2]=ver[coordIndex[i+0]];
 					
-					Vector3f vVector1=new Vector3f();
+					/*Vector3f vVector1=new Vector3f();
 					vVector1.x=poly[2].x-poly[0].x;
 					vVector1.y=poly[2].y-poly[0].y;
 					vVector1.z=poly[2].z-poly[0].z;
@@ -170,10 +174,12 @@ public class VRDIndexedFaceSet extends VRIndexedFaceSet implements IDrawable{
 					
 					Vector3f vNormal=new Vector3f();
 					vNormal.cross(vVector1,vVector2);
-					vNormal.normalize();
+					vNormal.normalize();*/
+					
+					DrawableHelper.putNormal(gl, poly);
 					
 					indVer=coordIndex[i];
-					gl.glNormal3f(vNormal.x,vNormal.y,vNormal.z);
+					//gl.glNormal3f(vNormal.x,vNormal.y,vNormal.z);
 					
 					gl.glVertex3f(ver[indVer].x,ver[indVer].y,ver[indVer].z);
 					i++;

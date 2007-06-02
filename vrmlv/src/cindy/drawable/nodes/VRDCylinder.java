@@ -22,6 +22,7 @@ public class VRDCylinder extends VRCylinder implements IDrawable{
 	
 	public void draw(DisplayOptions dispOpt) {
 		
+		
 		if (getNodeSettings().drawBBox) {
 			getNodeSettings().boundingBox.draw(dispOpt);
 		}
@@ -32,7 +33,9 @@ public class VRDCylinder extends VRCylinder implements IDrawable{
 		gl.glLineWidth(ns.lineWidth);
 		gl.glShadeModel(ns.shadeModel);
 		gl.glPolygonMode(GL.GL_FRONT_AND_BACK, ns.rendMode);
-		
+
+		gl.glDisable(GL.GL_COLOR_MATERIAL);
+
 		gl.glPushName(dispOpt.pickingOptions.add(this));	
 		
 			GLUquadric quadric = dispOpt.glu.gluNewQuadric();

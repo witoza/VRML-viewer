@@ -17,16 +17,13 @@ public class VRDirectionalLight extends VRNode{
 	public String getNodeInternalName(){
 		return VRNODENAME;
 	}
-	
-	
-	
+		
 	public float ambientIntensity = 0;
 	public Vector3f color = new Vector3f(1,1,1);
 	public Vector3f direction = new Vector3f(0,0,-1);
 	public float intensity = 1.0f;
 	public boolean on = true;
-	
-	
+		
 	public Iterator iterator() {
 		return new VRMLDefaultTreeDFSIterator(null,this);
 	}

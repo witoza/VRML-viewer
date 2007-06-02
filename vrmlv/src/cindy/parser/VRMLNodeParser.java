@@ -27,6 +27,7 @@ import cindy.parser.nodes.VRPointSet;
 import cindy.parser.nodes.VRShape;
 import cindy.parser.nodes.VRSphere;
 import cindy.parser.nodes.VRText;
+import cindy.parser.nodes.VRTextureCoordinate;
 import cindy.parser.nodes.VRTransform;
 import cindy.parser.nodes.VRViewpoint;
 import cindy.parser.nodes.VRWorldInfo;
@@ -65,7 +66,8 @@ public class VRMLNodeParser{
 		 if (s.equals(VRBox.VRNODENAME))			return nodeFactory.createBox();
 		 if (s.equals(VRCylinder.VRNODENAME))		return nodeFactory.createCylinder();
 		 if (s.equals(VRWorldInfo.VRNODENAME))		return nodeFactory.createWorldInfo();
-		 if (s.equals(VRDirectionalLight.VRNODENAME))	return nodeFactory.createDirectionalLight();
+		 if (s.equals(VRDirectionalLight.VRNODENAME))	return nodeFactory.createDirectionalLight();		 
+		 if (s.equals(VRTextureCoordinate.VRNODENAME))	return nodeFactory.createTextureCoordinate();
 		 return null;
 	}
 	

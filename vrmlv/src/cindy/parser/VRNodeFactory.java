@@ -15,6 +15,7 @@ import cindy.parser.nodes.VRPointSet;
 import cindy.parser.nodes.VRShape;
 import cindy.parser.nodes.VRSphere;
 import cindy.parser.nodes.VRText;
+import cindy.parser.nodes.VRTextureCoordinate;
 import cindy.parser.nodes.VRTransform;
 import cindy.parser.nodes.VRViewpoint;
 import cindy.parser.nodes.VRWorldInfo;
@@ -95,5 +96,9 @@ public class VRNodeFactory implements VRMLNodeFactory{
 
 	public VRNode createDirectionalLight() {
 		return new VRDirectionalLight();
+	}
+
+	public VRNode createTextureCoordinate() {
+		return new VRTextureCoordinate();
 	}	
 }

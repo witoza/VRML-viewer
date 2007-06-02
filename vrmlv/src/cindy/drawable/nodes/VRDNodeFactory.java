@@ -81,5 +81,9 @@ public class VRDNodeFactory implements VRMLNodeFactory{
 
 	public VRNode createDirectionalLight() {
 		return new VRDirectionalLight();
+	}
+
+	public VRNode createTextureCoordinate() {
+		return new VRDTextureCoordinate();
 	}	
 }

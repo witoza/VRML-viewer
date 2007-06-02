@@ -39,4 +39,6 @@ public interface VRMLNodeFactory {
 	public VRNode createWorldInfo();
 	
 	public VRNode createDirectionalLight(); 
+	
+	public VRNode createTextureCoordinate();
 }

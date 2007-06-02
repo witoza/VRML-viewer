@@ -21,8 +21,9 @@ public class VRIndexedLineSet extends VRNode{
 	public VRCoordinate	coord;
 	public VRCoordinate	color;
 	public int []		colorIndex;
-	public int []		coordIndex;
 	public boolean		colorPerVertex=true;
+	public int []		coordIndex;
+	
 	
 	public Iterator iterator(){
 		LinkedList args=new LinkedList();

@@ -44,6 +44,7 @@ import cindy.core.VRMLRenderer;
 import cindy.drawable.DisplayOptions;
 import cindy.drawable.IDrawable;
 import cindy.drawable.NodeSettings;
+import cindy.drawable.VRMLDrawableModel;
 import cindy.drawable.nodes.VRDNodeFactory;
 import cindy.parser.VRMLModel;
 import cindy.parser.VRNode;
@@ -90,7 +91,7 @@ public class Cindy extends JFrame implements IParentListener{
 	
 	private void readInFile(final String fileChosen){
 		_LOG.info("reading file: " + fileChosen);
-		final VRMLModel model = new VRMLModel();
+		final VRMLModel model = new VRMLDrawableModel();
 		try{
 			is = new ProgressMonitorInputStream(Cindy.this, "Reading file " + fileChosen, new FileInputStream(new File(fileChosen)));
 /*			SwingUtilities.invokeLater(new Runnable(){

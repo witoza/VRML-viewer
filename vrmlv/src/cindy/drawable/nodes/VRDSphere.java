@@ -1,7 +1,9 @@
 package cindy.drawable.nodes;
 
 import javax.media.opengl.GL;
+import javax.media.opengl.glu.GLU;
 import javax.media.opengl.glu.GLUquadric;
+import javax.vecmath.Vector3f;
 
 import org.apache.log4j.Logger;
 
@@ -11,8 +13,6 @@ import cindy.drawable.IDrawable;
 import cindy.drawable.NodeSettings;
 import cindy.parser.VRNode;
 import cindy.parser.nodes.VRSphere;
-
-//TODO: implement
 
 public class VRDSphere extends VRSphere implements IDrawable{
 
@@ -27,12 +27,22 @@ public class VRDSphere extends VRSphere implements IDrawable{
 		if (ns.rendMode == -1)
 			return;
 		GL gl = dispOpt.gl;
+		
 		gl.glLineWidth(ns.lineWidth);
 		gl.glShadeModel(ns.shadeModel);
 		gl.glPolygonMode(GL.GL_FRONT_AND_BACK, ns.rendMode);
+		gl.glEnable(GL.GL_NORMALIZE);
+				
 		
-		GLUquadric quadric = dispOpt.glu.gluNewQuadric();
-		dispOpt.glu.gluSphere(quadric, radius, 64, 64);
+		gl.glPushName(dispOpt.pickingOptions.add(this));
+		
+
+			GLUquadric quadric = dispOpt.glu.gluNewQuadric();			
+			gl.glColor3f(1,1,1);//TODO - diffuse color probably
+			dispOpt.glu.gluQuadricNormals(quadric, GLU.GLU_SMOOTH);
+			dispOpt.glu.gluSphere(quadric, radius, 12, 12);
+		
+		gl.glPopName();
 		
 	}
 
@@ -49,10 +59,8 @@ public class VRDSphere extends VRSphere implements IDrawable{
 			ns = new NodeSettings();
 			ns.boundingBox = new BoundingBox();
 			//compute bounding box
-/*			if (coord!=null){
-				for (int i=0; i!=coord.coord.length; i++){
-					ns.boundingBox.mix(coord.coord[i]);
-			} */
+			ns.boundingBox.mix(new Vector3f(radius,radius,radius));
+			ns.boundingBox.mix(new Vector3f(-radius,-radius,-radius));
 		}
 		return ns;
 	}

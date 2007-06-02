@@ -2,7 +2,6 @@ package cindy.drawable.nodes;
 
 import cindy.parser.VRMLNodeFactory;
 import cindy.parser.VRNode;
-import cindy.parser.nodes.VRDirectionalLight;
 
 public class VRDNodeFactory implements VRMLNodeFactory{
 
@@ -80,7 +79,7 @@ public class VRDNodeFactory implements VRMLNodeFactory{
 	}
 
 	public VRNode createDirectionalLight() {
-		return new VRDirectionalLight();
+		return new VRDDirectionalLight();
 	}
 
 	public VRNode createTextureCoordinate() {
@@ -97,5 +96,9 @@ public class VRDNodeFactory implements VRMLNodeFactory{
 
 	public VRNode createSpotLight() {
 		return new VRDSpotLight();
+	}
+
+	public VRNode createImageTexture() {
+		return new VRDImageTexture();
 	}	
 }

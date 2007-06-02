@@ -196,7 +196,7 @@ public class Cindy extends JFrame implements IParentListener{
 		if (renderer.getSelectedNodes().selectedNodes.isEmpty()){
 			return -1;
 		}
-		int flag = -1;	    	
+		int flag = 0;	    	
     	for (IDrawable node : renderer.getSelectedNodes().selectedNodes){
     		Iterator iter = ((VRNode)node).iterator();
     		while(iter.hasNext()){
@@ -429,7 +429,7 @@ public class Cindy extends JFrame implements IParentListener{
 				//String inputWRL = "c:\\__vrml\\2006_01_16\\problem1\\problem1.wrl";
 				String s = inputWRL;
 				 //s = "C:\\__vrml\\2006_01_16\\coil_2.wrl";
-				s = "C:\\__vrml\\dummy.wrl";
+				s = "C:\\__vrml\\4.wrl";
 				//outputWRL = "C:\\__vrml\\2006_01_16\\CT_res_2.wrl";
 				if (s != null) {
 					//_LOG.info("input file: " + inputWRL);

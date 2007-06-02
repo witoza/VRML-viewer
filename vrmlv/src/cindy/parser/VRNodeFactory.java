@@ -7,6 +7,7 @@ import cindy.parser.nodes.VRCoordinate;
 import cindy.parser.nodes.VRCylinder;
 import cindy.parser.nodes.VRDirectionalLight;
 import cindy.parser.nodes.VRGroup;
+import cindy.parser.nodes.VRImageTexture;
 import cindy.parser.nodes.VRIndexedFaceSet;
 import cindy.parser.nodes.VRIndexedLineSet;
 import cindy.parser.nodes.VRLOD;
@@ -115,5 +116,9 @@ public class VRNodeFactory implements VRMLNodeFactory{
 
 	public VRNode createSpotLight() {
 		return new VRSpotLight();
+	}
+
+	public VRNode createImageTexture() {
+		return new VRImageTexture();
 	}	
 }

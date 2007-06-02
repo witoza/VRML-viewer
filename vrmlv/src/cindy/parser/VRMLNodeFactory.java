@@ -25,4 +25,5 @@ public interface VRMLNodeFactory {
 	public VRNode createNormal();	
 	public VRNode createPointLight();	
 	public VRNode createSpotLight();
+	public VRNode createImageTexture();
 }

@@ -2,17 +2,17 @@ package cindy.drawable.nodes;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.glu.GLUquadric;
+import javax.vecmath.Vector3f;
 
 import org.apache.log4j.Logger;
 
 import cindy.core.BoundingBox;
+import cindy.core.Matrix4f;
 import cindy.drawable.DisplayOptions;
 import cindy.drawable.IDrawable;
 import cindy.drawable.NodeSettings;
 import cindy.parser.VRNode;
 import cindy.parser.nodes.VRCylinder;
-
-//TODO: implement
 
 public class VRDCylinder extends VRCylinder implements IDrawable{
 	
@@ -21,9 +21,11 @@ public class VRDCylinder extends VRCylinder implements IDrawable{
 	private NodeSettings ns;
 	
 	public void draw(DisplayOptions dispOpt) {
+		
 		if (getNodeSettings().drawBBox) {
 			getNodeSettings().boundingBox.draw(dispOpt);
 		}
+		
 		if (ns.rendMode == -1)
 			return;
 		GL gl = dispOpt.gl;
@@ -33,11 +35,14 @@ public class VRDCylinder extends VRCylinder implements IDrawable{
 		
 		gl.glPushName(dispOpt.pickingOptions.add(this));	
 		
-		GLUquadric quadric = dispOpt.glu.gluNewQuadric();
-		dispOpt.glu.gluCylinder(quadric, radius, radius, height, 64, 64);
+			GLUquadric quadric = dispOpt.glu.gluNewQuadric();
+			gl.glRotatef(270, 1, 0, 0);
+			gl.glTranslatef(0,0,-height/2);
+			
+			gl.glColor3f(1,1,1);
+			dispOpt.glu.gluCylinder(quadric, radius, radius, height, 12, 12);
 		
-		gl.glPopName();	
-		
+		gl.glPopName();		
 	}
 
 	public int numOfDrawableChildren() {
@@ -52,12 +57,18 @@ public class VRDCylinder extends VRCylinder implements IDrawable{
 		if (ns == null){
 			ns = new NodeSettings();
 			ns.boundingBox = new BoundingBox();
-			//compute bounding box
-/*			if (coord!=null){
-				for (int i=0; i!=coord.coord.length; i++){
-					ns.boundingBox.mix(coord.coord[i]);
-				}
-			} */
+			Vector3f v1 = new Vector3f(radius,radius,height);
+			Vector3f v2 = new Vector3f(-radius,-radius,0);
+			
+			Matrix4f m=new Matrix4f();
+			m.LoadIdent();
+			m.Translate(0,0,-height/2);
+			m.RotateX((float)(Math.PI/2.0f));
+			v1 = m.VMultiply(v1);
+			v2 = m.VMultiply(v2);
+			
+			ns.boundingBox.mix(v1);
+			ns.boundingBox.mix(v2);
 		}
 		return ns;
 	}

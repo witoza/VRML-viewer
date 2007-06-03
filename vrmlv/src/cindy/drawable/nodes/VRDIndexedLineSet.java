@@ -24,77 +24,119 @@ public class VRDIndexedLineSet extends VRIndexedLineSet implements IDrawable{
 			getNodeSettings().boundingBox.draw(dispOpt);
 		}
 		if (ns.rendMode == -1) return;
+		if (coordIndex==null){
+			return;
+		}
 		GL gl = dispOpt.gl;
 		gl.glLineWidth(ns.lineWidth);
 		gl.glShadeModel(ns.shadeModel);
 		gl.glPolygonMode(GL.GL_FRONT_AND_BACK, ns.rendMode);
 		gl.glPushName(dispOpt.pickingOptions.add(this));	
 		gl.glDisable(GL.GL_LIGHTING);
-		VRMaterial mat = null;
-		if (((VRShape)parent).appearance!=null){
-			mat = ((VRShape)parent).appearance.material;
-		}
-		if (coordIndex!=null){
-			Vector3f[] ver=coord.coord;
-			int 		indVer;
-			
-			if (color!=null){
-				Vector3f[]	col=color.coord;
-				int			indCol;
-				if (colorPerVertex){				
-					if (colorIndex!=null){
-						gl.glBegin(GL.GL_LINE_STRIP);					
-						for (int i=0; i!=coordIndex.length; i++){			
-							indVer = coordIndex[i];
-							indCol = colorIndex[i];
-							if (indVer==-1){
-								gl.glEnd();
-								gl.glBegin(GL.GL_LINE_STRIP);
-								continue;
-							}
-							gl.glColor3f( col[indCol].x, col[indCol].y, col[indCol].z);					
-							gl.glVertex3f(ver[indVer].x, ver[indVer].y, ver[indVer].z);
-						}
-						gl.glEnd();		
-					}else{
-						gl.glBegin(GL.GL_LINE_STRIP);
-						for (int i=0; i!=coordIndex.length; i++){			
-							indVer = coordIndex[i];
-							if (indVer==-1){
-								gl.glEnd();
-								gl.glBegin(GL.GL_LINE_STRIP);
-								continue;
-							}
-							gl.glColor3f (col[indVer].x,col[indVer].y,col[indVer].z);					
-							gl.glVertex3f(ver[indVer].x,ver[indVer].y,ver[indVer].z);					
-						}
-						gl.glEnd();		
-					}
-				}else{
-					throw new UnsupportedOperationException("unsuported path in draw for VRIndexedLineSet 1\n");
-				}
-			}else {
-				Vector3f	color=new Vector3f(1,1,1);
-				if (mat!=null)
-					color=mat.emissiveColor;
-				if (colorPerVertex){
-					gl.glBegin(GL.GL_LINE_STRIP);
+		gl.glDisable(GL.GL_COLOR_MATERIAL);
+
+		
+		if (color!=null && color.coord!=null){
+			if (!colorPerVertex){
+				
+				if (colorIndex!=null){
+					int c = 0;
+					Vector3f[]	col = color.coord;
+					Vector3f[] 	ver = coord.coord;
+					gl.glBegin(GL.GL_LINE_STRIP);					
 					for (int i=0; i!=coordIndex.length; i++){			
-						indVer = coordIndex[i];
+						int indVer = coordIndex[i];
+						int indCol = colorIndex[c];
+						if (indVer==-1){
+							gl.glEnd();
+							gl.glBegin(GL.GL_LINE_STRIP);
+							c++;
+							continue;
+						}
+						gl.glColor3f( col[indCol].x, col[indCol].y, col[indCol].z);					
+						gl.glVertex3f(ver[indVer].x, ver[indVer].y, ver[indVer].z);
+					}
+					gl.glEnd();
+				}else{
+					Vector3f[]	col = color.coord;
+					Vector3f[] 	ver = coord.coord;
+					gl.glBegin(GL.GL_LINE_STRIP);
+					int c = 0;
+					for (int i=0; i<coordIndex.length; i++){			
+						int indVer = coordIndex[i];
+						
+						if (indVer==-1){
+							gl.glEnd();
+							gl.glBegin(GL.GL_LINE_STRIP);
+							c++;
+							continue;
+						}
+						gl.glColor3f (col[c].x,col[c].y,col[c].z);					
+						gl.glVertex3f(ver[c].x,ver[c].y,ver[c].z);					
+					}
+					gl.glEnd();
+				}				
+				
+			}else{
+				if (colorIndex!=null){
+					Vector3f[]	col = color.coord;
+					Vector3f[] 	ver = coord.coord;
+					gl.glBegin(GL.GL_LINE_STRIP);					
+					for (int i=0; i!=coordIndex.length; i++){			
+						int indVer = coordIndex[i];
+						int indCol = colorIndex[i];
 						if (indVer==-1){
 							gl.glEnd();
 							gl.glBegin(GL.GL_LINE_STRIP);
 							continue;
 						}
-						gl.glColor3f (color.x,color.y,color.z);					
+						gl.glColor3f( col[indCol].x, col[indCol].y, col[indCol].z);					
+						gl.glVertex3f(ver[indVer].x, ver[indVer].y, ver[indVer].z);
+					}
+					gl.glEnd();
+				}else{
+					Vector3f[]	col = color.coord;
+					Vector3f[] 	ver = coord.coord;
+					gl.glBegin(GL.GL_LINE_STRIP);
+					for (int i=0; i<coordIndex.length; i++){			
+						int indVer = coordIndex[i];
+						if (indVer==-1){
+							gl.glEnd();
+							gl.glBegin(GL.GL_LINE_STRIP);
+							continue;
+						}
+						gl.glColor3f (col[indVer].x,col[indVer].y,col[indVer].z);					
 						gl.glVertex3f(ver[indVer].x,ver[indVer].y,ver[indVer].z);					
 					}
 					gl.glEnd();	
-				}else{
-					throw new UnsupportedOperationException("unsuported path in draw for VRIndexedLineSet 2\n");					
 				}
 			}
+		}else{
+			VRMaterial mat = null;
+			if (((VRShape)parent).appearance!=null){
+				mat = ((VRShape)parent).appearance.material;
+			}
+			Vector3f color=new Vector3f(1,1,1);
+			if (mat!=null){
+				color=mat.emissiveColor;
+			}
+			
+			Vector3f[] 	ver = coord.coord;
+			gl.glBegin(GL.GL_LINE_STRIP);
+			for (int i=0; i!=coordIndex.length; i++){			
+				int indVer = coordIndex[i];
+				if (indVer==-1){
+					gl.glEnd();
+					gl.glBegin(GL.GL_LINE_STRIP);
+					continue;
+				}
+				gl.glColor3f (color.x,color.y,color.z);					
+				gl.glVertex3f(ver[indVer].x,ver[indVer].y,ver[indVer].z);					
+			}
+			gl.glEnd();
+			
 		}
+		
 		gl.glPopName();
 		gl.glEnable(GL.GL_LIGHTING);
 	}

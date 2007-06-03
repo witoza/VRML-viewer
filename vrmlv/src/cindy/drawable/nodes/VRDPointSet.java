@@ -16,7 +16,7 @@ import cindy.parser.nodes.VRShape;
 
 public class VRDPointSet extends VRPointSet implements IDrawable{
 
-	private static Logger _LOG = Logger.getLogger(VRDIndexedLineSet.class);
+	private static Logger _LOG = Logger.getLogger(VRDPointSet.class);
 
 	public void draw(DisplayOptions dispOpt) {
 		if (getNodeSettings().drawBBox){
@@ -28,6 +28,11 @@ public class VRDPointSet extends VRPointSet implements IDrawable{
 		gl.glLineWidth(ns.lineWidth);
 		gl.glShadeModel(ns.shadeModel);
 		gl.glPolygonMode(GL.GL_FRONT_AND_BACK, ns.rendMode);
+		if (coord==null || coord.coord==null){
+			_LOG.debug("point set is empty");
+			return;			
+		}
+		
 		gl.glPushName(dispOpt.pickingOptions.add(this));	
 		
 	    Vector3f[]	ver=coord.coord;
@@ -40,7 +45,7 @@ public class VRDPointSet extends VRPointSet implements IDrawable{
 				gl.glVertex3f(ver[i].x,ver[i].y,ver[i].z);
 			}
 			gl.glEnd();
-		}else{
+		}else if (mat!=null){
 			Vector3f color=mat.emissiveColor;
 			gl.glBegin(GL.GL_POINTS);
 			for (int i=0; i!=ver.length; i++){

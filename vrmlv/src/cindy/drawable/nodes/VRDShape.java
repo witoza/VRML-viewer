@@ -9,15 +9,16 @@ import cindy.parser.nodes.VRShape;
 
 public class VRDShape extends VRShape implements IDrawable{
 
-	public void draw(DisplayOptions dispOpt) {		
-		if (geometry!=null){
-			if (appearance!=null){
-				DrawableHelper.setObjectPropertiesFromMaterial(dispOpt.gl, appearance.material);
-			}
+	public void draw(DisplayOptions dispOpt) {
+		if (geometry != null) {
+			DrawableHelper.setObjectPropertiesFromMaterial(dispOpt.gl, appearance.material);
+
 			dispOpt.gl.glPushMatrix();
-			((IDrawable)geometry).draw(dispOpt);
+			((IDrawable) geometry).draw(dispOpt);
 			dispOpt.gl.glPopMatrix();
 		}
+		
+
 	}
 	
 	public VRNode getNthChild(int n) {

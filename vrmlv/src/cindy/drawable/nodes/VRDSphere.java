@@ -31,15 +31,13 @@ public class VRDSphere extends VRSphere implements IDrawable{
 		gl.glLineWidth(ns.lineWidth);
 		gl.glShadeModel(ns.shadeModel);
 		gl.glPolygonMode(GL.GL_FRONT_AND_BACK, ns.rendMode);
-		gl.glEnable(GL.GL_NORMALIZE);
-		
+		gl.glEnable(GL.GL_NORMALIZE);		
 		gl.glDisable(GL.GL_COLOR_MATERIAL);
 		
-		gl.glPushName(dispOpt.pickingOptions.add(this));
-		
+		gl.glPushName(dispOpt.pickingOptions.add(this));		
 
 			GLUquadric quadric = dispOpt.glu.gluNewQuadric();			
-			gl.glColor3f(1,1,1);//TODO - diffuse color probably
+			gl.glColor3f(1,1,1);//TODO - diffuse color properly
 			dispOpt.glu.gluQuadricNormals(quadric, GLU.GLU_SMOOTH);
 			dispOpt.glu.gluSphere(quadric, radius, 12, 12);
 		

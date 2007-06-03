@@ -16,7 +16,7 @@ public class VRAppearance extends VRNode{
 		return VRNODENAME;
 	}
 	
-	public VRMaterial material;
+	public VRMaterial material = new VRMaterial();
 	public VRImageTexture texture;
 	
 	public Iterator iterator(){

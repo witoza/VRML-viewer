@@ -16,7 +16,7 @@ public class VRSphere extends VRNode{
 	}
 	
 	public float		radius=1.0f;
-	
+		
 	public Iterator iterator() {
 		return new VRMLDefaultTreeDFSIterator(null,this);
 	}

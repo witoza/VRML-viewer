@@ -185,8 +185,8 @@ public class VRMLRenderer implements GLEventListener, MouseListener, MouseMotion
     		drawable.addMouseListener(this);
       		drawable.addMouseMotionListener(this);
     	}
-      	gl.glClearColor(0.0f, 0.0f, 0.0f, 0.5f);
-    	gl.glClearDepth(1.0f);
+      	gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    	gl.glClearDepth(1);
     	gl.glDepthFunc(GL.GL_LEQUAL);
     	gl.glEnable(GL.GL_DEPTH_TEST);
     	gl.glHint(GL.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST);
@@ -197,9 +197,10 @@ public class VRMLRenderer implements GLEventListener, MouseListener, MouseMotion
     	
     	gl.glFrontFace(GL.GL_CCW);    	
 		gl.glDisable(GL.GL_CULL_FACE);
-	
-				
-		//.glLightModeli(GL.GL_LIGHT_MODEL_TWO_SIDE,2);
+		
+		gl.glColor3f(1,1,1);
+		gl.glColorMaterial(GL.GL_FRONT, GL.GL_AMBIENT_AND_DIFFUSE);			
+		gl.glLightModeli(GL.GL_LIGHT_MODEL_TWO_SIDE, GL.GL_TRUE);
     	
     	_LOG.info("-------------------------------------------------------\n");
     	inited = true;

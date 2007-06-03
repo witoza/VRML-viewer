@@ -16,7 +16,7 @@ public class VRShape extends VRNode{
 		return VRNODENAME;
 	}
 	
-	public VRAppearance		appearance;
+	public VRAppearance		appearance = new VRAppearance();
 	public VRNode			geometry;
 	
 	public Iterator iterator(){

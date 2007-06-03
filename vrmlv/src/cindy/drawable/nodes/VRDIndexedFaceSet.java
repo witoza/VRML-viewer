@@ -36,6 +36,11 @@ public class VRDIndexedFaceSet extends VRIndexedFaceSet implements IDrawable{
 		}
 				
 
+		if (ccw){
+			gl.glFrontFace(GL.GL_CCW);
+		}else{
+			gl.glFrontFace(GL.GL_CW);
+		}
 		gl.glEnable(GL.GL_COLOR_MATERIAL);
 
 		gl.glEnable(GL.GL_NORMALIZE);				

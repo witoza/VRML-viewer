@@ -229,6 +229,11 @@ public class VRMLNodeParser{
 			n--;
 			print("USE " + name);
 			nd = strToRef.get(name);
+			VRNode clone = nd.clone(nodeFactory);
+			if (clone!=null){				
+				nd = clone;
+				nd.parent = parent;
+			}
 			return nd;
 		}else
 			print(s);

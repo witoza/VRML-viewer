@@ -7,6 +7,7 @@ import javax.vecmath.Vector3f;
 
 import cindy.parser.CVector3fArray;
 import cindy.parser.VRMLDefaultTreeDFSIterator;
+import cindy.parser.VRMLNodeFactory;
 import cindy.parser.VRMLNodeParser;
 import cindy.parser.VRNode;
 
@@ -19,6 +20,12 @@ public class VRCoordinate extends VRNode{
 	
 	public Vector3f[]	coord;
 	
+	public VRNode clone(VRMLNodeFactory nf) {
+		VRCoordinate wc = (VRCoordinate)nf.createCoordinate();
+		wc.coord = coord;
+		return wc;
+	}
+	
 	public Iterator iterator(){
 		return new VRMLDefaultTreeDFSIterator(null,this);
 	}
@@ -29,5 +36,5 @@ public class VRCoordinate extends VRNode{
 		coord = CVector3fArray.read(parser);
 		parser.st.nextToken();//}
 		return this;
-	}
+	}	
 }

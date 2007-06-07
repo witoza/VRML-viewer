@@ -7,6 +7,7 @@ import java.util.Iterator;
 import javax.vecmath.Vector3f;
 
 import cindy.parser.VRMLDefaultTreeDFSIterator;
+import cindy.parser.VRMLNodeFactory;
 import cindy.parser.VRMLNodeParser;
 import cindy.parser.VRNode;
 
@@ -47,5 +48,17 @@ public class VRPointLight extends VRNode{
 			else if (s.equals("radius"))		radius=parser.readFloat();
 		}
 		return this;
+	}
+
+	public VRNode clone(VRMLNodeFactory nf) {
+		VRPointLight pl = (VRPointLight)nf.createPointLight();
+		pl.ambientIntensity = ambientIntensity;
+		pl.attenuation = attenuation;
+		pl.color = color;
+		pl.intensity = intensity;
+		pl.location = location;
+		pl.on = on;
+		pl.radius = radius;
+		return pl;
 	}
 }

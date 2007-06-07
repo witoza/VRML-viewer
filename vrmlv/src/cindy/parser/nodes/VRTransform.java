@@ -9,6 +9,7 @@ import javax.vecmath.Vector3f;
 import javax.vecmath.Vector4f;
 
 import cindy.parser.VRMLDefaultTreeDFSIterator;
+import cindy.parser.VRMLNodeFactory;
 import cindy.parser.VRMLNodeParser;
 import cindy.parser.VRNode;
 
@@ -24,10 +25,7 @@ public class VRTransform extends VRNode{
 	 * @return Transformation Matrix 
 	 */
 	public cindy.core.Matrix4f getTransformMatrix(){
-		
-		
-		
-		
+				
 		cindy.core.Matrix4f m = new cindy.core.Matrix4f();	
 		m.LoadIdent();
 		m.Translate(-center.x,-center.y,-center.z);
@@ -47,6 +45,19 @@ public class VRTransform extends VRNode{
 	public Vector4f scaleOrientation	= new Vector4f(0,0,1,0);
 	
 	public LinkedList children;
+	
+
+	public VRNode clone(VRMLNodeFactory nf) {
+		VRTransform tr = (VRTransform)nf.createTransform();
+		tr.center = center;
+		tr.scale = scale;
+		tr.translation = translation;
+		tr.rotation = rotation;
+		tr.scaleOrientation = scaleOrientation;
+		tr.children = children;
+		return tr;
+	}
+	
 		
 	public Iterator iterator(){
 		return new VRMLDefaultTreeDFSIterator(children, this);

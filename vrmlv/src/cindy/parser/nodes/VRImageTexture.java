@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import org.apache.log4j.Logger;
 
 import cindy.parser.VRMLDefaultTreeDFSIterator;
+import cindy.parser.VRMLNodeFactory;
 import cindy.parser.VRMLNodeParser;
 import cindy.parser.VRNode;
 
@@ -23,6 +24,14 @@ public class VRImageTexture extends VRNode{
 	public LinkedList<String> url;
 	public boolean repeatS = true;
 	public boolean repeatT = true;
+	
+	public VRNode clone(VRMLNodeFactory nf) {
+		VRImageTexture it = (VRImageTexture)nf.createImageTexture();
+		it.url = url;
+		it.repeatS = repeatS;
+		it.repeatT = repeatT;
+		return it;
+	}
 	
 	
 	public Iterator iterator() {

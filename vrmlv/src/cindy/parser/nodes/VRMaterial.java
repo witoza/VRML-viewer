@@ -7,6 +7,7 @@ import java.util.Iterator;
 import javax.vecmath.Vector3f;
 
 import cindy.parser.VRMLDefaultTreeDFSIterator;
+import cindy.parser.VRMLNodeFactory;
 import cindy.parser.VRMLNodeParser;
 import cindy.parser.VRNode;
 
@@ -43,5 +44,16 @@ public class VRMaterial extends VRNode{
 			else if (s.equals("transparency"))	transparency = parser.readFloat();
 		}
 		return this;
+	}
+
+	public VRNode clone(VRMLNodeFactory nf) {
+		VRMaterial mt = (VRMaterial)nf.createMaterial();
+		mt.ambientIntensity = ambientIntensity;
+		mt.diffuseColor = diffuseColor;
+		mt.emissiveColor = emissiveColor;
+		mt.shininess = shininess;
+		mt.specularColor = specularColor;
+		mt.transparency = transparency;
+		return mt;
 	}
 }

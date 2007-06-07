@@ -8,6 +8,7 @@ import javax.vecmath.Vector3f;
 import javax.vecmath.Vector4f;
 
 import cindy.parser.VRMLDefaultTreeDFSIterator;
+import cindy.parser.VRMLNodeFactory;
 import cindy.parser.VRMLNodeParser;
 import cindy.parser.VRNode;
 
@@ -22,6 +23,16 @@ public class VRViewpoint extends VRNode{
 	public String		description		= "";
 	public Vector3f		position		= new Vector3f(0,0,10);
 	public Vector4f		orientation		= new Vector4f(0,0,1,0);
+	
+	
+	public VRNode clone(VRMLNodeFactory nf) {
+		VRViewpoint vp = (VRViewpoint)nf.createViewpoint();
+		vp.fieldOfView = fieldOfView;
+		vp.description = description;
+		vp.position = position;
+		vp.orientation = orientation;
+		return vp;
+	}
 	
 	public Iterator iterator(){
 		return new VRMLDefaultTreeDFSIterator(null,this);
@@ -41,4 +52,5 @@ public class VRViewpoint extends VRNode{
 		}
 		return this;
 	}
+
 }

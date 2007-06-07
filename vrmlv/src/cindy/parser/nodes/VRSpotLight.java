@@ -7,6 +7,7 @@ import java.util.Iterator;
 import javax.vecmath.Vector3f;
 
 import cindy.parser.VRMLDefaultTreeDFSIterator;
+import cindy.parser.VRMLNodeFactory;
 import cindy.parser.VRMLNodeParser;
 import cindy.parser.VRNode;
 
@@ -28,6 +29,21 @@ public class VRSpotLight extends VRNode{
 	public Vector3f location			= new Vector3f(0,0,0);
 	public boolean on					= true;
 	public float radius					= 100;
+	
+	public VRNode clone(VRMLNodeFactory nf) {
+		VRSpotLight sl = (VRSpotLight)nf.createSpotLight();
+		sl.ambientIntensity = ambientIntensity;
+		sl.attenuation = attenuation;
+		sl.beamWidth = beamWidth;
+		sl.color = color;
+		sl.cutOffAngle = cutOffAngle;
+		sl.direction = direction;
+		sl.intensity = intensity;
+		sl.location = location;
+		sl.on = on;
+		sl.radius = radius;
+		return sl;
+	}
 	
 	
 	public Iterator iterator(){		
@@ -55,4 +71,6 @@ public class VRSpotLight extends VRNode{
 		}
 		return this;
 	}
+
+
 }

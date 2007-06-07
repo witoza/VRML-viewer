@@ -13,9 +13,7 @@ public abstract class VRNode implements Iterable, Cloneable{
 	abstract public VRNode read(VRMLNodeParser parser) throws IOException;
 	abstract public String getNodeInternalName();
 	
-	public VRNode clone(VRMLNodeFactory nf){
-		return null;
-	}
+	abstract public VRNode clone(VRMLNodeFactory nf);
 	
 	public String toString(){
 		if (name!=null)

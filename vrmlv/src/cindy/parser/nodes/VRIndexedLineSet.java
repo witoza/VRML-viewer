@@ -7,6 +7,7 @@ import java.util.LinkedList;
 
 import cindy.parser.IntArray;
 import cindy.parser.VRMLDefaultTreeDFSIterator;
+import cindy.parser.VRMLNodeFactory;
 import cindy.parser.VRMLNodeParser;
 import cindy.parser.VRNode;
 
@@ -23,7 +24,16 @@ public class VRIndexedLineSet extends VRNode{
 	public int []		colorIndex;
 	public boolean		colorPerVertex=true;
 	public int []		coordIndex;
-	
+		
+	public VRNode clone(VRMLNodeFactory nf) {
+		VRIndexedLineSet ils = (VRIndexedLineSet)nf.createIndexedLineSet();
+		ils.coord = coord;
+		ils.color = color;
+		ils.colorIndex = colorIndex;
+		ils.colorPerVertex = colorPerVertex;
+		ils.coordIndex = coordIndex;
+		return ils;
+	}
 	
 	public Iterator iterator(){
 		LinkedList args=new LinkedList();
@@ -49,4 +59,5 @@ public class VRIndexedLineSet extends VRNode{
 		}
 		return this;
 	}
+
 }

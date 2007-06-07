@@ -5,6 +5,7 @@ import java.io.StreamTokenizer;
 import java.util.Iterator;
 
 import cindy.parser.VRMLDefaultTreeDFSIterator;
+import cindy.parser.VRMLNodeFactory;
 import cindy.parser.VRMLNodeParser;
 import cindy.parser.VRNode;
 
@@ -41,5 +42,11 @@ public class VRText extends VRNode{
 		if (text==null || text=="")
 			return null;
 		return this;
+	}
+
+	public VRNode clone(VRMLNodeFactory nf) {
+		VRText txt = (VRText)nf.createText();
+		txt.text = text;
+		return txt;
 	}
 }

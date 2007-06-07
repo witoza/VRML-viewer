@@ -3,7 +3,6 @@ package cindy.core;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.io.IOException;
 import java.nio.IntBuffer;
 
 import javax.media.opengl.GL;
@@ -18,9 +17,7 @@ import javax.vecmath.Vector4f;
 import org.apache.log4j.Logger;
 
 import cindy.drawable.DisplayOptions;
-import cindy.drawable.DrawableHelper;
 import cindy.drawable.IDrawable;
-import cindy.drawable.TextureReader;
 import cindy.parser.VRMLModel;
 
 import com.sun.opengl.util.BufferUtil;
@@ -201,8 +198,7 @@ public class VRMLRenderer implements GLEventListener, MouseListener, MouseMotion
     	
     	gl.glFrontFace(GL.GL_CCW);    	
 		gl.glDisable(GL.GL_CULL_FACE);
-		
-		gl.glColor3f(1,1,1);
+				
 		gl.glColorMaterial(GL.GL_FRONT, GL.GL_AMBIENT_AND_DIFFUSE);			
 		//gl.glLightModeli(GL.GL_LIGHT_MODEL_TWO_SIDE, GL.GL_TRUE);
     	
@@ -262,7 +258,7 @@ public class VRMLRenderer implements GLEventListener, MouseListener, MouseMotion
 					transform.m03,transform.m13,transform.m23,transform.m33
 			};
 		    gl.glMultMatrixf(M,0);
-		    
+		    gl.glColor3f(1,1,1);
 		    
 	/*		
 			gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL.GL_LINE);

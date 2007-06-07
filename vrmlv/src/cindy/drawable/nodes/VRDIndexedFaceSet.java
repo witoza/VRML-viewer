@@ -167,12 +167,12 @@ public class VRDIndexedFaceSet extends VRIndexedFaceSet implements IDrawable{
 				
 				gl.glColor3f(mat.diffuseColor.x,mat.diffuseColor.y,mat.diffuseColor.z);
 				
-				gl.glBegin(GL.GL_TRIANGLES);
+				gl.glBegin(GL.GL_POLYGON);
 				for (int i = 0; i < coordIndex.length; i++) {
 					if (coordIndex[i] == -1) {
 						normalWrited = false;
 						gl.glEnd();
-						gl.glBegin(GL.GL_TRIANGLES);
+						gl.glBegin(GL.GL_POLYGON);
 
 					} else {
 						ind_ver = coordIndex[i];

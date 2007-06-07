@@ -37,6 +37,9 @@ public class VRAppearance extends VRNode{
 			parser.print(s);
 			if (s.equals("material")) material=(VRMaterial) parser.readNode(this);
 			else if (s.equals("texture")) texture=(VRImageTexture) parser.readNode(this);
+			else {
+				parser.skip('{', '}');
+			}
 		}
 		return this;
 	}

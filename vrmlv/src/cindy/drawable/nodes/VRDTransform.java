@@ -14,16 +14,16 @@ import cindy.parser.nodes.VRTransform;
 public class VRDTransform extends VRTransform implements IDrawable{
 
 	public void draw(DisplayOptions dispOpt) {
-		
+		if (children==null) return ;
 		GL gl = dispOpt.gl;
-		if (getNodeSettings().drawBBox){
+		if (getNodeSettings()!=null && getNodeSettings().drawBBox){
 			getNodeSettings().boundingBox.draw(dispOpt);
 		}
 		
 		gl.glPushMatrix();
 		
 			//in ogl terms:
-		/*	gl.glTranslatef(translation.x,translation.y,translation.z);
+			gl.glTranslatef(translation.x,translation.y,translation.z);
 			gl.glTranslatef(center.x,center.y,center.z);
 			gl.glRotatef(rotation.w*180/(float)Math.PI,rotation.x,rotation.y,rotation.z);	
 			gl.glRotatef(scaleOrientation.w*180/(float)Math.PI,scaleOrientation.x,scaleOrientation.y,scaleOrientation.z);
@@ -31,9 +31,9 @@ public class VRDTransform extends VRTransform implements IDrawable{
 			gl.glRotatef(-scaleOrientation.w*180/(float)Math.PI,scaleOrientation.x,scaleOrientation.y,scaleOrientation.z);
 			gl.glTranslatef(-center.x,-center.y,-center.z);
 								
-			*/
+			
 		
-			gl.glMultMatrixf(getTransformMatrix().getMatrix(),0);			
+		//	gl.glMultMatrixf(getTransformMatrix().getMatrix(),0);			
 			Iterator<IDrawable> iter = (Iterator<IDrawable>) children.iterator();
 			while(iter.hasNext()){
 				iter.next().draw(dispOpt);
@@ -51,6 +51,7 @@ public class VRDTransform extends VRTransform implements IDrawable{
 	
 	NodeSettings ns;
 	public NodeSettings getNodeSettings() {
+		if (children==null) return null;
 		if (ns == null){
 			ns = new NodeSettings();
 			ns.boundingBox = new BoundingBox();

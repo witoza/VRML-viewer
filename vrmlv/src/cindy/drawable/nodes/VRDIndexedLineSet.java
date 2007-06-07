@@ -72,7 +72,7 @@ public class VRDIndexedLineSet extends VRIndexedLineSet implements IDrawable{
 							continue;
 						}
 						gl.glColor3f (col[c].x,col[c].y,col[c].z);					
-						gl.glVertex3f(ver[c].x,ver[c].y,ver[c].z);					
+						gl.glVertex3f(ver[indVer].x, ver[indVer].y, ver[indVer].z);			
 					}
 					gl.glEnd();
 				}				

@@ -34,168 +34,157 @@ public class VRDIndexedFaceSet extends VRIndexedFaceSet implements IDrawable{
 		if (((VRShape)parent).appearance!=null){
 			mat = ((VRShape)parent).appearance.material;
 		}
-				
 
-		if (ccw){
-			gl.glFrontFace(GL.GL_CCW);
-		}else{
-			gl.glFrontFace(GL.GL_CW);
-		}
+		gl.glFrontFace(ccw ? GL.GL_CCW : GL.GL_CW);
+		
 		gl.glEnable(GL.GL_COLOR_MATERIAL);
-
-		gl.glEnable(GL.GL_NORMALIZE);				
-		Vector3f[] ver=null;
-		if (coord!=null){
-			ver=coord.coord;
+		gl.glEnable(GL.GL_NORMALIZE);
+		
+		if (coord==null || coord.coord==null || coordIndex==null){
+			
+			return; 
 		}
-		int indVer;
-		int triangles=0;
-		if (color!=null){
-			Vector3f[]	col=color.coord;
-			int			indCol;
+		Vector3f[] ver =coord.coord;
+		int ind_ver;
+		
+		Vector3f[] poly = new Vector3f[3];
+		boolean normalWrited = false;
+		
+		if (color!=null && color.coord!=null){
+			Vector3f[]	col = color.coord;
 			
 			if (colorPerVertex){
 				if (colorIndex!=null){
-					Vector3f[] poly=new Vector3f[3];
-				
-					gl.glBegin(GL.GL_TRIANGLES);
-					int i=0;
-					while (i<coordIndex.length){
-						triangles++;
-						poly[0]=ver[coordIndex[i+2]];
-						poly[1]=ver[coordIndex[i+1]];
-						poly[2]=ver[coordIndex[i+0]];
-						
-						/*Vector3f vVector1=new Vector3f();
-						vVector1.x=poly[2].x-poly[0].x;
-						vVector1.y=poly[2].y-poly[0].y;
-						vVector1.z=poly[2].z-poly[0].z;
-						
-						Vector3f vVector2=new Vector3f();
-						vVector2.x=poly[1].x-poly[0].x;
-						vVector2.y=poly[1].y-poly[0].y;
-						vVector2.z=poly[1].z-poly[0].z;
-						
-						Vector3f vNormal=new Vector3f();
-						vNormal.cross(vVector1,vVector2);
-						vNormal.normalize();
-						*/
-						DrawableHelper.putNormal(gl, poly);
-									    	
-						
-						//TODO: check normals
-						indCol=colorIndex[i];
-						indVer=coordIndex[i];
-						//gl.glNormal3f(vNormal.x,vNormal.y,vNormal.z);
-						gl.glColor3f(col[indCol].x,col[indCol].y,col[indCol].z);
-						gl.glVertex3f(ver[indVer].x,ver[indVer].y,ver[indVer].z);
-						i++;
-						indCol=colorIndex[i];
-						indVer=coordIndex[i];
-						//gl.glNormal3f(vNormal.x,vNormal.y,vNormal.z);
-						gl.glColor3f(col[indCol].x,col[indCol].y,col[indCol].z);
-						gl.glVertex3f(ver[indVer].x,ver[indVer].y,ver[indVer].z);
-						i++;
-						indCol=colorIndex[i];
-						indVer=coordIndex[i];
-						//gl.glNormal3f(vNormal.x,vNormal.y,vNormal.z);
-						gl.glColor3f(col[indCol].x,col[indCol].y,col[indCol].z);
-						gl.glVertex3f(ver[indVer].x,ver[indVer].y,ver[indVer].z);
-						i+=2;
-					}
-					gl.glEnd();
-				}else{					
 					
-					Vector3f[] poly=new Vector3f[3];
-					gl.glBegin(GL.GL_TRIANGLES);
-					int i=0;
-					/*Vector3f vVector1=new Vector3f();
-					Vector3f vVector2=new Vector3f();
-					Vector3f vNormal=new Vector3f();*/
-					while (i<coordIndex.length){
-						triangles++;
-						poly[0]=ver[coordIndex[i+2]];
-						poly[1]=ver[coordIndex[i+1]];
-						poly[2]=ver[coordIndex[i+0]];
-						/*
-						vVector1.x=poly[2].x-poly[0].x;
-						vVector1.y=poly[2].y-poly[0].y;
-						vVector1.z=poly[2].z-poly[0].z;						
-						
-						vVector2.x=poly[1].x-poly[0].x;
-						vVector2.y=poly[1].y-poly[0].y;
-						vVector2.z=poly[1].z-poly[0].z;
-												
-						vNormal.cross(vVector1,vVector2);
-						vNormal.normalize();
-						*/
-						DrawableHelper.putNormal(gl, poly);
-						//TODO: check normals
-						indVer=coordIndex[i];
-						//gl.glNormal3f(vNormal.x,vNormal.y,vNormal.z);
-						gl.glColor3f(col[indVer].x,col[indVer].y,col[indVer].z);
-						gl.glVertex3f(ver[indVer].x,ver[indVer].y,ver[indVer].z);
-						i++;
-						indVer=coordIndex[i];
-						//gl.glNormal3f(vNormal.x,vNormal.y,vNormal.z);
-						gl.glColor3f(col[indVer].x,col[indVer].y,col[indVer].z);
-						gl.glVertex3f(ver[indVer].x,ver[indVer].y,ver[indVer].z);
-						i++;
-						indVer=coordIndex[i];
-						//gl.glNormal3f(vNormal.x,vNormal.y,vNormal.z);
-						gl.glColor3f(col[indVer].x,col[indVer].y,col[indVer].z);
-						gl.glVertex3f(ver[indVer].x,ver[indVer].y,ver[indVer].z);
-						i+=2;
+					gl.glBegin(GL.GL_POLYGON);
+					for (int i = 0; i < coordIndex.length; i++) {
+						if (coordIndex[i] == -1) {
+							normalWrited = false;
+							gl.glEnd();
+							gl.glBegin(GL.GL_POLYGON);
+
+						} else {
+							ind_ver = coordIndex[i];
+							if (!normalWrited) {
+								poly[0] = ver[coordIndex[i + 2]];
+								poly[1] = ver[coordIndex[i + 1]];
+								poly[2] = ver[coordIndex[i]];
+								DrawableHelper.putNormal(gl, poly);
+								normalWrited = true;
+							}
+							int col_ind = colorIndex[i];
+							gl.glColor3f(col[col_ind].x, col[col_ind].y, col[col_ind].z);
+							gl.glVertex3f(ver[ind_ver].x, ver[ind_ver].y, ver[ind_ver].z);
+						}
 					}
 					gl.glEnd();
-				}
-				
+					
+				}else{
+
+					gl.glBegin(GL.GL_POLYGON);
+					for (int i = 0; i < coordIndex.length; i++) {
+						if (coordIndex[i] == -1) {
+							normalWrited = false;
+							gl.glEnd();
+							gl.glBegin(GL.GL_POLYGON);
+
+						} else {
+							ind_ver = coordIndex[i];
+							if (!normalWrited) {
+								poly[0] = ver[coordIndex[i + 2]];
+								poly[1] = ver[coordIndex[i + 1]];
+								poly[2] = ver[coordIndex[i]];
+								DrawableHelper.putNormal(gl, poly);
+								normalWrited = true;
+							}
+							gl.glColor3f(col[ind_ver].x, col[ind_ver].y, col[ind_ver].z);
+							gl.glVertex3f(ver[ind_ver].x, ver[ind_ver].y, ver[ind_ver].z);
+						}
+					}
+					gl.glEnd();
+					
+				}	
 			}else{
-				throw new UnsupportedOperationException("unsuported path in draw for VRIndexedFaceSet 1");
+				if (colorIndex!=null){
+					int c=0;
+					
+					gl.glBegin(GL.GL_POLYGON);
+					for (int i = 0; i < coordIndex.length; i++) {
+						if (coordIndex[i] == -1) {
+							normalWrited = false;
+							gl.glEnd();
+							gl.glBegin(GL.GL_POLYGON);
+							c++;
+						} else {
+							ind_ver = coordIndex[i];
+							if (!normalWrited) {
+								poly[0] = ver[coordIndex[i + 2]];
+								poly[1] = ver[coordIndex[i + 1]];
+								poly[2] = ver[coordIndex[i]];
+								DrawableHelper.putNormal(gl, poly);
+								normalWrited = true;
+							}
+							int col_ind = colorIndex[c];							
+							gl.glColor3f(col[col_ind].x, col[col_ind].y, col[col_ind].z);
+							gl.glVertex3f(ver[ind_ver].x, ver[ind_ver].y, ver[ind_ver].z);
+						}
+					}
+					gl.glEnd();	
+					
+				}else{
+					
+					
+					int c=0;
+					gl.glBegin(GL.GL_POLYGON);
+					for (int i = 0; i < coordIndex.length; i++) {
+						if (coordIndex[i] == -1) {
+							normalWrited = false;
+							gl.glEnd();
+							gl.glBegin(GL.GL_POLYGON);
+							c++;
+						} else {
+							ind_ver = coordIndex[i];
+							if (!normalWrited) {
+								poly[0] = ver[coordIndex[i + 2]];
+								poly[1] = ver[coordIndex[i + 1]];
+								poly[2] = ver[coordIndex[i]];
+								DrawableHelper.putNormal(gl, poly);
+								normalWrited = true;
+							}						
+							gl.glColor3f(col[c].x, col[c].y, col[c].z);
+							gl.glVertex3f(ver[ind_ver].x, ver[ind_ver].y, ver[ind_ver].z);
+						}
+					}
+					gl.glEnd();	
+					
+				}
+
 			}
 		}else{
 			if (coordIndex!=null){
-				if (mat==null)
-					throw new UnsupportedOperationException("error - check vrml spec");
+				
+				if (mat==null) throw new UnsupportedOperationException("error - check vrml spec");
+				
 				gl.glColor3f(mat.diffuseColor.x,mat.diffuseColor.y,mat.diffuseColor.z);
-				Vector3f[] poly=new Vector3f[3];				
+				
 				gl.glBegin(GL.GL_TRIANGLES);
-				int i=0;
-				while (i<coordIndex.length){
-					triangles++;
-					poly[0]=ver[coordIndex[i+2]];
-					poly[1]=ver[coordIndex[i+1]];
-					poly[2]=ver[coordIndex[i+0]];
-					
-					/*Vector3f vVector1=new Vector3f();
-					vVector1.x=poly[2].x-poly[0].x;
-					vVector1.y=poly[2].y-poly[0].y;
-					vVector1.z=poly[2].z-poly[0].z;
-					
-					Vector3f vVector2=new Vector3f();
-					vVector2.x=poly[1].x-poly[0].x;
-					vVector2.y=poly[1].y-poly[0].y;
-					vVector2.z=poly[1].z-poly[0].z;
-					
-					Vector3f vNormal=new Vector3f();
-					vNormal.cross(vVector1,vVector2);
-					vNormal.normalize();*/
-					
-					DrawableHelper.putNormal(gl, poly);
-					
-					indVer=coordIndex[i];
-					//gl.glNormal3f(vNormal.x,vNormal.y,vNormal.z);
-					
-					gl.glVertex3f(ver[indVer].x,ver[indVer].y,ver[indVer].z);
-					i++;
-					indVer=coordIndex[i];
-					//gl.glNormal3f(vNormal.x,vNormal.y,vNormal.z);
-					gl.glVertex3f(ver[indVer].x,ver[indVer].y,ver[indVer].z);
-					i++;
-					indVer=coordIndex[i];
-					//gl.glNormal3f(vNormal.x,vNormal.y,vNormal.z);
-					gl.glVertex3f(ver[indVer].x,ver[indVer].y,ver[indVer].z);
-					i+=2;
+				for (int i = 0; i < coordIndex.length; i++) {
+					if (coordIndex[i] == -1) {
+						normalWrited = false;
+						gl.glEnd();
+						gl.glBegin(GL.GL_TRIANGLES);
+
+					} else {
+						ind_ver = coordIndex[i];
+						if (!normalWrited) {
+							poly[0] = ver[coordIndex[i + 2]];
+							poly[1] = ver[coordIndex[i + 1]];
+							poly[2] = ver[coordIndex[i]];
+							DrawableHelper.putNormal(gl, poly);
+							normalWrited = true;
+						}
+						gl.glVertex3f(ver[ind_ver].x, ver[ind_ver].y, ver[ind_ver].z);
+					}
 				}
 				gl.glEnd();
 			}			

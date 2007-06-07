@@ -1,0 +1,328 @@
+#VRML V2.0 utf8
+#
+#  Robot Transform
+#  robobill.wrl
+#        by David R. Nadeau
+#
+#  This example illustrates the use of Group, Transform, and Transform groups.
+#
+#  A robot is built with its head in a Transform group, but its torso
+#  left out of it.  As the viewer walks about the robot, the head always
+#  turns (about the Y axis) to face the viewer.
+#
+#  To make it clear what is, and is not moving to track the viewer, the
+#  torso of the robot remains fixed, as does a background of blue slabs.
+#
+#  Things to experiment with:
+#        Place the entire robot in the Transform group so that the whole
+#        robot tracks the viewer, not just the robot's head.
+#
+#        Add textures to the environment.
+#
+#        Add light sources, such as one placed in the lower ball of the
+#        robot.  Make that ball emissive as well so that it looks like the
+#        ball is the source of light.  Remember to put the light source
+#        inside the robot's transform group so that as the robot moves,
+#        the light source moves with it.
+#
+#        Add behavior to the robot.  Make it move on its own!
+#
+#        Place the robot in to a separate VRML file and inline it in to
+#        this, and other environments.
+#
+
+Group {
+    children [
+        DEF Entry Viewpoint {
+            position 0.0 2.0 10.0
+            description "Entry View"
+        },
+        NavigationInfo {
+            type "EXAMINE"
+        },
+
+#
+#  Robot
+#
+        Transform {
+            translation 0.0 1.0 0.0
+            scale 2.0 2.0 2.0
+            children [
+
+        #
+        #  Stationary body parts for the robot (the torso)
+        #
+                # Torso sphere
+                Shape {
+                    appearance DEF RobotColor Appearance {
+                        material Material {
+                            diffuseColor 0.6 0.6 0.8
+                        }
+                    }
+                    geometry Sphere {
+                        radius 0.5
+                    }
+                },
+
+                # Support rods
+                DEF Rod Transform {
+                    translation 0.4 0.6 0.0
+                    rotation 0.0 0.0 1.0 -0.785
+                    children [
+                        Shape {
+                            appearance DEF RobotGlow Appearance {
+                                material Material {
+                                    diffuseColor 0.0 1.0 0.0
+                                    emissiveColor 1.0 0.0 0.0
+                                }
+                            }
+                            geometry Cylinder {
+                                height 0.65
+                                radius 0.04
+                            }
+                        },
+                    ]
+                },
+                Transform {
+                    rotation 0.0 1.0 0.0 1.57
+                    children [ USE Rod ]
+                },
+                Transform {
+                    rotation 0.0 1.0 0.0 3.14
+                    children [ USE Rod ]
+                },
+                Transform {
+                    rotation 0.0 1.0 0.0 -1.57
+                    children [ USE Rod ]
+                },
+
+                # Shoulders
+                Transform {
+                    translation 0.0 0.85 0.0
+                    children [
+                        Shape {
+                            appearance USE RobotColor
+                            geometry Cylinder {
+                                height 0.1
+                                radius 0.8
+                            }
+                        },
+                    ]
+                },
+
+                # Neck
+                Transform {
+                    translation 0.0 0.95 0.0
+                    children [
+                        Shape {
+                            appearance USE RobotColor
+                            geometry Cylinder {
+                                height 0.1
+                                radius 0.2
+                            }
+                        },
+                    ]
+                },
+
+        #
+        #  Parts that track the viewer using a Transform group
+        #
+                Transform {
+                    translation 0.0 1.4 0.0
+                    children [
+                        Transform {
+                           
+                            children [
+
+                                # Head
+                                Shape {
+                                    appearance USE RobotColor
+                                    geometry Sphere {
+                                        radius 0.5
+                                    }
+                                },
+
+                                # Eyebrow
+                                Transform {
+                                    translation 0.0 0.25 0.35
+                                    children [
+                                        Shape {
+                                            appearance Appearance {
+                                                material Material {
+                                                    diffuseColor 0.2 0.2 0.2
+                                                }
+                                            }
+                                            geometry Box {
+                                                size 0.6 0.05 0.2
+                                            }
+                                        }
+                                    ]
+                                },
+
+                                # Right Eye
+                                Transform {
+                                    translation 0.1 0.15 0.38
+                                    children [
+                                        DEF Eye Shape {
+                                            appearance Appearance {
+                                                material Material {
+                                                    diffuseColor 0.4 1.0 0.0
+                                                    emissiveColor 0.6 0.0 0.0
+                                                }
+                                            }
+                                            geometry Sphere {
+                                                radius 0.09
+                                            }
+                                        }
+                                    ]
+                                },
+
+                                # Left Eye
+                                Transform {
+                                    translation -0.1 0.15 0.38
+                                    children [ USE Eye ]
+                                },
+
+                                # Right Antenae
+                                Transform {
+                                    translation 0.85 0.1 0.0
+                                    children [
+                                        Transform {
+                                            translation -0.2 0.0 0.0
+                                            rotation 0.0 0.0 1.0 1.57
+                                            children [
+                                                DEF AntenaeBar Shape {
+                                                    appearance USE RobotColor
+                                                    geometry Cylinder {
+                                                        height 0.4
+                                                        radius 0.04
+                                                    }
+                                                }
+                                            ]
+                                        },
+                                        Shape {
+                                            appearance USE RobotColor
+                                            geometry Sphere {
+                                                radius 0.09
+                                            }
+                                        },
+                                        Transform {
+                                            translation 0.0 0.58 0.0
+                                            children [
+                                                Shape {
+                                                    appearance USE RobotGlow
+                                                    geometry Cone {
+                                                        height 1.0
+                                                        bottomRadius 0.02
+                                                    }
+                                                }
+                                            ]
+                                        },
+                                    ]
+                                },
+
+                                # Left Antenae
+                                Transform {
+                                    translation -0.85 0.1 0.0
+                                    children [
+                                        Transform {
+                                            translation 0.2 0.0 0.0
+                                            rotation 0.0 0.0 1.0 -1.57
+                                            children [ USE AntenaeBar ]
+                                        },
+                                        Transform {
+                                            rotation 0.0 0.0 1.0 0.785
+                                            children [
+                                                Shape {
+                                                    appearance USE RobotColor
+                                                    geometry Box {
+                                                        size 0.2 0.2 0.2
+                                                    }
+                                                },
+                                                Transform {
+                                                    translation 0.0 0.58 0.0
+                                                    children [
+                                                        Shape {
+                                                            appearance USE RobotGlow
+                                                            geometry Box {
+                                                                size 0.02 1.0 0.02
+                                                            }
+                                                        }
+                                                    ]
+                                                },
+                                                Transform {
+                                                    translation 0.0 0.95 0.0
+                                                    children [
+                                                        Shape {
+                                                            appearance USE RobotGlow
+                                                            geometry Box {
+                                                                size 0.2 0.02 0.02
+                                                            }
+                                                        }
+                                                    ]
+                                                },
+                                                Transform {
+                                                    translation 0.0 0.85 0.0
+                                                    children [
+                                                        Shape {
+                                                            appearance USE RobotGlow
+                                                            geometry Box {
+                                                                size 0.4 0.02 0.02
+                                                            }
+                                                        }
+                                                    ]
+                                                },
+                                            ]
+                                        },
+                                    ]
+                                },
+                            ]
+                        },
+                    ]
+                },
+            ]
+        },
+
+
+#
+#  Environment
+#
+        Transform {
+            translation 0.0 2.0 -6.0
+            children [
+                DEF Slab Shape {
+                    appearance Appearance {
+                        material Material {
+                            diffuseColor 0.0 0.1 0.5
+                            emissiveColor 0.0 0.3 0.5
+                        }
+                    }
+                    geometry Box {
+                        size 2.0 4.0 0.3
+                    }
+                },
+            ]
+        },
+
+        Transform {
+            translation -6.0 2.0 0.0
+            children [ USE Slab ]
+        },
+
+        Transform {
+            translation 6.0 2.0 0.0
+            children [ USE Slab ]
+        },
+
+        Transform {
+            translation -4.3 2.0 -4.3
+            children [ USE Slab ]
+        },
+
+        Transform {
+            translation 4.3 2.0 -4.3
+            children [ USE Slab ]
+        },
+
+    ]
+}

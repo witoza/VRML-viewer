@@ -54,14 +54,13 @@ public class Cindy extends JFrame implements IParentListener{
 	
 	private static final Logger _LOG = Logger.getLogger(Cindy.class);
 	
-	static public String appName = "'Cindy' VRML Browser 0.02";
+	static public String appName = "'Cindy' VRML Browser 0.1";
 	private GLDisplay renderingWindow;
 	private VRMLRenderer renderer;
 	
 	private boolean exited = false;
 	
 	private boolean showBoundingBox = true;
-	private boolean secondArcballMode = false;
 	private JCheckBox showBBoxcb = new JCheckBox("Show bounding box", showBoundingBox);
 	
 

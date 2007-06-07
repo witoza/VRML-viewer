@@ -1,6 +1,7 @@
 package cindy.drawable;
 
 import javax.media.opengl.GL;
+import javax.media.opengl.glu.GLU;
 import javax.vecmath.Vector3f;
 
 import cindy.parser.nodes.VRMaterial;
@@ -34,6 +35,12 @@ public class DrawableHelper {
 		vNormal.normalize();
 		gl.glNormal3f(vNormal.x,vNormal.y,vNormal.z);		
 	}
+	
+    static public int genTexture(GL gl) {
+        final int[] tmp = new int[1];
+        gl.glGenTextures(1, tmp, 0);
+        return tmp[0];
+    }
 		
 	
 	//see: http://devernay.free.fr/cours/opengl/materials.html
@@ -47,4 +54,13 @@ public class DrawableHelper {
 		gl.glMaterialf(GL.GL_FRONT_AND_BACK, GL.GL_SHININESS, mat.shininess * 128.0f);
 
 	}
+	
+    static public void makeRGBTexture(GL gl, GLU glu, TextureReader.Texture img, int target, boolean mipmapped) {
+        if (mipmapped) {
+            glu.gluBuild2DMipmaps(target, GL.GL_RGB8, img.getWidth(), img.getHeight(), GL.GL_RGB, GL.GL_UNSIGNED_BYTE, img.getPixels());
+        } else {
+            gl.glTexImage2D(target, 0, GL.GL_RGB, img.getWidth(), img.getHeight(), 0, GL.GL_RGB, GL.GL_UNSIGNED_BYTE, img.getPixels());
+        }
+    }
+	
 }

@@ -3,6 +3,7 @@ package cindy.core;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.IOException;
 import java.nio.IntBuffer;
 
 import javax.media.opengl.GL;
@@ -17,7 +18,9 @@ import javax.vecmath.Vector4f;
 import org.apache.log4j.Logger;
 
 import cindy.drawable.DisplayOptions;
+import cindy.drawable.DrawableHelper;
 import cindy.drawable.IDrawable;
+import cindy.drawable.TextureReader;
 import cindy.parser.VRMLModel;
 
 import com.sun.opengl.util.BufferUtil;
@@ -185,11 +188,12 @@ public class VRMLRenderer implements GLEventListener, MouseListener, MouseMotion
     		drawable.addMouseListener(this);
       		drawable.addMouseMotionListener(this);
     	}
-      	gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-    	gl.glClearDepth(1);
+      	gl.glClearColor(0.0f, 0.0f, 0.0f, 0.5f);
+    	gl.glClearDepth(1.0f);
     	gl.glDepthFunc(GL.GL_LEQUAL);
     	gl.glEnable(GL.GL_DEPTH_TEST);
     	gl.glHint(GL.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST);
+    	   gl.glEnable(GL.GL_TEXTURE_2D);
     	
     	gl.glEnable(GL.GL_LIGHT0);
     	gl.glEnable(GL.GL_LIGHTING);    	
@@ -200,7 +204,7 @@ public class VRMLRenderer implements GLEventListener, MouseListener, MouseMotion
 		
 		gl.glColor3f(1,1,1);
 		gl.glColorMaterial(GL.GL_FRONT, GL.GL_AMBIENT_AND_DIFFUSE);			
-		gl.glLightModeli(GL.GL_LIGHT_MODEL_TWO_SIDE, GL.GL_TRUE);
+		//gl.glLightModeli(GL.GL_LIGHT_MODEL_TWO_SIDE, GL.GL_TRUE);
     	
     	_LOG.info("-------------------------------------------------------\n");
     	inited = true;

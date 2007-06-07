@@ -1,7 +1,5 @@
 package cindy.drawable.nodes;
 
-import java.io.IOException;
-
 import javax.media.opengl.GL;
 import javax.vecmath.Vector3f;
 
@@ -12,7 +10,6 @@ import cindy.drawable.DisplayOptions;
 import cindy.drawable.DrawableHelper;
 import cindy.drawable.IDrawable;
 import cindy.drawable.NodeSettings;
-import cindy.drawable.TextureReader;
 import cindy.drawable.VRMLDrawableModel;
 import cindy.parser.VRNode;
 import cindy.parser.nodes.VRBox;
@@ -57,11 +54,12 @@ public class VRDBox extends VRBox implements IDrawable {
 			texturesProcessed = true;
 			if (((VRShape) parent).appearance != null && ((VRShape) parent).appearance.texture != null) {
 				String str = ((VRShape) parent).appearance.texture.url.element();
-				if (str.length()>2){
-					str = str.substring(1, str.length()-1);
-				}
-				_LOG.info("trying to bind texture: "+str);
-				texture = ((VRMLDrawableModel)model).getOGLTextureId(str, gl, dispOpt.glu);
+				if (str!=null && str.length()>2){
+					if (str.startsWith("\""))
+						str = str.substring(1, str.length()-1);
+					_LOG.info("trying to bind texture: "+str);
+					texture = ((VRMLDrawableModel)model).getOGLTextureId(str, gl, dispOpt.glu);
+				}				
 			}
 		}		
 		

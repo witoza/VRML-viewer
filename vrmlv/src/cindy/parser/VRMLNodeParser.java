@@ -115,14 +115,14 @@ public class VRMLNodeParser{
 				return ll;
 			}
 			ll.add(st.sval);
-			print(quoteChar+st.sval+quoteChar);
+			print("sitem:" +  st.sval);
 		}
 		st.quoteChar((char)0);
 		return ll;
 	}	
 	
 	public LinkedList<String> readStrings(char quoteChar) throws IOException{
-		if (isNextBracket('[')){			
+		if (isNextBracket('[')){
 			return readStringList(quoteChar);
 		}
 		else{
@@ -134,8 +134,7 @@ public class VRMLNodeParser{
 	
 	public String readString(char quoteChar) throws IOException{
 		st.quoteChar(quoteChar);
-		String text=readString();
-		print(text);
+		String text = readString();		
 		st.quoteChar((char)0);
 		return text;		
 	}
@@ -202,6 +201,7 @@ public class VRMLNodeParser{
 		return Double.parseDouble(st.sval);
 	}
 	
+	
 	boolean isNextBracket(char bracketType) throws IOException{
 		st.nextToken();
 		if (st.ttype==StreamTokenizer.TT_NUMBER || st.ttype==StreamTokenizer.TT_WORD){
@@ -211,6 +211,7 @@ public class VRMLNodeParser{
 		char zn=(char)st.ttype;
 		if (zn==bracketType)
 			return true;
+		st.pushBack();
 		return false;
 	}
 		

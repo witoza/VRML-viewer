@@ -9,6 +9,7 @@ import javax.vecmath.Vector3f;
 import org.apache.log4j.Logger;
 
 import cindy.parser.VRMLDefaultTreeDFSIterator;
+import cindy.parser.VRMLNodeFactory;
 import cindy.parser.VRMLNodeParser;
 import cindy.parser.VRNode;
 
@@ -22,6 +23,14 @@ public class VRBox extends VRNode{
 	}
 	
 	public Vector3f		size = new Vector3f(2,2,2);
+	
+	public VRNode clone(VRMLNodeFactory nf){
+		VRBox box = (VRBox)nf.createBox();
+		box.size = size;
+		return box;
+	}
+	
+	
 //	public VRCoordinate coord;
 //	public VRCoordinate color;
 	

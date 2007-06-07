@@ -10,7 +10,6 @@ import cindy.parser.VRMLDefaultTreeDFSIterator;
 import cindy.parser.VRMLNodeParser;
 import cindy.parser.VRNode;
 
-
 public class VRCoordinate extends VRNode{
 	
 	static public final String VRNODENAME = "Coordinate";

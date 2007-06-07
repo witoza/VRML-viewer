@@ -2,13 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/jar/jogl.jar">
-		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="vrmlv/lib/native"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="lib/jar/gluegen-rt.jar"/>
 	<classpathentry kind="lib" path="lib/jar/vecmath.jar"/>
 	<classpathentry kind="lib" path="lib/jar/log4j-1.2.14.jar"/>
+	<classpathentry kind="lib" path="C:/Documents and Settings/witoza/workspace/vrmlv/lib/jar/jogl.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

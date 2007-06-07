@@ -3,7 +3,7 @@ package cindy.parser;
 import java.io.IOException;
 import java.util.Iterator;
 
-public abstract class VRNode implements Iterable{
+public abstract class VRNode implements Iterable, Cloneable{
 			
 	public VRNode	parent		= null;
 	public String	name		= null;
@@ -12,6 +12,10 @@ public abstract class VRNode implements Iterable{
 	abstract public Iterator iterator();
 	abstract public VRNode read(VRMLNodeParser parser) throws IOException;
 	abstract public String getNodeInternalName();
+	
+	public VRNode clone(VRMLNodeFactory nf){
+		return null;
+	}
 	
 	public String toString(){
 		if (name!=null)

@@ -7,6 +7,7 @@ import java.util.LinkedList;
 
 import cindy.parser.IntArray;
 import cindy.parser.VRMLDefaultTreeDFSIterator;
+import cindy.parser.VRMLNodeFactory;
 import cindy.parser.VRMLNodeParser;
 import cindy.parser.VRNode;
 
@@ -34,6 +35,30 @@ public class VRIndexedFaceSet extends VRNode{
 	public boolean			solid			= true;
 	public int[]			texCoordIndex;//TODO
 	
+	
+	public VRNode clone(VRMLNodeFactory nf){
+		VRIndexedFaceSet ifc = (VRIndexedFaceSet)nf.createIndexedFaceSet();
+		
+		ifc.model = model;
+		ifc.name = name;
+		ifc.parent = parent;
+		
+		ifc.color = color;
+		ifc.coord = coord;
+		ifc.normal = normal;
+		ifc.texCoord = texCoord;
+		ifc.ccw = ccw;
+		ifc.colorIndex = colorIndex;
+		ifc.colorPerVertex = colorPerVertex;
+		ifc.convex = convex;
+		ifc.coordIndex = coordIndex;
+		ifc.creaseAngle = creaseAngle;
+		ifc.normalIndex = normalIndex;
+		ifc.normalPerVertex = normalPerVertex;
+		ifc.solid = solid;
+		ifc.texCoordIndex = texCoordIndex;
+		return ifc;
+	}
 
 	
 	public VRNode read(VRMLNodeParser parser) throws IOException {

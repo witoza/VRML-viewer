@@ -5,6 +5,7 @@ import java.io.StreamTokenizer;
 import java.util.Iterator;
 
 import cindy.parser.VRMLDefaultTreeDFSIterator;
+import cindy.parser.VRMLNodeFactory;
 import cindy.parser.VRMLNodeParser;
 import cindy.parser.VRNode;
 
@@ -16,6 +17,13 @@ public class VRSphere extends VRNode{
 	}
 	
 	public float		radius=1.0f;
+	
+	public VRNode clone(VRMLNodeFactory nf){
+		VRSphere sph = (VRSphere)nf.createShpere();
+		sph.radius = radius;
+		return sph;
+	}	
+	
 		
 	public Iterator iterator() {
 		return new VRMLDefaultTreeDFSIterator(null,this);

@@ -23,7 +23,7 @@ public class VRIndexedFaceSet extends VRNode{
 	public VRCoordinate		color;
 	public VRCoordinate		coord;
 	public VRNormal			normal;//TODO
-	public VRTextureCoordinate texCoord;//TODO	
+	public VRTextureCoordinate texCoord;
 	public boolean 			ccw				= true;	
 	public int[]			colorIndex;	
 	public boolean 			colorPerVertex	= true;
@@ -33,7 +33,7 @@ public class VRIndexedFaceSet extends VRNode{
 	public int[]			normalIndex;//TODO
 	public boolean 			normalPerVertex	= true;
 	public boolean			solid			= true;
-	public int[]			texCoordIndex;//TODO
+	public int[]			texCoordIndex;
 	
 	
 	public VRNode clone(VRMLNodeFactory nf){

@@ -57,7 +57,7 @@ public class VRDBox extends VRBox implements IDrawable {
 				if (str!=null && str.length()>2){
 					if (str.startsWith("\""))
 						str = str.substring(1, str.length()-1);
-					_LOG.info("trying to bind texture: "+str);
+					_LOG.info("binding texture: "+str);
 					texture = ((VRMLDrawableModel)model).getOGLTextureId(str, gl, dispOpt.glu);
 				}				
 			}

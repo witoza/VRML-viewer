@@ -40,10 +40,10 @@ public class VRMLNodeParser{
 	private Logger logger = Logger.getLogger(VRMLNodeParser.class);
 	
 	private final VRMLNodeFactory nodeFactory;
-	public final VRMLModel parent;
+	public final VRMLModel model;
 	
 	public VRMLNodeParser(VRMLModel parent, VRMLNodeFactory nodeFactory){
-		this.parent = parent;
+		this.model = parent;
 		this.nodeFactory = nodeFactory;
 	}
 	
@@ -233,6 +233,9 @@ public class VRMLNodeParser{
 			print(s);
 			n++;
 			nd = createNode(s);
+			if (nd!=null){
+				nd.model = model;
+			}
 			if (nd!=null){
 				nd.read(this);
 			}else{

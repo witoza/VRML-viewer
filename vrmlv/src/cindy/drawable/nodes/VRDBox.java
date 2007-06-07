@@ -1,5 +1,7 @@
 package cindy.drawable.nodes;
 
+import java.io.IOException;
+
 import javax.media.opengl.GL;
 import javax.vecmath.Vector3f;
 
@@ -10,21 +12,36 @@ import cindy.drawable.DisplayOptions;
 import cindy.drawable.DrawableHelper;
 import cindy.drawable.IDrawable;
 import cindy.drawable.NodeSettings;
+import cindy.drawable.TextureReader;
+import cindy.drawable.VRMLDrawableModel;
 import cindy.parser.VRNode;
 import cindy.parser.nodes.VRBox;
+import cindy.parser.nodes.VRShape;
 
 public class VRDBox extends VRBox implements IDrawable {
 
 	private static Logger _LOG = Logger.getLogger(VRDBox.class);
 
 	private NodeSettings ns;
-		
-	void putQuad(GL gl, Vector3f poly[]){		
-		
+	
+	private boolean texturesProcessed = false;
+	private int texture = -1;
+	
+	void putQuad(GL gl, Vector3f poly[]){
+					
+		boolean dt = true;		
 		DrawableHelper.putNormal(gl,poly);
+		
+		if (dt)	gl.glTexCoord2f(0.0f, 0.0f);
 		gl.glVertex3f(poly[0].x,poly[0].y,poly[0].z);
+		
+		if (dt)	gl.glTexCoord2f(1.0f, 0.0f);
 		gl.glVertex3f(poly[1].x,poly[1].y,poly[1].z);
+		
+		if (dt)	gl.glTexCoord2f(1.0f, 1.0f);
 		gl.glVertex3f(poly[2].x,poly[2].y,poly[2].z);
+		
+		if (dt)	gl.glTexCoord2f(0.0f, 1.0f);
 		gl.glVertex3f(poly[3].x,poly[3].y,poly[3].z);		
 	}
 
@@ -33,10 +50,29 @@ public class VRDBox extends VRBox implements IDrawable {
 			getNodeSettings().boundingBox.draw(dispOpt);
 		}
 		if (ns.rendMode == -1) return;
+		
+	
 		GL gl = dispOpt.gl;
+		if (!texturesProcessed) {
+			texturesProcessed = true;
+			if (((VRShape) parent).appearance != null && ((VRShape) parent).appearance.texture != null) {
+				String str = ((VRShape) parent).appearance.texture.url.element();
+				if (str.length()>2){
+					str = str.substring(1, str.length()-1);
+				}
+				_LOG.info("trying to bind texture: "+str);
+				texture = ((VRMLDrawableModel)model).getOGLTextureId(str, gl, dispOpt.glu);
+			}
+		}		
+		
 		gl.glLineWidth(ns.lineWidth);
 		gl.glShadeModel(ns.shadeModel);
 		gl.glPolygonMode(GL.GL_FRONT_AND_BACK, ns.rendMode);
+		
+		if (texture != -1) {
+			gl.glEnable(GL.GL_TEXTURE_2D);
+			gl.glBindTexture(GL.GL_TEXTURE_2D, texture);
+		}
 		
 		gl.glPushName(dispOpt.pickingOptions.add(this));	
 
@@ -93,6 +129,11 @@ public class VRDBox extends VRBox implements IDrawable {
 		
 		gl.glPopName();
 		gl.glFrontFace(GL.GL_CCW);
+		
+		if (texture!=-1){
+			 gl.glBindTexture(GL.GL_TEXTURE_2D, texture);
+			 gl.glDisable(GL.GL_TEXTURE_2D);
+		}
 	}
 
 	public int numOfDrawableChildren() {

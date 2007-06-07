@@ -20,6 +20,12 @@ public class VRMLModel{
 	
 	protected LinkedList<String> fileNameToRead = new LinkedList<String>();
 	
+	protected String file_name;
+	
+	public void setFileName(String s){
+		file_name = s;
+	}
+	
 	public void addPixmap(String fileName){
 		_LOG.info("pixmap: " + fileName);
 		fileNameToRead.add(fileName);
@@ -30,6 +36,7 @@ public class VRMLModel{
 	}
 			
 	public void readModel(String file, VRMLNodeFactory nf) throws IOException{
+		file_name = file;
 		readModel(new FileInputStream(file), nf);
 	}
 	

@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import cindy.parser.VRMLDefaultTreeDFSIterator;
+import cindy.parser.VRMLNodeFactory;
 import cindy.parser.VRMLNodeParser;
 import cindy.parser.VRNode;
 
@@ -16,7 +17,7 @@ public class VRGroup extends VRNode{
 		return VRNODENAME;
 	}
 	
-	public LinkedList children=new LinkedList();
+	public LinkedList children = new LinkedList();
 	
 	public Iterator iterator(){
 		return new VRMLDefaultTreeDFSIterator(children,this);
@@ -32,6 +33,12 @@ public class VRGroup extends VRNode{
 			if (s.equals("children"))	children=parser.readNodes(this);
 		}
 		return this;
+	}
+
+	public VRNode clone(VRMLNodeFactory nf) {
+		VRGroup gr = (VRGroup)nf.createGroup();
+		gr.children = children;		
+		return gr;
 	}
 
 }

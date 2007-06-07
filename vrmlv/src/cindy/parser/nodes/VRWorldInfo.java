@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import cindy.parser.VRMLDefaultTreeDFSIterator;
+import cindy.parser.VRMLNodeFactory;
 import cindy.parser.VRMLNodeParser;
 import cindy.parser.VRNode;
 
@@ -19,6 +20,13 @@ public class VRWorldInfo extends VRNode{
 	
 	public LinkedList<String> info;
 	public String title = ""; 
+	
+	public VRNode clone(VRMLNodeFactory nf) {
+		VRWorldInfo wi =(VRWorldInfo) nf.createWorldInfo();
+		wi.info = info;
+		wi.title = title;
+		return wi;
+	}	
 	
 	public Iterator iterator() {
 		return new VRMLDefaultTreeDFSIterator(null,this);
@@ -35,5 +43,7 @@ public class VRWorldInfo extends VRNode{
 			else if (s.equals("info"))		info=parser.readStrings('"');
 		}
 		return this;	
-	}	
+	}
+
+
 }

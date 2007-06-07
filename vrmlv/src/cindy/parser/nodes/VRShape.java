@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import cindy.parser.VRMLDefaultTreeDFSIterator;
+import cindy.parser.VRMLNodeFactory;
 import cindy.parser.VRMLNodeParser;
 import cindy.parser.VRNode;
 
@@ -46,5 +47,12 @@ public class VRShape extends VRNode{
 			else if (s.equals("geometry"))	geometry	= parser.readNode(this);
 		}
 		return this;
+	}
+
+	public VRNode clone(VRMLNodeFactory nf) {
+		VRShape sp = (VRShape)nf.createShape();
+		sp.appearance = appearance;
+		sp.geometry = geometry;
+		return sp;
 	}
 }

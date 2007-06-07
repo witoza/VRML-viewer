@@ -7,6 +7,7 @@ import javax.vecmath.Vector2f;
 
 import cindy.parser.CVector2fArray;
 import cindy.parser.VRMLDefaultTreeDFSIterator;
+import cindy.parser.VRMLNodeFactory;
 import cindy.parser.VRMLNodeParser;
 import cindy.parser.VRNode;
 
@@ -29,5 +30,11 @@ public class VRTextureCoordinate extends VRNode{
 		point = CVector2fArray.read(parser);
 		parser.st.nextToken();//}
 		return this;
+	}
+
+	public VRNode clone(VRMLNodeFactory nf) {
+		VRTextureCoordinate tc = (VRTextureCoordinate)nf.createTextureCoordinate();
+		tc.point = point;
+		return tc;
 	}
 }

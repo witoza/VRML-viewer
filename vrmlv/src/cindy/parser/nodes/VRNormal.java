@@ -7,6 +7,7 @@ import javax.vecmath.Vector3f;
 
 import cindy.parser.CVector3fArray;
 import cindy.parser.VRMLDefaultTreeDFSIterator;
+import cindy.parser.VRMLNodeFactory;
 import cindy.parser.VRMLNodeParser;
 import cindy.parser.VRNode;
 
@@ -29,5 +30,11 @@ public class VRNormal extends VRNode{
 		vector = CVector3fArray.read(parser);
 		parser.st.nextToken();//}
 		return this;
+	}
+	
+	public VRNode clone(VRMLNodeFactory nf) {
+		VRNormal nl = (VRNormal)nf.createNormal();
+		nl.vector = vector;
+		return nl;
 	}
 }

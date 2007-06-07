@@ -9,6 +9,7 @@ import javax.vecmath.Vector3f;
 
 import cindy.parser.FloatArray;
 import cindy.parser.VRMLDefaultTreeDFSIterator;
+import cindy.parser.VRMLNodeFactory;
 import cindy.parser.VRMLNodeParser;
 import cindy.parser.VRNode;
 
@@ -22,6 +23,14 @@ public class VRLOD extends VRNode{
 	public Vector3f		center=new Vector3f(0,0,0);
 	public float[]		range;
 	public LinkedList	level;
+	
+	public VRNode clone(VRMLNodeFactory nf) {
+		VRLOD lod = (VRLOD)nf.createLOD();
+		lod.center = center;
+		lod.range = range;
+		lod.level = level;
+		return lod;
+	}
 	
 	public Iterator iterator(){		
 		return new VRMLDefaultTreeDFSIterator(level,this);
@@ -40,4 +49,6 @@ public class VRLOD extends VRNode{
 		}
 		return this;
 	}
+
+
 }

@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import cindy.parser.VRMLDefaultTreeDFSIterator;
+import cindy.parser.VRMLNodeFactory;
 import cindy.parser.VRMLNodeParser;
 import cindy.parser.VRNode;
 
@@ -40,5 +41,12 @@ public class VRPointSet extends VRNode{
 			else if (s.equals("color"))	color = (VRCoordinate)parser.readNode(this);
 		}
 		return this;
+	}
+
+	public VRNode clone(VRMLNodeFactory nf) {
+		VRPointSet ps = (VRPointSet)nf.createPointSet();
+		ps.coord = coord;
+		ps.color = color;
+		return ps;
 	}
 }

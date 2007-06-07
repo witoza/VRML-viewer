@@ -7,6 +7,7 @@ import java.util.Iterator;
 import javax.vecmath.Vector3f;
 
 import cindy.parser.VRMLDefaultTreeDFSIterator;
+import cindy.parser.VRMLNodeFactory;
 import cindy.parser.VRMLNodeParser;
 import cindy.parser.VRNode;
 
@@ -23,6 +24,17 @@ public class VRDirectionalLight extends VRNode{
 	public Vector3f direction = new Vector3f(0,0,-1);
 	public float intensity = 1.0f;
 	public boolean on = true;
+	
+
+	public VRNode clone(VRMLNodeFactory nf) {
+		VRDirectionalLight wd = (VRDirectionalLight)nf.createDirectionalLight();
+		wd.ambientIntensity = ambientIntensity;
+		wd.color = color;
+		wd.direction = direction;
+		wd.intensity = intensity;
+		wd.on = on;
+		return wd;
+	}	
 		
 	public Iterator iterator() {
 		return new VRMLDefaultTreeDFSIterator(null,this);
@@ -43,5 +55,6 @@ public class VRDirectionalLight extends VRNode{
 			else if (s.equals("on"))			on=parser.readBoolean();
 		}
 		return this;	
-	}	
+	}
+
 }

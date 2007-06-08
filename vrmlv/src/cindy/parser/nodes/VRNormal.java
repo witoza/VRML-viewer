@@ -33,8 +33,11 @@ public class VRNormal extends VRNode{
 	}
 	
 	public VRNode clone(VRMLNodeFactory nf) {
-		VRNormal nl = (VRNormal)nf.createNormal();
-		nl.vector = vector;
-		return nl;
+		VRNormal nd = (VRNormal)nf.createNormal();
+		nd.model = model;
+		nd.name = name;
+		
+		nd.vector = vector;
+		return nd;
 	}
 }

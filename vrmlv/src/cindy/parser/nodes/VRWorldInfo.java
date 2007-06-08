@@ -22,10 +22,13 @@ public class VRWorldInfo extends VRNode{
 	public String title = ""; 
 	
 	public VRNode clone(VRMLNodeFactory nf) {
-		VRWorldInfo wi =(VRWorldInfo) nf.createWorldInfo();
-		wi.info = info;
-		wi.title = title;
-		return wi;
+		VRWorldInfo nd =(VRWorldInfo) nf.createWorldInfo();
+		nd.model = model;
+		nd.name = name;
+		
+		nd.info = info;
+		nd.title = title;
+		return nd;
 	}	
 	
 	public Iterator iterator() {

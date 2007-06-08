@@ -25,15 +25,14 @@ public class VRBox extends VRNode{
 	public Vector3f		size = new Vector3f(2,2,2);
 	
 	public VRNode clone(VRMLNodeFactory nf){
-		VRBox box = (VRBox)nf.createBox();
-		box.size = size;
-		return box;
+		VRBox nd = (VRBox)nf.createBox();
+		nd.model = model;
+		nd.name = name;
+		
+		nd.size = size;
+		return nd;
 	}
-	
-	
-//	public VRCoordinate coord;
-//	public VRCoordinate color;
-	
+		
 	public Iterator iterator() {
 		return new VRMLDefaultTreeDFSIterator(null,this);
 	}

@@ -31,18 +31,21 @@ public class VRSpotLight extends VRNode{
 	public float radius					= 100;
 	
 	public VRNode clone(VRMLNodeFactory nf) {
-		VRSpotLight sl = (VRSpotLight)nf.createSpotLight();
-		sl.ambientIntensity = ambientIntensity;
-		sl.attenuation = attenuation;
-		sl.beamWidth = beamWidth;
-		sl.color = color;
-		sl.cutOffAngle = cutOffAngle;
-		sl.direction = direction;
-		sl.intensity = intensity;
-		sl.location = location;
-		sl.on = on;
-		sl.radius = radius;
-		return sl;
+		VRSpotLight nd = (VRSpotLight)nf.createSpotLight();
+		nd.model = model;
+		nd.name = name;
+		
+		nd.ambientIntensity = ambientIntensity;
+		nd.attenuation = attenuation;
+		nd.beamWidth = beamWidth;
+		nd.color = color;
+		nd.cutOffAngle = cutOffAngle;
+		nd.direction = direction;
+		nd.intensity = intensity;
+		nd.location = location;
+		nd.on = on;
+		nd.radius = radius;
+		return nd;
 	}
 	
 	

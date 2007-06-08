@@ -47,13 +47,16 @@ public class VRMaterial extends VRNode{
 	}
 
 	public VRNode clone(VRMLNodeFactory nf) {
-		VRMaterial mt = (VRMaterial)nf.createMaterial();
-		mt.ambientIntensity = ambientIntensity;
-		mt.diffuseColor = diffuseColor;
-		mt.emissiveColor = emissiveColor;
-		mt.shininess = shininess;
-		mt.specularColor = specularColor;
-		mt.transparency = transparency;
-		return mt;
+		VRMaterial nd = (VRMaterial)nf.createMaterial();
+		nd.model = model;
+		nd.name = name;
+		
+		nd.ambientIntensity = ambientIntensity;
+		nd.diffuseColor = diffuseColor;
+		nd.emissiveColor = emissiveColor;
+		nd.shininess = shininess;
+		nd.specularColor = specularColor;
+		nd.transparency = transparency;
+		return nd;
 	}
 }

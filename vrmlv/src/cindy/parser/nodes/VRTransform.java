@@ -48,14 +48,17 @@ public class VRTransform extends VRNode{
 	
 
 	public VRNode clone(VRMLNodeFactory nf) {
-		VRTransform tr = (VRTransform)nf.createTransform();
-		tr.center = center;
-		tr.scale = scale;
-		tr.translation = translation;
-		tr.rotation = rotation;
-		tr.scaleOrientation = scaleOrientation;
-		tr.children = children;
-		return tr;
+		VRTransform nd = (VRTransform)nf.createTransform();
+		nd.model = model;
+		nd.name = name;
+		
+		nd.center = center;
+		nd.scale = scale;
+		nd.translation = translation;
+		nd.rotation = rotation;
+		nd.scaleOrientation = scaleOrientation;
+		nd.children = children;
+		return nd;
 	}
 	
 		

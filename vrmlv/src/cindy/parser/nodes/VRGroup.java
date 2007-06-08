@@ -36,9 +36,12 @@ public class VRGroup extends VRNode{
 	}
 
 	public VRNode clone(VRMLNodeFactory nf) {
-		VRGroup gr = (VRGroup)nf.createGroup();
-		gr.children = children;		
-		return gr;
+		VRGroup nd = (VRGroup)nf.createGroup();
+		nd.model = model;
+		nd.name = name;
+		
+		nd.children = children;		
+		return nd;
 	}
 
 }

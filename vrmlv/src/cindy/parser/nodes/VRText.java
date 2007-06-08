@@ -45,8 +45,11 @@ public class VRText extends VRNode{
 	}
 
 	public VRNode clone(VRMLNodeFactory nf) {
-		VRText txt = (VRText)nf.createText();
-		txt.text = text;
-		return txt;
+		VRText nd = (VRText)nf.createText();
+		nd.model = model;
+		nd.name = name;
+		
+		nd.text = text;
+		return nd;
 	}
 }

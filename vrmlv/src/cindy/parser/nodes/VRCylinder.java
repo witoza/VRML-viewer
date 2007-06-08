@@ -23,13 +23,16 @@ public class VRCylinder extends VRNode{
 	public boolean top		= true;
 	
 	public VRNode clone(VRMLNodeFactory nf) {
-		VRCylinder wc = (VRCylinder)nf.createCylinder();
-		wc.bottom = bottom;
-		wc.height = height;
-		wc.radius = radius;
-		wc.side = side;
-		wc.top = top;
-		return wc;
+		VRCylinder nd = (VRCylinder)nf.createCylinder();
+		nd.model = model;
+		nd.name = name;
+		
+		nd.bottom = bottom;
+		nd.height = height;
+		nd.radius = radius;
+		nd.side = side;
+		nd.top = top;
+		return nd;
 	}
 
 	

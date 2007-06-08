@@ -27,13 +27,16 @@ public class VRDirectionalLight extends VRNode{
 	
 
 	public VRNode clone(VRMLNodeFactory nf) {
-		VRDirectionalLight wd = (VRDirectionalLight)nf.createDirectionalLight();
-		wd.ambientIntensity = ambientIntensity;
-		wd.color = color;
-		wd.direction = direction;
-		wd.intensity = intensity;
-		wd.on = on;
-		return wd;
+		VRDirectionalLight nd = (VRDirectionalLight)nf.createDirectionalLight();
+		nd.model = model;
+		nd.name = name;
+		
+		nd.ambientIntensity = ambientIntensity;
+		nd.color = color;
+		nd.direction = direction;
+		nd.intensity = intensity;
+		nd.on = on;
+		return nd;
 	}	
 		
 	public Iterator iterator() {

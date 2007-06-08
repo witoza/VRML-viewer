@@ -26,12 +26,15 @@ public class VRViewpoint extends VRNode{
 	
 	
 	public VRNode clone(VRMLNodeFactory nf) {
-		VRViewpoint vp = (VRViewpoint)nf.createViewpoint();
-		vp.fieldOfView = fieldOfView;
-		vp.description = description;
-		vp.position = position;
-		vp.orientation = orientation;
-		return vp;
+		VRViewpoint nd = (VRViewpoint)nf.createViewpoint();
+		nd.model = model;
+		nd.name = name;
+		
+		nd.fieldOfView = fieldOfView;
+		nd.description = description;
+		nd.position = position;
+		nd.orientation = orientation;
+		return nd;
 	}
 	
 	public Iterator iterator(){

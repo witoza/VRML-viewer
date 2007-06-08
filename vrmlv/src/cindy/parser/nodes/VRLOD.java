@@ -25,11 +25,14 @@ public class VRLOD extends VRNode{
 	public LinkedList	level;
 	
 	public VRNode clone(VRMLNodeFactory nf) {
-		VRLOD lod = (VRLOD)nf.createLOD();
-		lod.center = center;
-		lod.range = range;
-		lod.level = level;
-		return lod;
+		VRLOD nd = (VRLOD)nf.createLOD();
+		nd.model = model;
+		nd.name = name;
+		
+		nd.center = center;
+		nd.range = range;
+		nd.level = level;
+		return nd;
 	}
 	
 	public Iterator iterator(){		

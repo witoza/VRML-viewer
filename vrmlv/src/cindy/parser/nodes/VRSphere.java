@@ -19,9 +19,12 @@ public class VRSphere extends VRNode{
 	public float		radius=1.0f;
 	
 	public VRNode clone(VRMLNodeFactory nf){
-		VRSphere sph = (VRSphere)nf.createShpere();
-		sph.radius = radius;
-		return sph;
+		VRSphere nd = (VRSphere)nf.createShpere();
+		nd.model = model;
+		nd.name = name;
+		
+		nd.radius = radius;
+		return nd;
 	}	
 	
 		

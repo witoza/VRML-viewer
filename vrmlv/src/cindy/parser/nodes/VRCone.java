@@ -23,12 +23,15 @@ public class VRCone extends VRNode{
 	
 	
 	public VRNode clone(VRMLNodeFactory nf) {
-		VRCone wc = (VRCone) nf.createCone();
-		wc.bottomRadius = bottomRadius;
-		wc.height = height;
-		wc.side = side;
-		wc.bottom = bottom;
-		return wc;
+		VRCone nd = (VRCone) nf.createCone();
+		nd.model = model;
+		nd.name = name;
+		
+		nd.bottomRadius = bottomRadius;
+		nd.height = height;
+		nd.side = side;
+		nd.bottom = bottom;
+		return nd;
 	}
 	
 	public Iterator iterator() {

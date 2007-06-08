@@ -33,8 +33,11 @@ public class VRTextureCoordinate extends VRNode{
 	}
 
 	public VRNode clone(VRMLNodeFactory nf) {
-		VRTextureCoordinate tc = (VRTextureCoordinate)nf.createTextureCoordinate();
-		tc.point = point;
-		return tc;
+		VRTextureCoordinate nd = (VRTextureCoordinate)nf.createTextureCoordinate();
+		nd.model = model;
+		nd.name = name;
+		
+		nd.point = point;
+		return nd;
 	}
 }

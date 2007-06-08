@@ -21,9 +21,12 @@ public class VRCoordinate extends VRNode{
 	public Vector3f[]	coord;
 	
 	public VRNode clone(VRMLNodeFactory nf) {
-		VRCoordinate wc = (VRCoordinate)nf.createCoordinate();
-		wc.coord = coord;
-		return wc;
+		VRCoordinate nd = (VRCoordinate)nf.createCoordinate();
+		nd.model = model;
+		nd.name = name;
+		
+		nd.coord = coord;
+		return nd;
 	}
 	
 	public Iterator iterator(){

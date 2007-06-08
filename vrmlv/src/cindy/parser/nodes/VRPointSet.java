@@ -44,9 +44,12 @@ public class VRPointSet extends VRNode{
 	}
 
 	public VRNode clone(VRMLNodeFactory nf) {
-		VRPointSet ps = (VRPointSet)nf.createPointSet();
-		ps.coord = coord;
-		ps.color = color;
-		return ps;
+		VRPointSet nd = (VRPointSet)nf.createPointSet();
+		nd.model = model;
+		nd.name = name;
+		
+		nd.coord = coord;
+		nd.color = color;
+		return nd;
 	}
 }

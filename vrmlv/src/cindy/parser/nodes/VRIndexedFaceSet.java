@@ -37,27 +37,27 @@ public class VRIndexedFaceSet extends VRNode{
 	
 	
 	public VRNode clone(VRMLNodeFactory nf){
-		VRIndexedFaceSet ifc = (VRIndexedFaceSet)nf.createIndexedFaceSet();
+		VRIndexedFaceSet nd = (VRIndexedFaceSet)nf.createIndexedFaceSet();
 		
-		ifc.model = model;
-		ifc.name = name;
-		ifc.parent = parent;
+		nd.model = model;
+		nd.name = name;
+		nd.parent = parent;
 		
-		ifc.color = color;
-		ifc.coord = coord;
-		ifc.normal = normal;
-		ifc.texCoord = texCoord;
-		ifc.ccw = ccw;
-		ifc.colorIndex = colorIndex;
-		ifc.colorPerVertex = colorPerVertex;
-		ifc.convex = convex;
-		ifc.coordIndex = coordIndex;
-		ifc.creaseAngle = creaseAngle;
-		ifc.normalIndex = normalIndex;
-		ifc.normalPerVertex = normalPerVertex;
-		ifc.solid = solid;
-		ifc.texCoordIndex = texCoordIndex;
-		return ifc;
+		nd.color = color;
+		nd.coord = coord;
+		nd.normal = normal;
+		nd.texCoord = texCoord;
+		nd.ccw = ccw;
+		nd.colorIndex = colorIndex;
+		nd.colorPerVertex = colorPerVertex;
+		nd.convex = convex;
+		nd.coordIndex = coordIndex;
+		nd.creaseAngle = creaseAngle;
+		nd.normalIndex = normalIndex;
+		nd.normalPerVertex = normalPerVertex;
+		nd.solid = solid;
+		nd.texCoordIndex = texCoordIndex;
+		return nd;
 	}
 
 	

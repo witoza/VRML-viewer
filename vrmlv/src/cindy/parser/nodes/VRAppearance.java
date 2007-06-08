@@ -46,10 +46,13 @@ public class VRAppearance extends VRNode{
 	}
 	
 	public VRNode clone(VRMLNodeFactory nf) {
-		VRAppearance app = (VRAppearance)nf.createAppearance();
-		app.material = material;
-		app.texture = texture;
-		return app;
+		VRAppearance nd = (VRAppearance)nf.createAppearance();
+		nd.model = model;
+		nd.name = name;
+		
+		nd.material = material;
+		nd.texture = texture;
+		return nd;
 	}
 
 }

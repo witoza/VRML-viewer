@@ -26,11 +26,14 @@ public class VRImageTexture extends VRNode{
 	public boolean repeatT = true;
 	
 	public VRNode clone(VRMLNodeFactory nf) {
-		VRImageTexture it = (VRImageTexture)nf.createImageTexture();
-		it.url = url;
-		it.repeatS = repeatS;
-		it.repeatT = repeatT;
-		return it;
+		VRImageTexture nd = (VRImageTexture)nf.createImageTexture();
+		nd.model = model;
+		nd.name = name;
+		
+		nd.url = url;
+		nd.repeatS = repeatS;
+		nd.repeatT = repeatT;
+		return nd;
 	}
 	
 	

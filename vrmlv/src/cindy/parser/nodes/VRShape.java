@@ -50,9 +50,12 @@ public class VRShape extends VRNode{
 	}
 
 	public VRNode clone(VRMLNodeFactory nf) {
-		VRShape sp = (VRShape)nf.createShape();
-		sp.appearance = appearance;
-		sp.geometry = geometry;
-		return sp;
+		VRShape nd = (VRShape)nf.createShape();
+		nd.model = model;
+		nd.name = name;
+		
+		nd.appearance = appearance;
+		nd.geometry = geometry;
+		return nd;
 	}
 }

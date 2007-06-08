@@ -51,14 +51,17 @@ public class VRPointLight extends VRNode{
 	}
 
 	public VRNode clone(VRMLNodeFactory nf) {
-		VRPointLight pl = (VRPointLight)nf.createPointLight();
-		pl.ambientIntensity = ambientIntensity;
-		pl.attenuation = attenuation;
-		pl.color = color;
-		pl.intensity = intensity;
-		pl.location = location;
-		pl.on = on;
-		pl.radius = radius;
-		return pl;
+		VRPointLight nd = (VRPointLight)nf.createPointLight();
+		nd.model = model;
+		nd.name = name;
+		
+		nd.ambientIntensity = ambientIntensity;
+		nd.attenuation = attenuation;
+		nd.color = color;
+		nd.intensity = intensity;
+		nd.location = location;
+		nd.on = on;
+		nd.radius = radius;
+		return nd;
 	}
 }

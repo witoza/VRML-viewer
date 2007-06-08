@@ -26,13 +26,16 @@ public class VRIndexedLineSet extends VRNode{
 	public int []		coordIndex;
 		
 	public VRNode clone(VRMLNodeFactory nf) {
-		VRIndexedLineSet ils = (VRIndexedLineSet)nf.createIndexedLineSet();
-		ils.coord = coord;
-		ils.color = color;
-		ils.colorIndex = colorIndex;
-		ils.colorPerVertex = colorPerVertex;
-		ils.coordIndex = coordIndex;
-		return ils;
+		VRIndexedLineSet nd = (VRIndexedLineSet)nf.createIndexedLineSet();
+		nd.model = model;
+		nd.name = name;
+		
+		nd.coord = coord;
+		nd.color = color;
+		nd.colorIndex = colorIndex;
+		nd.colorPerVertex = colorPerVertex;
+		nd.coordIndex = coordIndex;
+		return nd;
 	}
 	
 	public Iterator iterator(){

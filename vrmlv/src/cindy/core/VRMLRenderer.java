@@ -202,7 +202,7 @@ public class VRMLRenderer implements GLEventListener, MouseListener, MouseMotion
     	//gl.glFrontFace(GL.GL_CCW);    	
 		gl.glDisable(GL.GL_CULL_FACE);
 							
-		gl.glLightModeli(GL.GL_LIGHT_MODEL_TWO_SIDE, GL.GL_TRUE);
+		//gl.glLightModeli(GL.GL_LIGHT_MODEL_TWO_SIDE, GL.GL_TRUE);
     	
     	_LOG.info("-------------------------------------------------------\n");
     	inited = true;

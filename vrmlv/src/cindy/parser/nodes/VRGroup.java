@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import cindy.parser.VRMLDefaultTreeDFSIterator;
 import cindy.parser.VRMLNodeFactory;
 import cindy.parser.VRMLNodeParser;
+import cindy.parser.VRMLParserException;
 import cindy.parser.VRNode;
 
 public class VRGroup extends VRNode{
@@ -31,6 +32,10 @@ public class VRGroup extends VRNode{
 			String s=parser.st.sval;
 			parser.print(s+"\n");
 			if (s.equals("children"))	children=parser.readNodes(this);
+			else if (s.equals("ROUTE"))	parser.skipRoute();
+			else {
+				throw new VRMLParserException(s + " phrase not possible in "+ getNodeInternalName() + " node! ");
+			}
 		}
 		return this;
 	}

@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import cindy.parser.VRMLDefaultTreeDFSIterator;
 import cindy.parser.VRMLNodeFactory;
 import cindy.parser.VRMLNodeParser;
+import cindy.parser.VRMLParserException;
 import cindy.parser.VRNode;
 
 public class VRImageTexture extends VRNode{
@@ -55,6 +56,9 @@ public class VRImageTexture extends VRNode{
 			}
 			else if (s.equals("repeatS"))	repeatS=parser.readBoolean();
 			else if (s.equals("repeatT"))	repeatS=parser.readBoolean();
+			else {
+				throw new VRMLParserException(s + " phrase not possible in "+ getNodeInternalName() + " node! ");
+			}
 		}
 		return this;
 	}

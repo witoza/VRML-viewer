@@ -214,6 +214,13 @@ public class VRMLNodeParser{
 		st.pushBack();
 		return false;
 	}
+	
+	public void skipRoute() throws IOException{
+		st.nextToken();	//name
+		st.nextToken();	//from
+		st.nextToken();	//to	
+		print("... skipping route");
+	}
 		
 	public VRNode readNode(VRNode parent) throws IOException{
 		n++;		
@@ -260,10 +267,7 @@ public class VRMLNodeParser{
 					n++;					
 				}
 				else if (s.equals("ROUTE")) {
-					st.nextToken();	//name
-					st.nextToken();	//from
-					st.nextToken();	//to	
-					print("... skipping route");
+					skipRoute();
 				}
 				else{
 					skip('{','}');

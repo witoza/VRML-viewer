@@ -9,6 +9,7 @@ import javax.vecmath.Vector3f;
 import cindy.parser.VRMLDefaultTreeDFSIterator;
 import cindy.parser.VRMLNodeFactory;
 import cindy.parser.VRMLNodeParser;
+import cindy.parser.VRMLParserException;
 import cindy.parser.VRNode;
 
 public class VRMaterial extends VRNode{
@@ -42,6 +43,9 @@ public class VRMaterial extends VRNode{
 			else if (s.equals("shininess")) 	shininess = parser.readFloat();
 			else if (s.equals("specularColor"))	specularColor = parser.readVector3f();
 			else if (s.equals("transparency"))	transparency = parser.readFloat();
+			else {
+				throw new VRMLParserException(s + " phrase not possible in "+ getNodeInternalName() + " node! ");
+			}
 		}
 		return this;
 	}

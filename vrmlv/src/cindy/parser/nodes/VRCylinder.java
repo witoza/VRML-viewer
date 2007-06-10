@@ -7,6 +7,7 @@ import java.util.Iterator;
 import cindy.parser.VRMLDefaultTreeDFSIterator;
 import cindy.parser.VRMLNodeFactory;
 import cindy.parser.VRMLNodeParser;
+import cindy.parser.VRMLParserException;
 import cindy.parser.VRNode;
 
 public class VRCylinder extends VRNode{
@@ -52,6 +53,9 @@ public class VRCylinder extends VRNode{
 			else if (s.equals("radius"))	radius = parser.readFloat();			
 			else if (s.equals("side"))		side = parser.readBoolean();
 			else if (s.equals("top"))		top = parser.readBoolean();
+			else {
+				throw new VRMLParserException(s + " phrase not possible in "+ getNodeInternalName() + " node! ");
+			}
 		}
 		return this;
 	}

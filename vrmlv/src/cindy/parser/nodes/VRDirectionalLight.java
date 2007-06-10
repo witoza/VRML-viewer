@@ -9,6 +9,7 @@ import javax.vecmath.Vector3f;
 import cindy.parser.VRMLDefaultTreeDFSIterator;
 import cindy.parser.VRMLNodeFactory;
 import cindy.parser.VRMLNodeParser;
+import cindy.parser.VRMLParserException;
 import cindy.parser.VRNode;
 
 public class VRDirectionalLight extends VRNode{
@@ -56,6 +57,9 @@ public class VRDirectionalLight extends VRNode{
 			else if (s.equals("direction"))		direction=parser.readVector3f();
 			else if (s.equals("intensity"))		intensity=parser.readFloat();
 			else if (s.equals("on"))			on=parser.readBoolean();
+			else {
+				throw new VRMLParserException(s + " phrase not possible in "+ getNodeInternalName() + " node! ");
+			}
 		}
 		return this;	
 	}

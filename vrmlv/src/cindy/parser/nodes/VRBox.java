@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import cindy.parser.VRMLDefaultTreeDFSIterator;
 import cindy.parser.VRMLNodeFactory;
 import cindy.parser.VRMLNodeParser;
+import cindy.parser.VRMLParserException;
 import cindy.parser.VRNode;
 
 public class VRBox extends VRNode{
@@ -46,6 +47,9 @@ public class VRBox extends VRNode{
 			String s=parser.st.sval;
 			parser.print(s);
 			if (s.equals("size"))			size=parser.readVector3f();
+			else {
+				throw new VRMLParserException(s + " phrase not possible in "+ getNodeInternalName() + " node! ");
+			}
 		}
 		return this;
 	}

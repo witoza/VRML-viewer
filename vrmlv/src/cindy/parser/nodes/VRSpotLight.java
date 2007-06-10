@@ -9,6 +9,7 @@ import javax.vecmath.Vector3f;
 import cindy.parser.VRMLDefaultTreeDFSIterator;
 import cindy.parser.VRMLNodeFactory;
 import cindy.parser.VRMLNodeParser;
+import cindy.parser.VRMLParserException;
 import cindy.parser.VRNode;
 
 public class VRSpotLight extends VRNode{
@@ -71,6 +72,9 @@ public class VRSpotLight extends VRNode{
 			else if (s.equals("location"))		location=parser.readVector3f();
 			else if (s.equals("on"))			on=parser.readBoolean();
 			else if (s.equals("radius"))		radius=parser.readFloat();
+			else {
+				throw new VRMLParserException(s + " phrase not possible in "+ getNodeInternalName() + " node! ");
+			}
 		}
 		return this;
 	}

@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import cindy.parser.VRMLDefaultTreeDFSIterator;
 import cindy.parser.VRMLNodeFactory;
 import cindy.parser.VRMLNodeParser;
+import cindy.parser.VRMLParserException;
 import cindy.parser.VRNode;
 
 public class VRAppearance extends VRNode{
@@ -38,8 +39,12 @@ public class VRAppearance extends VRNode{
 			parser.print(s);
 			if (s.equals("material")) material=(VRMaterial) parser.readNode(this);
 			else if (s.equals("texture")) texture=(VRImageTexture) parser.readNode(this);
+			else if (s.equals("textureTransform")){
+				parser.st.nextToken();//TextureTransform
+				parser.skip('{','}');
+			}
 			else {
-				parser.skip('{', '}');
+				throw new VRMLParserException(s + " phrase not possible in "+ getNodeInternalName() + " node! ");
 			}
 		}
 		return this;

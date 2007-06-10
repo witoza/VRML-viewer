@@ -23,6 +23,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -47,6 +48,7 @@ import cindy.drawable.NodeSettings;
 import cindy.drawable.VRMLDrawableModel;
 import cindy.drawable.nodes.VRDNodeFactory;
 import cindy.parser.VRMLModel;
+import cindy.parser.VRMLParserException;
 import cindy.parser.VRNode;
 import cindy.parser.nodes.VRWorldInfo;
 
@@ -54,7 +56,7 @@ public class Cindy extends JFrame implements IParentListener{
 	
 	private static final Logger _LOG = Logger.getLogger(Cindy.class);
 	
-	static public String appName = "'Cindy' VRML Browser 0.1";
+	static public String appName = "'Cindy' VRML Browser 1.0";
 	private GLDisplay renderingWindow;
 	private VRMLRenderer renderer;
 	
@@ -94,14 +96,10 @@ public class Cindy extends JFrame implements IParentListener{
 		model.setFileName(fileChosen);
 		try{
 			is = new ProgressMonitorInputStream(Cindy.this, "Reading file " + fileChosen, new FileInputStream(new File(fileChosen)));
-/*			SwingUtilities.invokeLater(new Runnable(){
-				public void run() {
-					is.getProgressMonitor().setMillisToDecideToPopup(0);
-					is.getProgressMonitor().setMillisToPopup(0);
-					is.getProgressMonitor().setProgress(1);					
-				}				
-			});
-*/			
+			is.getProgressMonitor().setMillisToDecideToPopup(0);
+			is.getProgressMonitor().setMillisToPopup(0);
+			is.getProgressMonitor().setProgress(1);					
+			
 			model.readModel(is, new VRDNodeFactory());
 			renderer.setModel(model);
 			SwingUtilities.invokeLater(new Runnable() {
@@ -110,11 +108,22 @@ public class Cindy extends JFrame implements IParentListener{
 					tree.setModel(new JTreeModelFromVrmlModel(model.getMainGroup()));
 				}
 			});
+		
 		} catch (IOException e1) {
-			_LOG.warn("error while reading data");
+			_LOG.warn("IO error while reading data");
 			e1.printStackTrace();
+			JOptionPane.showMessageDialog(this, "Error in file: " +fileChosen+"\n" + e1+ "\nAborting...");
+			is.getProgressMonitor().close();
+			
+		} catch (VRMLParserException vpe){
+			_LOG.error("error while reading data: "+vpe);
+			vpe.printStackTrace();
+			JOptionPane.showMessageDialog(this, "Error in file: " +fileChosen+"\n" + vpe+ "\nAborting...");
+			is.getProgressMonitor().close();
 		}
 	}
+	
+		
 	private JTree tree = new JTree(new DefaultTreeModel(null));
 	private ProgressMonitorInputStream is;	
 	
@@ -169,11 +178,12 @@ public class Cindy extends JFrame implements IParentListener{
 			tree.makeVisible(tp);
 		}
 		
-
-		
 		switch(getSelectedRenderingMode()){
-			case -1:
+			case -2:
 				renderingModeChanger.setSelectedItem("NONE");
+				break;
+			case -1:
+				renderingModeChanger.setSelectedIndex(-1);
 				break;
 			case GL.GL_FILL:
 				renderingModeChanger.setSelectedItem("GL_FILL");
@@ -186,7 +196,7 @@ public class Cindy extends JFrame implements IParentListener{
 				break;
 			default:
 				_LOG.warn("wrong rendering type");									
-		}							
+		}		
 		setBBoxVisibilityInNodes();
 		guiBeingUpdate = false;
 	}
@@ -194,10 +204,10 @@ public class Cindy extends JFrame implements IParentListener{
 	private JButton resetPos = new JButton("Reset position");
 	
 	int getSelectedRenderingMode(){
+		int flag = -2;//NONE
 		if (renderer.getSelectedNodes().selectedNodes.isEmpty()){
-			return -1;
-		}
-		int flag = 0;	    	
+			return flag;
+		}		
     	for (IDrawable node : renderer.getSelectedNodes().selectedNodes){
     		Iterator iter = ((VRNode)node).iterator();
     		while(iter.hasNext()){
@@ -206,11 +216,11 @@ public class Cindy extends JFrame implements IParentListener{
     				//_LOG.debug("changind node settings for: " + nd);
     				NodeSettings ds = ((IDrawable)nd).getNodeSettings();		    				
     				if (ds!=null){
-    					if (flag==0){
+    					if (flag==-2){
     						flag = ds.rendMode; 
     					}else{
     						if (flag!=ds.rendMode){
-    							return -1;
+    							return -1;//NONE SELECTED
     						}
     					}
     				}		    				
@@ -293,8 +303,10 @@ public class Cindy extends JFrame implements IParentListener{
 				}
 				
 				switch(getSelectedRenderingMode()){
-					case -1:
+					case -2:
 						renderingModeChanger.setSelectedItem("NONE");
+					case -1:
+						renderingModeChanger.setSelectedIndex(-1);
 						break;
 					case GL.GL_FILL:
 						renderingModeChanger.setSelectedItem("GL_FILL");
@@ -434,7 +446,7 @@ public class Cindy extends JFrame implements IParentListener{
 				//s = "C:/__vrml/xxx/1/2.wrl";
 				//s = "C:/__vrml/default.wrl";
 				//s = "C:/new/colors.wrl";
-				//s = "C:\\__vrml\\1.wrl";
+				s = "C:\\__vrml\\3.wrl";
 				//outputWRL = "C:\\__vrml\\2006_01_16\\CT_res_2.wrl";
 				if (s != null) {
 					//_LOG.info("input file: " + inputWRL);

@@ -9,6 +9,7 @@ import cindy.parser.IntArray;
 import cindy.parser.VRMLDefaultTreeDFSIterator;
 import cindy.parser.VRMLNodeFactory;
 import cindy.parser.VRMLNodeParser;
+import cindy.parser.VRMLParserException;
 import cindy.parser.VRNode;
 
 
@@ -84,6 +85,9 @@ public class VRIndexedFaceSet extends VRNode{
 			else if (s.equals("normalPerVertex"))normalPerVertex=parser.readBoolean();
 			else if (s.equals("solid"))			solid=parser.readBoolean();
 			else if (s.equals("texCoordIndex"))	texCoordIndex=IntArray.read(parser);
+			else {
+				throw new VRMLParserException(s + " phrase not possible in "+ getNodeInternalName() + " node! ");
+			}
 		}
 		if (isCordIndex && coordIndex==null)
 			return null;

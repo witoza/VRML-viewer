@@ -164,6 +164,8 @@ public class VRMLRenderer implements GLEventListener, MouseListener, MouseMotion
     }
 	
     public synchronized void setModel(VRMLModel m) {
+    	displayOptions.pickingOptions.clear();
+    	displayOptions.selectedNodes.clearSelectedNodes();
     	clearArcBall();
 		model = m;
 	}    
@@ -190,17 +192,17 @@ public class VRMLRenderer implements GLEventListener, MouseListener, MouseMotion
     	gl.glDepthFunc(GL.GL_LEQUAL);
     	gl.glEnable(GL.GL_DEPTH_TEST);
     	gl.glHint(GL.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST);
-    	   gl.glEnable(GL.GL_TEXTURE_2D);
+
     	
     	gl.glEnable(GL.GL_LIGHT0);
     	gl.glEnable(GL.GL_LIGHTING);    	
     	gl.glEnable(GL.GL_COLOR_MATERIAL);
+    	gl.glEnable(GL.GL_NORMALIZE);
     	
-    	gl.glFrontFace(GL.GL_CCW);    	
+    	//gl.glFrontFace(GL.GL_CCW);    	
 		gl.glDisable(GL.GL_CULL_FACE);
-				
-		gl.glColorMaterial(GL.GL_FRONT, GL.GL_AMBIENT_AND_DIFFUSE);			
-		//gl.glLightModeli(GL.GL_LIGHT_MODEL_TWO_SIDE, GL.GL_TRUE);
+							
+		gl.glLightModeli(GL.GL_LIGHT_MODEL_TWO_SIDE, GL.GL_TRUE);
     	
     	_LOG.info("-------------------------------------------------------\n");
     	inited = true;
@@ -330,7 +332,10 @@ public class VRMLRenderer implements GLEventListener, MouseListener, MouseMotion
 		isMouseClicked = false;
 				
 		gl.glClear(GL.GL_DEPTH_BUFFER_BIT | GL.GL_COLOR_BUFFER_BIT);
-				
+		gl.glEnable(GL.GL_COLOR_MATERIAL);
+		gl.glColor3f(1,1,1);
+		gl.glDisable(GL.GL_COLOR_MATERIAL);
+		gl.glColor3f(1,1,1);
 		drawModel();
 		if (isCenterClicked){
 			float dy=(lastMouseY-actualMousePos.y)/50.0f;

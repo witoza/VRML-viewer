@@ -70,7 +70,7 @@ public class VRDIndexedFaceSet extends VRIndexedFaceSet implements IDrawable{
 		gl.glPushName(dispOpt.pickingOptions.add(this));
 		
 		gl.glEnable(GL.GL_COLOR_MATERIAL);
-		gl.glEnable(GL.GL_NORMALIZE);
+
 		if (texture != -1) {
 			gl.glEnable(GL.GL_TEXTURE_2D);
 			gl.glBindTexture(GL.GL_TEXTURE_2D, texture);
@@ -78,7 +78,7 @@ public class VRDIndexedFaceSet extends VRIndexedFaceSet implements IDrawable{
 			gl.glDisable(GL.GL_COLOR_MATERIAL);
 		}
 
-		gl.glFrontFace(ccw ? GL.GL_CCW : GL.GL_CW);
+		//gl.glFrontFace(ccw ? GL.GL_CCW : GL.GL_CW);
 		
 	
 		Vector3f[] ver =coord.coord;

@@ -7,6 +7,7 @@ import java.util.Iterator;
 import cindy.parser.VRMLDefaultTreeDFSIterator;
 import cindy.parser.VRMLNodeFactory;
 import cindy.parser.VRMLNodeParser;
+import cindy.parser.VRMLParserException;
 import cindy.parser.VRNode;
 
 public class VRSphere extends VRNode{
@@ -40,6 +41,9 @@ public class VRSphere extends VRNode{
 			String s=parser.st.sval;
 			parser.print(s);
 			if (s.equals("radius"))			radius = parser.readFloat();
+			else {
+				throw new VRMLParserException(s + " phrase not possible in "+ getNodeInternalName() + " node! ");
+			}
 		}
 		return this;
 	}

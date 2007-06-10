@@ -7,6 +7,7 @@ import java.util.Iterator;
 import cindy.parser.VRMLDefaultTreeDFSIterator;
 import cindy.parser.VRMLNodeFactory;
 import cindy.parser.VRMLNodeParser;
+import cindy.parser.VRMLParserException;
 import cindy.parser.VRNode;
 
 public class VRText extends VRNode{
@@ -29,15 +30,15 @@ public class VRText extends VRNode{
 				break;		
 			String s=parser.st.sval;
 			parser.print(s);
-			if (s.equals("string")){
-				parser.st.quoteChar('"');
-				text=parser.readString();
-				parser.print(text+"\n");
-				parser.st.quoteChar((char)0);
+			if (s.equals("string")){				
+				text=parser.readString('"');				
 			}else if (s.equals("fontStyle")){
 				parser.st.nextToken();//FontStyle
 				parser.skip('{','}');
-			}				
+			}
+			else {
+				throw new VRMLParserException(s + " phrase not possible in "+ getNodeInternalName() + " node! ");
+			}
 		}
 		if (text==null || text=="")
 			return null;

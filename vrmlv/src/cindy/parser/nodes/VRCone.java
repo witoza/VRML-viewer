@@ -7,6 +7,7 @@ import java.util.Iterator;
 import cindy.parser.VRMLDefaultTreeDFSIterator;
 import cindy.parser.VRMLNodeFactory;
 import cindy.parser.VRMLNodeParser;
+import cindy.parser.VRMLParserException;
 import cindy.parser.VRNode;
 
 public class VRCone extends VRNode{
@@ -49,6 +50,9 @@ public class VRCone extends VRNode{
 			else if (s.equals("height"))	height = parser.readFloat();		
 			else if (s.equals("side"))		side = parser.readBoolean();
 			else if (s.equals("bottom"))	bottom = parser.readBoolean();
+			else {
+				throw new VRMLParserException(s + " phrase not possible in "+ getNodeInternalName() + " node! ");
+			}
 		}
 		return this;
 	}

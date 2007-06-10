@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import cindy.parser.VRMLDefaultTreeDFSIterator;
 import cindy.parser.VRMLNodeFactory;
 import cindy.parser.VRMLNodeParser;
+import cindy.parser.VRMLParserException;
 import cindy.parser.VRNode;
 
 public class VRPointSet extends VRNode{
@@ -39,6 +40,9 @@ public class VRPointSet extends VRNode{
 			parser.print(s);
 			if (s.equals("coord"))		coord = (VRCoordinate)parser.readNode(this);
 			else if (s.equals("color"))	color = (VRCoordinate)parser.readNode(this);
+			else {
+				throw new VRMLParserException(s + " phrase not possible in "+ getNodeInternalName() + " node! ");
+			}
 		}
 		return this;
 	}

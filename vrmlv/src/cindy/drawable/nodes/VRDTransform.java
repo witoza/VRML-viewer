@@ -31,7 +31,6 @@ public class VRDTransform extends VRTransform implements IDrawable{
 			gl.glRotatef(-scaleOrientation.w*180/(float)Math.PI,scaleOrientation.x,scaleOrientation.y,scaleOrientation.z);
 			gl.glTranslatef(-center.x,-center.y,-center.z);
 								
-			
 		
 		//	gl.glMultMatrixf(getTransformMatrix().getMatrix(),0);			
 			Iterator<IDrawable> iter = (Iterator<IDrawable>) children.iterator();

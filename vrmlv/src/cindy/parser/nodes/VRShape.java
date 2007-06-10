@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import cindy.parser.VRMLDefaultTreeDFSIterator;
 import cindy.parser.VRMLNodeFactory;
 import cindy.parser.VRMLNodeParser;
+import cindy.parser.VRMLParserException;
 import cindy.parser.VRNode;
 
 public class VRShape extends VRNode{
@@ -45,6 +46,9 @@ public class VRShape extends VRNode{
 			parser.print(s);
 			if (s.equals("appearance"))		appearance	= (VRAppearance)parser.readNode(this);
 			else if (s.equals("geometry"))	geometry	= parser.readNode(this);
+			else {
+				throw new VRMLParserException(s + " phrase not possible in "+ getNodeInternalName() + " node! ");
+			}
 		}
 		return this;
 	}

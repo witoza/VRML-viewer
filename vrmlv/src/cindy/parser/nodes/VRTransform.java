@@ -11,6 +11,7 @@ import javax.vecmath.Vector4f;
 import cindy.parser.VRMLDefaultTreeDFSIterator;
 import cindy.parser.VRMLNodeFactory;
 import cindy.parser.VRMLNodeParser;
+import cindy.parser.VRMLParserException;
 import cindy.parser.VRNode;
 
 public class VRTransform extends VRNode{
@@ -80,6 +81,10 @@ public class VRTransform extends VRNode{
 			else if (s.equals("scaleOrientation"))	{anyTrans=true; scaleOrientation = parser.readVector4f();}
 			else if (s.equals("translation"))		{anyTrans=true; translation = parser.readVector3f();}
 			else if (s.equals("children"))			children = parser.readNodes(this);
+			else if (s.equals("ROUTE"))				parser.skipRoute();
+			else {
+				throw new VRMLParserException(s + " phrase not possible in "+ getNodeInternalName() + " node! ");
+			}
 		}
 		if (!anyTrans && children!=null && children.size()==1){
 			return (VRNode)children.get(0);

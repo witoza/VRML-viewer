@@ -10,6 +10,7 @@ import javax.vecmath.Vector4f;
 import cindy.parser.VRMLDefaultTreeDFSIterator;
 import cindy.parser.VRMLNodeFactory;
 import cindy.parser.VRMLNodeParser;
+import cindy.parser.VRMLParserException;
 import cindy.parser.VRNode;
 
 public class VRViewpoint extends VRNode{
@@ -50,8 +51,11 @@ public class VRViewpoint extends VRNode{
 			parser.print(s);
 			if (s.equals("orientation"))		orientation	= parser.readVector4f();
 			else if (s.equals("position"))		position	= parser.readVector3f();
-			else if (s.equals("description"))	description	= parser.readString();
-			else if (s.equals("fieldOfView"))	fieldOfView	= parser.readFloat();			
+			else if (s.equals("description"))	description	= parser.readString('"');
+			else if (s.equals("fieldOfView"))	fieldOfView	= parser.readFloat();
+			else {
+				throw new VRMLParserException(s + " phrase not possible in "+ getNodeInternalName() + " node! ");
+			}
 		}
 		return this;
 	}

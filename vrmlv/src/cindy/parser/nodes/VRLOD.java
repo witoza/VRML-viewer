@@ -11,6 +11,7 @@ import cindy.parser.FloatArray;
 import cindy.parser.VRMLDefaultTreeDFSIterator;
 import cindy.parser.VRMLNodeFactory;
 import cindy.parser.VRMLNodeParser;
+import cindy.parser.VRMLParserException;
 import cindy.parser.VRNode;
 
 public class VRLOD extends VRNode{
@@ -49,6 +50,9 @@ public class VRLOD extends VRNode{
 			if (s.equals("center"))			center=parser.readVector3f();
 			else if (s.equals("range"))		range=FloatArray.read(parser);
 			else if (s.equals("level"))		level=parser.readNodes(this);
+			else {
+				throw new VRMLParserException(s + " phrase not possible in "+ getNodeInternalName() + " node! ");
+			}
 		}
 		return this;
 	}

@@ -9,6 +9,7 @@ import cindy.parser.IntArray;
 import cindy.parser.VRMLDefaultTreeDFSIterator;
 import cindy.parser.VRMLNodeFactory;
 import cindy.parser.VRMLNodeParser;
+import cindy.parser.VRMLParserException;
 import cindy.parser.VRNode;
 
 
@@ -58,7 +59,10 @@ public class VRIndexedLineSet extends VRNode{
 			else if (s.equals("color"))			color=(VRCoordinate)parser.readNode(this);
 			else if (s.equals("colorIndex"))	colorIndex=IntArray.read(parser);				
 			else if (s.equals("coordIndex"))	coordIndex=IntArray.read(parser);
-			else if (s.equals("colorPerVertex"))colorPerVertex=parser.readBoolean();				
+			else if (s.equals("colorPerVertex"))colorPerVertex=parser.readBoolean();
+			else {
+				throw new VRMLParserException(s + " phrase not possible in "+ getNodeInternalName() + " node! ");
+			}
 		}
 		return this;
 	}

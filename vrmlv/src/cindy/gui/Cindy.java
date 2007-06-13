@@ -455,7 +455,7 @@ public class Cindy extends JFrame implements IParentListener{
 					_LOG.info("no input file specified");
 				}
 			}
-		}.start();
+		};
 	}
 	
 	static public void main(String args[]){

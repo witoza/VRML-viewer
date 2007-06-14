@@ -1,0 +1,59 @@
+#VRML V2.0 utf8
+Group { children [
+  DEF L1 SpotLight {
+    location 0.0 3.8 3
+    direction 0.035 -0.84 -0.55
+    beamWidth 0.017
+    cutOffAngle 1.5708
+  }
+  Transform {
+    translation -3 0.77 0
+    rotation 0.301025 0.943212 -0.140478  0.93
+    scale 0.85 0.85 0.85
+    scaleOrientation -0.317855 0.939537 -0.127429
+
+                      0.960173
+    children Shape {
+      appearance DEF A1 Appearance {
+        material Material {
+          ambientIntensity .5
+          diffuseColor 0.85 0.85 0.85
+          specularColor 1 1 1
+          shininess 0.56
+        }
+      }
+      geometry Box {}
+    }
+  }
+  Transform {
+    translation 0 0.7 0
+    children Shape {
+      appearance USE A1
+      geometry Sphere {}
+    }
+  }
+  Transform {
+    translation 3 1.05 0
+    rotation 0 0 1 0.6
+    children Shape {
+      appearance USE A1
+      geometry Cone {}
+    }
+  }
+  Transform {
+    translation -2.71582 -1 -0.785248
+    children Shape {
+      appearance USE A1
+      geometry ElevationGrid {
+        height [ 0, 0, 0, 0, ..., 0 ]
+        xDimension 20
+        xSpacing 0.2
+        zDimension 10
+        zSpacing 0.1
+      }
+    }
+  }
+  Background { skyColor 1 1 1 }
+  NavigationInfo { headlight FALSE type "EXAMINE" }
+]}
+ 

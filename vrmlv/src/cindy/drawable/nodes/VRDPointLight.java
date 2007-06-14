@@ -19,6 +19,8 @@ public class VRDPointLight extends VRPointLight implements IDrawable {
 
 	private NodeSettings ns;
 	
+	private boolean enabled = false;
+	
 	public void draw(DisplayOptions dispOpt) {
 		if (getNodeSettings().drawBBox) {
 			getNodeSettings().boundingBox.draw(dispOpt);
@@ -29,17 +31,18 @@ public class VRDPointLight extends VRPointLight implements IDrawable {
 		GL gl = dispOpt.gl;
 		// GLU glu = dispOpt.glu;
 		
-		float[] ambient = { ambientIntensity, ambientIntensity, ambientIntensity };
-		float[] lightColor  = { color.x, color.y, color.z };
-		float[] position = { location.x, location.y, location.z };
+		float[] ambient = { ambientIntensity, ambientIntensity, ambientIntensity , 1.0f};
+		float[] lightColor  = { intensity * color.x, intensity * color.y, intensity * color.z, 1.0f };
+		float[] position = { location.x, location.y, location.z, 1.0f };
 		
 		gl.glLightfv( GL.GL_LIGHT0, GL.GL_AMBIENT, ambient, 0 );
 		gl.glLightfv( GL.GL_LIGHT0, GL.GL_DIFFUSE, lightColor, 0 );
 		gl.glLightfv( GL.GL_LIGHT0, GL.GL_POSITION, position, 0 );		
 		
-		if (on) {
-			gl.glEnable(GL.GL_LIGHT0);
+		if (on && (enabled == false)) {
+			enabled = true;
 			gl.glEnable(GL.GL_LIGHTING);
+			gl.glEnable(GL.GL_LIGHT0);
 		}
 	}
 

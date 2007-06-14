@@ -284,10 +284,11 @@ public class Cindy extends JFrame implements IParentListener{
 					for (int i=0; i!=paths.length; i++){
 						Object obj = paths[i].getLastPathComponent();						
 						IDrawable node = (IDrawable)obj;
-						if (node instanceof VRWorldInfo){
+						if (node instanceof VRWorldInfo ){
 							_LOG.info("[World info:");
 							
 							_LOG.info("title: " +  ((VRWorldInfo)node).title);
+						
 							for (String s: ((VRWorldInfo)node).info){
 								_LOG.info("info: " + s);
 							}

@@ -168,6 +168,7 @@ public class VRMLRenderer implements GLEventListener, MouseListener, MouseMotion
     	displayOptions.selectedNodes.clearSelectedNodes();
     	clearArcBall();
 		model = m;
+		gl.glDisable(GL.GL_LIGHT1);
 	}    
         
     //is called when opengl context changes

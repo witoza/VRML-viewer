@@ -29,16 +29,19 @@ public class VRDDirectionalLight extends VRDirectionalLight implements IDrawable
 		
 		float[] ambient = { ambientIntensity, ambientIntensity, ambientIntensity, 1.0f };
 		float[] lightColor  = { intensity * color.x, intensity * color.y, intensity * color.z, 1.0f };
-		float[] direct = { direction.x, direction.y, direction.z, 0.0f };
-	
-		gl.glLightfv( GL.GL_LIGHT0, GL.GL_AMBIENT, ambient, 0 );
-		gl.glLightfv( GL.GL_LIGHT0, GL.GL_DIFFUSE, lightColor, 0 );
-		gl.glLightfv( GL.GL_LIGHT0, GL.GL_POSITION, direct, 0 );
+		float[] direct = { direction.x, direction.y, direction.z, 0.0f };	
+		float[] spec = {1,1,1,1};
 		
-		if (on && (enabled == false)) {
+	
+		gl.glLightfv( GL.GL_LIGHT1, GL.GL_AMBIENT, ambient, 0 );
+		gl.glLightfv( GL.GL_LIGHT1, GL.GL_DIFFUSE, lightColor, 0 );
+		gl.glLightfv( GL.GL_LIGHT1, GL.GL_SPECULAR, spec, 0 );
+		gl.glLightfv( GL.GL_LIGHT1, GL.GL_POSITION, direct, 0 );
+		
+		if (on && !enabled) {
 			enabled = true;
-			gl.glEnable(GL.GL_LIGHTING);
-			gl.glEnable(GL.GL_LIGHT0);
+			//gl.glEnable(GL.GL_LIGHTING);
+			gl.glEnable(GL.GL_LIGHT1);
 		}
 	}
 

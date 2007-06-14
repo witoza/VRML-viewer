@@ -24,7 +24,16 @@ Transform { children [
     appearance Appearance { 
       material Material { diffuseColor 1 1 1 } 
     } 
-  } 
+  }
+  PointLight { 
+	on TRUE 
+	intensity 1 
+	ambientIntensity 0.2 
+	color 1 1 0.5 
+	location 0 0 3 
+	attenuation 1 0 0 
+	radius 100 
+  }
   NavigationInfo { type "EXAMINE" } 
   Background { skyColor 1 1 1 } 
 ]}

@@ -26,6 +26,7 @@ public class NativesHelper {
 		Set<String> found = new HashSet<String>();
 		Set<String> libPath = new HashSet<String>(Arrays.asList(System.getProperty("java.library.path").split(System.getProperty("path.separator"))));
 		for (String p : libPath) {
+			System.out.println(p);
 			String[] files =  new File(p).list(new FilenameFilter() {
 				public boolean accept(File dir, String name) { return libs.contains(name); }
 			} );

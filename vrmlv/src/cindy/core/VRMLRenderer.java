@@ -9,6 +9,7 @@ import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
+import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
@@ -18,7 +19,9 @@ import org.apache.log4j.Logger;
 
 import cindy.drawable.DisplayOptions;
 import cindy.drawable.IDrawable;
+import cindy.gui.NodePropertiesWnd;
 import cindy.parser.VRMLModel;
+import cindy.parser.VRNode;
 
 import com.sun.opengl.util.BufferUtil;
 
@@ -31,7 +34,7 @@ public class VRMLRenderer implements GLEventListener, MouseListener, MouseMotion
 	
 	private static Logger _LOG = Logger.getLogger(VRMLRenderer.class);
 	
-	private boolean addSelecting = false;
+	private boolean ctrl_pressed = false;
 	private DisplayOptions displayOptions = new DisplayOptions(null, null);
 	
 	public DisplayOptions.SelectingOptions getSelectedNodes(){
@@ -276,8 +279,7 @@ public class VRMLRenderer implements GLEventListener, MouseListener, MouseMotion
 					transform.m02,transform.m12,transform.m22,transform.m32,
 					transform.m03,transform.m13,transform.m23,transform.m33
 			};
-		    gl.glMultMatrixf(M,0);
-		    gl.glColor3f(1,1,1);
+		    gl.glMultMatrixf(M,0);		    
 		    
 	/*		
 			gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL.GL_LINE);
@@ -291,6 +293,8 @@ public class VRMLRenderer implements GLEventListener, MouseListener, MouseMotion
 	    	
 	    //	gl.glPopMatrix();
     }
+    
+    private boolean alt_pressed = false;
                      
 	public void display(GLAutoDrawable drawable) {
 		displayOptions.gl = gl;
@@ -330,14 +334,17 @@ public class VRMLRenderer implements GLEventListener, MouseListener, MouseMotion
 				if (objectNumber>=0){
 					IDrawable node = (IDrawable)displayOptions.pickingOptions.get(objectNumber);
 					_LOG.debug("picked: " + node);
-					if (addSelecting){
+					if (alt_pressed){//TODO: no in core!
+						JFrame fr = new NodePropertiesWnd((VRNode)displayOptions.pickingOptions.get(objectNumber));						
+						fr.setLocationByPlatform(true);
+						fr.setVisible(true);
 						displayOptions.selectedNodes.selectAnotherNode(node);
 					}else{
 						displayOptions.selectedNodes.selectSingleNode(node);
 					}
 				}
 			}else{
-				if (!addSelecting){
+				if (!ctrl_pressed){
 					displayOptions.selectedNodes.clearSelectedNodes();
 				}
 			}
@@ -348,9 +355,9 @@ public class VRMLRenderer implements GLEventListener, MouseListener, MouseMotion
 				
 		gl.glClear(GL.GL_DEPTH_BUFFER_BIT | GL.GL_COLOR_BUFFER_BIT);
 		gl.glEnable(GL.GL_COLOR_MATERIAL);
-		gl.glColor3f(1,1,1);
+		gl.glColor3f(0f,0.0f,0.0f);		
 		gl.glDisable(GL.GL_COLOR_MATERIAL);
-		gl.glColor3f(1,1,1);
+
 		drawModel();
 		if (isCenterClicked){
 			float dy=(lastMouseY-actualMousePos.y)/50.0f;
@@ -403,13 +410,11 @@ public class VRMLRenderer implements GLEventListener, MouseListener, MouseMotion
 		else if (SwingUtilities.isRightMouseButton(e)) isRightClicked = false;
 		else if (SwingUtilities.isMiddleMouseButton(e)) isCenterClicked = false;
 	} 
+	
 	public synchronized void mouseClicked(MouseEvent e){
 		isMouseClicked=true;
-		if (e.isControlDown()){
-			addSelecting=true;
-		}else{
-			addSelecting=false;			
-		}
+		alt_pressed = e.isAltDown();
+		ctrl_pressed = e.isControlDown();
     }
 	
 	public synchronized void mouseDragged(MouseEvent e){

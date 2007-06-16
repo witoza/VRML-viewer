@@ -115,7 +115,7 @@ public class BoundingBox{
 		gl.glEnd();
 		gl.glLineWidth(ls[0]);
 		gl.glEnable(GL.GL_LIGHTING);
-		gl.glColor3f(1,1,1);
+		gl.glColor3f(0.2f,0.2f,0.2f);
 	}
 
 	public boolean isValid() {

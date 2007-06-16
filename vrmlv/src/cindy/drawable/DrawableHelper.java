@@ -8,12 +8,8 @@ import cindy.parser.nodes.VRMaterial;
 
 public class DrawableHelper {
 	
-	static float[] toFloat(Vector3f vec){
-		return new float[]{vec.x,vec.y,vec.z};
-	}
-	
-	static float[] toFloat4(Vector3f vec){
-		return new float[]{vec.x,vec.y,vec.z, 1.0f};
+	static float[] toFloat4(Vector3f vec, float four){
+		return new float[]{vec.x,vec.y,vec.z, 1.0f-four};
 	}
 	
 	static Vector3f vVector1=new Vector3f();
@@ -48,10 +44,12 @@ public class DrawableHelper {
 		
 		if (mat==null) return ;
 		
-		gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_DIFFUSE, toFloat4(mat.diffuseColor), 0);
-		gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_EMISSION, toFloat4(mat.emissiveColor), 0);
-		gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_SPECULAR, toFloat4(mat.specularColor), 0);
-		gl.glMaterialf(GL.GL_FRONT_AND_BACK, GL.GL_SHININESS, mat.shininess * 128.0f);
+		gl.glEnable(GL.GL_BLEND);
+		gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);		
+		gl.glMaterialfv(GL.GL_FRONT, GL.GL_DIFFUSE, toFloat4(mat.diffuseColor, mat.transparency), 0);
+		gl.glMaterialfv(GL.GL_FRONT, GL.GL_EMISSION, toFloat4(mat.emissiveColor, 0), 0);
+		gl.glMaterialfv(GL.GL_FRONT, GL.GL_SPECULAR, toFloat4(mat.specularColor, 0), 0);
+		gl.glMaterialf(GL.GL_FRONT, GL.GL_SHININESS, mat.shininess * 128.0f);
 
 	}
 	

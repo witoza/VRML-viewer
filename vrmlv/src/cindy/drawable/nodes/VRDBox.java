@@ -83,8 +83,7 @@ public class VRDBox extends VRBox implements IDrawable {
 		gl.glFrontFace(GL.GL_CW);
 		
 		gl.glEnable(GL.GL_NORMALIZE);
-			gl.glBegin(GL.GL_QUADS);
-				gl.glColor3f(1.0f, 0.0f, 1.0f);
+			gl.glBegin(GL.GL_QUADS);				
 				
 				Vector3f poly[] = new Vector3f[4];
 				poly[3]=new Vector3f(halfx, halfy, -halfz);

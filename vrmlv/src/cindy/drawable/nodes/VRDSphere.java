@@ -1,7 +1,6 @@
 package cindy.drawable.nodes;
 
 import javax.media.opengl.GL;
-import javax.media.opengl.glu.GLU;
 import javax.media.opengl.glu.GLUquadric;
 import javax.vecmath.Vector3f;
 
@@ -36,8 +35,7 @@ public class VRDSphere extends VRSphere implements IDrawable{
 		
 		gl.glPushName(dispOpt.pickingOptions.add(this));		
 
-			GLUquadric quadric = dispOpt.glu.gluNewQuadric();
-			dispOpt.glu.gluQuadricNormals(quadric, GLU.GLU_SMOOTH);
+			GLUquadric quadric = dispOpt.glu.gluNewQuadric();			
 			dispOpt.glu.gluSphere(quadric, radius, 12, 12);
 		
 		gl.glPopName();

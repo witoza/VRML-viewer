@@ -1,5 +1,7 @@
 package cindy.drawable.nodes;
 
+import javax.media.opengl.GL;
+
 import cindy.drawable.DisplayOptions;
 import cindy.drawable.DrawableHelper;
 import cindy.drawable.IDrawable;
@@ -11,6 +13,7 @@ public class VRDShape extends VRShape implements IDrawable{
 
 	public void draw(DisplayOptions dispOpt) {
 		if (geometry != null) {
+			dispOpt.gl.glDisable(GL.GL_COLOR_MATERIAL);
 			DrawableHelper.setObjectPropertiesFromMaterial(dispOpt.gl, appearance.material);
 			dispOpt.gl.glPushMatrix();
 			((IDrawable) geometry).draw(dispOpt);

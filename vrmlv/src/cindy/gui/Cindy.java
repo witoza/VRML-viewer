@@ -434,7 +434,7 @@ public class Cindy extends JFrame implements IParentListener{
 		leftPanel.add(objectsChangePanel, BorderLayout.CENTER);
 		add(splitPane);
 		
-		setSize(640+170,480);
+		setSize(800+170,600);
 		setVisible(true);
 		renderingWindow.start();
 		

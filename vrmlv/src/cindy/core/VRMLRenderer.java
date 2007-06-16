@@ -115,60 +115,76 @@ public class VRMLRenderer implements GLEventListener, MouseListener, MouseMotion
     }
 	//////////////////////////////////////////////////////////////////////////////////////
     
-    //  handle picking options
-    //see http://www.lighthouse3d.com/opengl/picking/index.php?openglway3
-    private int processHits(int hits, IntBuffer buffer) {
-        //System.out.println("---------------------------------");
-        //System.out.println(" HITS: " + hits);
-        int offset = 0;
-        int names;
-        int z1, z2;
-        
-        int minz=0;
-        int minNumber=-1;
-        
-        for (int i = 0; i < hits; i++) {
-            //System.out.println("- - - - - - - - - - - -");
-            //System.out.println(" hit: " + (i + 1));
-            names = buffer.get(offset);
-            offset++;
-            z1 = buffer.get(offset);
-            offset++;
-            z2 = buffer.get(offset) ;
-            offset++;
-            //System.out.println(" number of names: " + names);
-            //System.out.println(" z1: " + z1);
-            //System.out.println(" z2: " + z2);
-            //System.out.println(" names: ");
 
-            for (int j = 0; j < names; j++) {
-                //System.out.print("  " + buffer.get(offset));
-                if (j == (names - 1)) {
-                	int res=buffer.get(offset);
-                	if (minNumber==-1 || z1<minz){
-                    	minNumber=res;
-                    	minz=z2;
-                    }
-                    //System.out.println("<-");
-                } else {
-                    //System.out.println();
-                }
-                offset++;
-            }
-            //System.out.println("- - - - - - - - - - - -");
-            
-            
-        }
-        //System.out.println("--------------------------------- ");
-        return minNumber;
-    }
+    //handle picking options
+    //http://fivedots.coe.psu.ac.th/~ad/jg2/ch17/jogl3.pdf
+    
+    private float getDepth(int offset, IntBuffer selectBuffer) {
+		long depth = (long) selectBuffer.get(offset); // large -ve number
+		return (1.0f + ((float) depth / 0x7fffffff));
+		// return as a float between 0 and 1
+	}
+    
+	private int processHits(int numHits, IntBuffer buffer) {
+	
+		if (numHits == 0)
+			return -1; // no hits to process
+		//System.out.println("No. of hits: " + numHits);
+		// storage for the name ID closest to the viewport
+		int selectedNameID = -1;
+		// dummy initial values
+		float smallestZ = -1.0f;
+		boolean isFirstLoop = true;
+		int offset = 0;
+		/*
+		 * iterate through the hit records, saving the smallest z value and the
+		 * name ID associated with it
+		 */		
+		for (int i = 0; i < numHits; i++) {
+			//System.out.println("Hit: " + (i + 1));
+			int numNames = buffer.get(offset);
+			offset++;
+			// minZ and maxZ are taken from the Z buffer
+			float minZ = getDepth(offset, buffer);
+			offset++;
+			// store the smallest z value
+			if (isFirstLoop) {
+				smallestZ = minZ;
+				isFirstLoop = false;
+			} else {
+				if (minZ < smallestZ)
+					smallestZ = minZ;
+			}
+		//	float maxZ = getDepth(offset, buffer);
+			offset++;
+			//System.out.println(" minZ: " + minZ + "; maxZ: " + maxZ);
+			// print name IDs stored on the name stack
+			//System.out.print(" Name(s): ");
+			int nameID;
+			for (int j = 0; j < numNames; j++) {
+				nameID = buffer.get(offset);
+				//System.out.print(nameID);
+				if (j == (numNames - 1)) {
+					// if the last one (the top element on the stack)
+					if (smallestZ == minZ) // is this the smallest min z?
+						selectedNameID = nameID; // then store it's name ID
+				}
+				//System.out.print(" ");
+				offset++;
+			}
+			//System.out.println();
+		}
+		return selectedNameID;
+
+	}
 	
     public synchronized void setModel(VRMLModel m) {
     	displayOptions.pickingOptions.clear();
     	displayOptions.selectedNodes.clearSelectedNodes();
     	clearArcBall();
 		model = m;
-		gl.glDisable(GL.GL_LIGHT1);
+		if (gl!=null)
+			gl.glDisable(GL.GL_LIGHT1);
 	}    
         
     //is called when opengl context changes
@@ -251,7 +267,7 @@ public class VRMLRenderer implements GLEventListener, MouseListener, MouseMotion
 		glu.gluLookAt(0, 0, 10, 0, 0, 0, 0, 1, 0);
 		
 		
-	gl.glPushMatrix();
+	//gl.glPushMatrix();
 			gl.glTranslatef(arcBallPos.x,arcBallPos.y,arcBallPos.z);	
 			
 			float[] M={
@@ -271,10 +287,9 @@ public class VRMLRenderer implements GLEventListener, MouseListener, MouseMotion
 	    	if (model!=null){
 				gl.glInitNames();
 				((IDrawable)model.getMainGroup()).draw(displayOptions);
-				
 			}
 	    	
-	    	gl.glPopMatrix();
+	    //	gl.glPopMatrix();
     }
                      
 	public void display(GLAutoDrawable drawable) {
@@ -314,7 +329,7 @@ public class VRMLRenderer implements GLEventListener, MouseListener, MouseMotion
 				int objectNumber=processHits(nbRecords,selectBuffer);
 				if (objectNumber>=0){
 					IDrawable node = (IDrawable)displayOptions.pickingOptions.get(objectNumber);
-					_LOG.debug("picking: " + node);
+					_LOG.debug("picked: " + node);
 					if (addSelecting){
 						displayOptions.selectedNodes.selectAnotherNode(node);
 					}else{
@@ -325,7 +340,6 @@ public class VRMLRenderer implements GLEventListener, MouseListener, MouseMotion
 				if (!addSelecting){
 					displayOptions.selectedNodes.clearSelectedNodes();
 				}
-				_LOG.debug("picking: none");
 			}
 			parent.objectClicked(displayOptions.selectedNodes);			
 			

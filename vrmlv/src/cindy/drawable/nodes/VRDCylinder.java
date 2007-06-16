@@ -41,8 +41,7 @@ public class VRDCylinder extends VRCylinder implements IDrawable{
 			GLUquadric quadric = dispOpt.glu.gluNewQuadric();
 			gl.glRotatef(270, 1, 0, 0);
 			gl.glTranslatef(0,0,-height/2);
-			
-			gl.glColor3f(1,1,1);
+						
 			dispOpt.glu.gluCylinder(quadric, radius, radius, height, 12, 12);
 		
 		gl.glPopName();		

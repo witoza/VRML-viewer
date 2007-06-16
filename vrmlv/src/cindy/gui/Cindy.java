@@ -57,7 +57,7 @@ public class Cindy extends JFrame implements IParentListener{
 	
 	private static final Logger _LOG = Logger.getLogger(Cindy.class);
 	
-	static public String appName = "'Cindy' VRML Browser 1.0";
+	static public String appName = "'Cindy' VRML Browser 1.1";
 	private GLDisplay renderingWindow;
 	private VRMLRenderer renderer;
 	
@@ -445,7 +445,7 @@ public class Cindy extends JFrame implements IParentListener{
 				String s = inputWRL;
 				 //s = "C:\\__vrml\\test.wrl";
 				//s = "C:/__vrml/IT_orig.wrl";
-				s = "C:/__vrml/2.wrl";
+				s = "C:/__vrml/7.wrl";
 				//s = "C:/__vrml/default.wrl";
 				//s = "C:/new/colors.wrl";
 				//s = "C:\\__vrml\\3.wrl";

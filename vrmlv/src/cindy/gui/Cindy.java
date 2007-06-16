@@ -443,11 +443,11 @@ public class Cindy extends JFrame implements IParentListener{
 				//String inputWRL = "c:\\__vrml\\2006_01_16\\problem1\\problem1.wrl";
 				String s = inputWRL;
 				 //s = "C:\\__vrml\\test.wrl";
-				s = "C:/__vrml/IT_orig.wrl";
-				//s = "C:/__vrml/xxx/1/2.wrl";
+				//s = "C:/__vrml/IT_orig.wrl";
+				s = "C:/__vrml/2.wrl";
 				//s = "C:/__vrml/default.wrl";
 				//s = "C:/new/colors.wrl";
-				s = "C:\\__vrml\\3.wrl";
+				//s = "C:\\__vrml\\3.wrl";
 				//outputWRL = "C:\\__vrml\\2006_01_16\\CT_res_2.wrl";
 				if (s != null) {
 					//_LOG.info("input file: " + inputWRL);
@@ -456,7 +456,7 @@ public class Cindy extends JFrame implements IParentListener{
 					_LOG.info("no input file specified");
 				}
 			}
-		};
+		}.start();
 	}
 	
 	static public void main(String args[]){

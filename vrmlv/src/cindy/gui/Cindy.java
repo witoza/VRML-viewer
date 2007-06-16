@@ -30,6 +30,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTree;
 import javax.swing.ProgressMonitorInputStream;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
@@ -460,6 +461,14 @@ public class Cindy extends JFrame implements IParentListener{
 	}
 	
 	static public void main(String args[]){
+		try {
+    		//UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+
+    		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); 
+    	} catch (Exception e) {
+    		e.printStackTrace();            		
+    	} 
+
 		String inputFile = null;
 		if (args.length > 0) inputFile = args[0];
 		new Cindy(inputFile);

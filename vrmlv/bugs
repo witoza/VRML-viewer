@@ -1,2 +1,4 @@
 - arcball
 - transforms for my matrix impl
+- niektóre elementy nie s¹ wczytywane i sprawdzane, tylko pomijane zak³adajac poprawnosc
+- tektury - moze byc wiecej nodów pod abstrakcja texture

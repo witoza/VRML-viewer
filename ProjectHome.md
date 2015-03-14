@@ -1,0 +1,1 @@
+Is a VRML 97 files visualizer named 'Cindy' written in Java 1.5 + JOGL. Sources included.
